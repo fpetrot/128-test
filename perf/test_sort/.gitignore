@@ -1,0 +1,7 @@
+*.o
+*.json
+data.S
+perf.csv
+sort32
+sort54
+sort128

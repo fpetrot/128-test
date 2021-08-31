@@ -1,0 +1,7 @@
+*.o
+*.json
+data.S
+perf.csv
+ts_search_32
+ts_search_64
+ts_search_128

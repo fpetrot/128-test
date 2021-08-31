@@ -1,0 +1,7 @@
+*.o
+*.json
+data.S
+perf.csv
+lpf32
+lpf64
+lpf128

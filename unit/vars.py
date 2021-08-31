@@ -1,0 +1,5 @@
+CROSS="riscv64-unknown-elf"
+CROSS_GDB=CROSS+"-gdb"
+CROSS_GCC=CROSS+"-gcc"
+CROSS_LD=CROSS+"-ld"
+QEMU_EXEC="/scratch/qemu-for-upstream/build-for-upstream/riscv128-softmmu/qemu-system-riscv128"
