@@ -46,7 +46,7 @@ main:
     for _ in  range(datacnt):
         data.write(f"la t0, tab_start\n")
         # More or less randomly chosen interval
-        for __ in range(-129, 120):
+        for __ in range(-datasize - 2, datasize + 3):
             shamt = __&0x7f
             v = (values[_]<<shamt)&0xffffffffffffffffffffffffffffffff
             data.write(f"li t2, {__}\n")
@@ -59,7 +59,7 @@ main:
 
     for _ in  range(datacnt):
         data.write(f"la t0, tab_start\n")
-        for __ in range(-129, 130):
+        for __ in range(-datasize - 2, datasize + 3):
             shamt = __&0x7f
             # Looks as if the right shift is logical in python, ...
             v = (values[_]>>shamt)&0xffffffffffffffffffffffffffffffff
@@ -73,7 +73,7 @@ main:
 
     for _ in  range(datacnt):
         data.write(f"la t0, tab_start\n")
-        for __ in range(-129, 130):
+        for __ in range(-datasize - 2, datasize + 3):
             shamt = __&0x7f
             sign = values[_]>>127
             v = (int(values[_]>>shamt))&0xffffffffffffffffffffffffffffffff
@@ -81,7 +81,6 @@ main:
             if sign == 1:
                 for ___ in range(1, shamt + 1):
                     v |= (1 << (128 - ___))
-            print(hex(v))
             data.write(f"li t2, {__}\n")
             offset = int(_ * datasize/8)
             data.write(f"lq(t1, {offset}, t0)\n")
