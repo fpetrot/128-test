@@ -18,7 +18,7 @@ if __name__ == "__main__":
     datacnt = int(sys.argv[1])
     datasize = 128
 
-    data = open("unit_tests_i/test_shifts.S", "w")
+    data = open("unit_tests_i/test_shifts_imm.S", "w")
     data.write('''
 #include "insns.S" 
 #include "utils.S"
@@ -49,10 +49,9 @@ main:
         for __ in range(-datasize - 2, datasize + 3):
             shamt = __&0x7f
             v = (values[_]<<shamt)&0xffffffffffffffffffffffffffffffff
-            data.write(f"li t2, {__}\n")
             offset = int(_ * datasize/8)
             data.write(f"lq(t1, {offset}, t0)\n")
-            data.write(f"sll t2, t1, t2\n")
+            data.write(f"slli(t2, t1, {__})\n")
             data.write(f"//prgchk reg t2 == 0x{v&0xffffffffffffffff:016x}\n")
             data.write(f"srli(t3, t2, 64)\n")
             data.write(f"//prgchk reg t3 == 0x{(v>>64)&0xffffffffffffffff:016x}\n")
@@ -63,10 +62,9 @@ main:
             shamt = __&0x7f
             # Looks as if the right shift is logical in python, ...
             v = (values[_]>>shamt)&0xffffffffffffffffffffffffffffffff
-            data.write(f"li t2, {__}\n")
             offset = int(_ * datasize/8)
             data.write(f"lq(t1, {offset}, t0)\n")
-            data.write(f"srl t2, t1, t2\n")
+            data.write(f"srli(t2, t1, {__})\n")
             data.write(f"//prgchk reg t2 == 0x{v&0xffffffffffffffff:016x}\n")
             data.write(f"srli(t3, t2, 64)\n")
             data.write(f"//prgchk reg t3 == 0x{(v>>64)&0xffffffffffffffff:016x}\n")
@@ -81,10 +79,9 @@ main:
             if sign == 1:
                 for ___ in range(1, shamt + 1):
                     v |= (1 << (128 - ___))
-            data.write(f"li t2, {__}\n")
             offset = int(_ * datasize/8)
             data.write(f"lq(t1, {offset}, t0)\n")
-            data.write(f"sra t2, t1, t2\n")
+            data.write(f"srai(t2, t1, {__})\n")
             data.write(f"//prgchk reg t2 == 0x{v&0xffffffffffffffff:016x}\n")
             data.write(f"srli(t3, t2, 64)\n")
             data.write(f"//prgchk reg t3 == 0x{(v>>64)&0xffffffffffffffff:016x}\n")

@@ -62,6 +62,17 @@ Tests are C or RISC-V assembly files that have a name starting in `test_` placed
 
 One or more directories can be given as a positional argument to `prgchk_all` to run tests from those other directories.
 
+Note that shift instructions can be (more or less) exhaustively tested, at least regarding shift amount.
+To that end, we wrote generators that produce test files, e.g.:
+
+```
+% ./generate_shifts_imm.py 5
+% ./generate_shifts_reg.py 5
+% ./prgchk.py unit_tests_i/test_shifts_imm.S
+% ./prgchk.py unit_tests_i/test_shifts_reg.S
+```
+
+
 ## Configuration & Usage
 To use the automatic testing facilities, some system-specific values must be set in the `vars.py` file :
 * `CROSS_GDB` : The path to a `gdb` executable that supports the RISC-V 64 target.
