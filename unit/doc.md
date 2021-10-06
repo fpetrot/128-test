@@ -63,13 +63,23 @@ Tests are C or RISC-V assembly files that have a name starting in `test_` placed
 One or more directories can be given as a positional argument to `prgchk_all` to run tests from those other directories.
 
 Note that shift instructions can be (more or less) exhaustively tested, at least regarding shift amount.
-To that end, we wrote generators that produce test files, e.g.:
+To that end, we wrote generators (quick and dirty hacks, tough useful) that produce test files.
+We first wrote for the full register size and then the sub register sizes, which is ugly, merging all in one should be done.
+Examples of use (5 in the examples is the number of random number on which to apply all shifts, so don’t be too greedy), and w produces sxxw insns while d produces sxxd insns:
 
 ```
 % ./generate_shifts_imm.py 5
 % ./generate_shifts_reg.py 5
 % ./prgchk.py unit_tests_i/test_shifts_imm.S
 % ./prgchk.py unit_tests_i/test_shifts_reg.S
+% ./generate_shifts_imm_wd.py w 5
+% ./prgchk.py unit_tests_i/test_shifts_imm_w.S
+% ./generate_shifts_imm_wd.py d 5
+% ./prgchk.py unit_tests_i/test_shifts_imm_d.S
+% ./generate_shifts_reg_wd.py w 5
+% ./prgchk.py unit_tests_i/test_shifts_reg_w.S
+% ./generate_shifts_reg_wd.py d 5
+% ./prgchk.py unit_tests_i/test_shifts_reg_d.S
 ```
 
 
