@@ -61,11 +61,20 @@ This check verifies that an arbitrary GDB expression evaluates to true at this p
 Tests are C or RISC-V assembly files that have a name starting in `test_` placed in the `unit_tests` directory by default. Simply run `prgchk_all.py` to execute every one of them in succession. 
 
 One or more directories can be given as a positional argument to `prgchk_all` to run tests from those other directories.
+Note that `prgchk_all` returns ` (100.0%) of tests succeeded` although it fails in certain situations, so the output should be analysed thouroughly.
+One simple solution at first, e.g.:
+```
+./prgchk_all.py unit_tests_m 2| grep ' : '
+```
+Should output ̀ SUCCESS` in all cases.
+## Tests
+The written tests aim to check corner cases, but are by no mean covering all of them.
 
-Note that shift instructions can be (more or less) exhaustively tested, at least regarding shift amount.
+## Automatic tests generators
+Shift instructions can be (more or less) exhaustively tested regarding shift amount.
 To that end, we wrote generators (quick and dirty hacks, tough useful) that produce test files.
 We first wrote for the full register size and then the sub register sizes, which is ugly, merging all in one should be done.
-Examples of use (5 in the examples is the number of random number on which to apply all shifts, so don’t be too greedy), and w produces sxxw insns while d produces sxxd insns:
+Examples of use (`5` in the examples is the number of random number on which to apply all shifts, so don’t be too greedy), and w produces sxxw insns while d produces sxxd insns:
 
 ```
 % ./generate_shifts_imm.py 5
@@ -81,7 +90,6 @@ Examples of use (5 in the examples is the number of random number on which to ap
 % ./generate_shifts_reg_wd.py d 5
 % ./prgchk.py unit_tests_i/test_shifts_reg_d.S
 ```
-
 
 ## Configuration & Usage
 To use the automatic testing facilities, some system-specific values must be set in the `vars.py` file :
