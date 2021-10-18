@@ -2,7 +2,9 @@
 #define sq(rs2, imm, rs1)                 .insn s  0b0100011, 0b100, rs2, imm(rs1)
 
 // We have to redefine shifts by immediate, since although they have the same opcode,
-// gcc for rv64 will not compile if their shift is equal or above 64.
+// gas for rv64 will not assemble if their shift is equal to or above 64.
+#define rori(rd, rs1, imm)                .insn i  0b0010011, 0b101, rd, rs1, 0b011000000000 | (imm & 0b1111111)
+
 #define slli(rd, rs1, imm)                .insn i  0b0010011, 0b001, rd, rs1, imm & 0b1111111
 #define srli(rd, rs1, imm)                .insn i  0b0010011, 0b101, rd, rs1, imm & 0b1111111
 #define srai(rd, rs1, imm)                .insn i  0b0010011, 0b101, rd, rs1, 0b010000000000 | (imm & 0b1111111)
