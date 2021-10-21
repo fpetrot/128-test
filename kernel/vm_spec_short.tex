@@ -1,0 +1,273 @@
+% !TeX root = rapport.tex
+% !TeX encoding = UTF-8
+% !TeX spellcheck = en_US
+\documentclass[a4paper]{article}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{charter}
+\usepackage{helvet}
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb}
+\usepackage[french]{babel}
+\usepackage{xspace}
+\usepackage[loose]{units}
+\usepackage{float}
+\usepackage{bytefield}
+\usepackage{setspace}
+\setstretch{1.0}
+\voffset   -1in
+\hoffset   -1in
+\headheight 12pt
+\headsep    12pt
+\topmargin     25mm
+\oddsidemargin 29mm
+\textwidth     150mm
+\textheight    240mm
+\flushbottom
+\newlength{\bitlabelwidth}
+\newcommand{\rotbitheader}[1]{%
+	\tiny
+	\settowidth{\bitlabelwidth}{\quad 99}%
+	\rotatebox[origin=B]{90}{\makebox[\bitlabelwidth][r]{#1}}%
+}
+
+\begin{document}
+ 
+\section{Tentative 128-bit address translation specification} 
+\label{vm_spec}
+\subsection{Overview of the translation schemes}
+\noindent%
+We propose two new translation schemes for 128-bit addresses, Sv44 and Sv54, which differ in the amount of virtual memory a process sees.
+We artificially limit physical address size to $2^{64}$, by arbitrarily limiting the size of the PPN to 50.
+
+
+\paragraph{Minimal Page Size}
+Page size is increased to \unit[16]{KiB} from the \unit[4]{KiB} of RV32 and RV64.
+This is because for current workloads, and especially those requiring a large address space, we expect \unit[4]{KiB} pages to cause a lot more TLB misses, and \unit[16]{KiB} strikes a better balance between memory usage and TLB misses.
+
+\paragraph{Page Table Entry Size}
+The page table entries (PTEs) are widened to 128-bit, thus following \texttt{MXLEN}, even though the upper double-word isn't used as of now.
+This allows for further flexibility to define future schemes, and eases development, since it follows the natural integer size of RV128.
+This leads to a 1K entries per page.
+
+\subsection{Sv44}
+\subsubsection{Additional Properties}
+\paragraph{Page Table Depth}
+\noindent%
+The page table's depth is kept at 3 (analogous to Sv39 in RV64), to limit latency in cases of TLB misses.
+
+\subsubsection{Implementation}
+\begin{figure}[H]
+	\centering
+	\begin{bytefield}[bitwidth=0.51em, endianness=big]{44}
+		\bitheader[bitformatting=\rotbitheader]{43,34,33,24,23,14,13,0}\\
+		\bitbox{10}{\texttt{VPN[2]}}
+		\bitbox{10}{\texttt{VPN[1]}}
+		\bitbox{10}{\texttt{VPN[0]}}
+		\bitbox{14}{Page offset}\\
+		\bitbox[]{10}{10}
+		\bitbox[]{10}{10}
+		\bitbox[]{10}{10}
+		\bitbox[]{14}{14}
+	\end{bytefield}
+	\caption{Sv44 Virtual Address}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\begin{bytefield}[bitwidth=0.7em, endianness=big]{64}
+		\bitheader[bitformatting=\rotbitheader]{0,13,14,23,24,33,34,63}\\
+		\bitbox{30}{\texttt{PPN[2]}}
+		\bitbox{10}{\texttt{PPN[1]}}
+		\bitbox{10}{\texttt{PPN[0]}}
+		\bitbox{14}{Page offset}\\
+		\bitbox[]{30}{30}
+		\bitbox[]{10}{10}
+		\bitbox[]{10}{10}
+		\bitbox[]{14}{14}
+	\end{bytefield}
+	\caption{Sv44 Physical Address}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\begin{bytefield}[bitwidth=0.7em, endianness=big]{64}
+		\bitheader[bitformatting=\rotbitheader,lsb=64]{127, 64}\\
+		\bitbox{64}{\textit{Reserved}}\\
+		\bitbox[]{64}{64}\\[3ex]
+		\bitheader[bitformatting=\rotbitheader,lsb=0]{0,9,10,19,20,29,30,59,60,63}\\
+		\bitbox{4}{\scriptsize  \textit{Reserved}}
+		\bitbox{30}{\texttt{PPN[2]}}
+		\bitbox{10}{\texttt{PPN[1]}}
+		\bitbox{10}{\texttt{PPN[0]}}
+		\bitbox{2}{\texttt{\scriptsize RSW}}
+		\bitbox{1}{\texttt{D}}
+		\bitbox{1}{\texttt{A}}
+		\bitbox{1}{\texttt{G}}
+		\bitbox{1}{\texttt{U}}
+		\bitbox{1}{\texttt{X}}
+		\bitbox{1}{\texttt{W}}
+		\bitbox{1}{\texttt{R}}
+		\bitbox{1}{\texttt{V}}\\
+		\bitbox[]{4}{4}
+		\bitbox[]{30}{30}
+		\bitbox[]{10}{10}
+		\bitbox[]{10}{10}
+		\bitbox[]{2}{2}
+		\bitbox[]{1}{1}
+		\bitbox[]{1}{1}
+		\bitbox[]{1}{1}
+		\bitbox[]{1}{1}
+		\bitbox[]{1}{1}
+		\bitbox[]{1}{1}
+		\bitbox[]{1}{1}
+		\bitbox[]{1}{1}
+	\end{bytefield}
+	\caption{Sv44 Page Table Entry}
+\end{figure}
+
+\subsubsection{Larger Page Size}
+\noindent%
+Using the approach used for RV32 and RV64, we can define pages of \unit[16]{MiB} and \unit[16]{GiB}.
+
+\subsubsection{Limitations}
+\noindent%
+Maximum size of a virtual address space : 44 bits $\implies 2^{44} = \unit[16]{TiB}$.\\
+Maximal addressable physical memory : 64 bits $\implies 2^{64} = \unit[16]{EiB}$.
+
+\subsection{Sv54}
+\subsubsection{Additional Properties}
+\paragraph{Page Table Depth}
+The page table's depth is now 4.
+\subsubsection{Implementation}
+\begin{figure}[H]
+	\centering
+	\begin{bytefield}[bitwidth=0.7em, endianness=big]{54}
+		\bitheader[bitformatting=\rotbitheader]{53,44,43,34,33,24,23,14,13,0}\\
+		\bitbox{10}{\texttt{VPN[3]}}
+		\bitbox{10}{\texttt{VPN[2]}}
+		\bitbox{10}{\texttt{VPN[1]}}
+		\bitbox{10}{\texttt{VPN[0]}}
+		\bitbox{14}{Page offset}\\
+		\bitbox[]{10}{10}
+		\bitbox[]{10}{10}
+		\bitbox[]{10}{10}
+		\bitbox[]{14}{14}
+	\end{bytefield}
+	\caption{Sv54 Virtual Address}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\begin{bytefield}[bitwidth=0.7em, endianness=big]{64}
+		\bitheader[bitformatting=\rotbitheader]{0,13,14,23,24,33,34,43,44,63}\\
+		\bitbox{20}{\texttt{PPN[3]}}
+		\bitbox{10}{\texttt{PPN[2]}}
+		\bitbox{10}{\texttt{PPN[1]}}
+		\bitbox{10}{\texttt{PPN[0]}}
+		\bitbox{14}{Page offset}\\
+		\bitbox[]{20}{20}
+		\bitbox[]{10}{10}
+		\bitbox[]{10}{10}
+		\bitbox[]{10}{10}
+		\bitbox[]{14}{14}
+	\end{bytefield}
+	\caption{Sv54 Physical Address}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\begin{bytefield}[bitwidth=0.7em, endianness=big]{64}
+		\bitheader[bitformatting=\rotbitheader,lsb=64]{127, 64}\\
+		\bitbox{64}{\textit{Reserved}}\\
+		\bitbox[]{64}{64}\\[3ex]
+		\bitheader[bitformatting=\rotbitheader,lsb=0]{0,9,10,19,20,29,30,39,40,59,60,63}\\
+		\bitbox{4}{\scriptsize  \textit{Reserved}}
+		\bitbox{20}{\texttt{PPN[3]}}
+		\bitbox{10}{\texttt{PPN[2]}}
+		\bitbox{10}{\texttt{PPN[1]}}
+		\bitbox{10}{\texttt{PPN[0]}}
+		\bitbox{2}{\texttt{\scriptsize RSW}}
+		\bitbox{1}{\texttt{D}}
+		\bitbox{1}{\texttt{A}}
+		\bitbox{1}{\texttt{G}}
+		\bitbox{1}{\texttt{U}}
+		\bitbox{1}{\texttt{X}}
+		\bitbox{1}{\texttt{W}}
+		\bitbox{1}{\texttt{R}}
+		\bitbox{1}{\texttt{V}}\\
+		\bitbox[]{4}{4}
+		\bitbox[]{20}{20}
+		\bitbox[]{10}{10}
+		\bitbox[]{10}{10}
+		\bitbox[]{10}{10}
+		\bitbox[]{2}{2}
+		\bitbox[]{1}{1}
+		\bitbox[]{1}{1}
+		\bitbox[]{1}{1}
+		\bitbox[]{1}{1}
+		\bitbox[]{1}{1}
+		\bitbox[]{1}{1}
+		\bitbox[]{1}{1}
+		\bitbox[]{1}{1}
+	\end{bytefield}
+	\caption{Sv44 Page Table Entry}
+\end{figure}
+
+\subsubsection{Limitations}
+\noindent%
+Maximum size of a virtual address space : 54 bits $\implies 2^{54} = \unit[16]{PiB}$.\\
+Maximal addressable physical memory : 64 bits $\implies 2^{64} = \unit[16]{EiB}$.
+
+\subsubsection{Larger Page Size}
+Using the approach used for RV32 and RV64, we can define pages of \unit[16]{MiB}, \unit[16]{GiB} and \unit[16]{TiB}.
+
+\subsection{\texttt{satp} Register}
+\begin{figure}[H]
+	\centering
+	\begin{bytefield}[bitwidth=0.7em, endianness=big]{64}
+		\bitheader[bitformatting=\rotbitheader,lsb=64]{127, 120, 119, 88, 87, 64}\\
+		\bitbox{8}{\texttt{MODE}}
+		\bitbox{32}{\texttt{ASID}}
+		\bitbox[top, left, bottom]{24}{\textit{Reserved}}
+		\\
+		\bitbox[]{8}{8}
+		\bitbox[]{32}{32}
+		\bitbox[]{24}{24}
+		\\[3ex]
+		\bitheader[bitformatting=\rotbitheader,lsb=0]{63, 50,49,0}\\
+		\bitbox[top,bottom,right]{14}{\textit{Reserved}}
+		\bitbox{50}{\texttt{PPN}}\\
+		\bitbox[]{14}{14}
+		\bitbox[]{50}{50}
+	\end{bytefield}
+	\caption{Structure of the \texttt{satp} register}
+\end{figure}
+
+\subsubsection{\texttt{MODE} values}
+\begin{figure}[H]
+	\centering
+	\begin{tabular}{|c|c|}
+		\hline
+		\texttt{MODE} field value & Adressing mode \\
+		\hline
+		0 & Bare \\
+		1-11 & \textit{Reserved} \\
+		12 & Sv44 \\
+		13 & Sv54 \\
+		$14 \rightarrow 255$ & \textit{Reserved} \\
+		\hline
+	\end{tabular}
+\end{figure}
+Additional values can be used for new addressing schemes, and some bits could be used as flags for address translation features, too.
+
+18 bits are left reserved for now above the \texttt{PPN} field, to facilitate possible future physical memory range extensions, or to be used to denote virtual memory capabilities (in the sense of Cambridge' CHERI for instance).
+
+\subsection{Translation process}
+The translation process remains unchanged from the one described in the base specification (as of writing, it is located in section 4.3.2 of the privileged spec), with the following constants:
+\begin{itemize}
+	\item \texttt{PAGESIZE} = $2^{14}$
+	\item \texttt{LEVELS} = 3 for Sv44, or 4 for Sv54
+	\item \texttt{PTESIZE} = 16
+\end{itemize}
+\end{document}
