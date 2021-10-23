@@ -76,7 +76,17 @@ after_tst23:
     //prgchk err
     nop
 after_tst3:
-j exit
+    // Check with 0, optimized path in codegen
+    la t0, halftest1
+    lq(t0, 0, t0)
+    bgez t0, 1f
+    //prgchk err
+    nop
+1:
+    la t0, halftest2
+    lq(t0, 0, t0)
+    bgez t0, all_err
+    j exit
 
 all_err:
     //prgchk err

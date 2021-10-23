@@ -71,7 +71,19 @@ after_tst3:
     lq(t1, 0, t1)
 
     blt t0, t1, all_err
-j exit
+
+    // Comparison with zero, to check the optimized path in tcg generation
+    la t1, halftest2
+    lq(t1, 0, t1)
+
+    bltz t1, 1f
+    //prgchk err
+    nop
+1:  la t1, halftest1
+    lq(t1, 0, t1)
+    bltz t1, all_err
+
+    j exit
 
 all_err:
     //prgchk err
