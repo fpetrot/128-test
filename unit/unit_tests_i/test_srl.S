@@ -1,6 +1,7 @@
 #include "insns.S" 
 #include "utils.S"
 
+
 .section .text.init,"ax",@progbits
 .globl _start
 _start:
@@ -9,7 +10,21 @@ la      sp, _memory_end
 j main
 
 main:
+    li t0, 0xffffffffffffffff
+    srli(t2, t0, 64)
+    //prgchk reg t2 == 0xffffffffffffffff
+
+    li t1, 32
+    srl t2, t0, t1
+    //prgchk reg t2 == 0xffffffffffffffff
+    srli(t2, t2, 64)
+    //prgchk reg t2 == 0xffffffff
+
     liu(t0, 0xffffffffffffffff)
+    //prgchk reg t0 == 0xffffffffffffffff
+    srli(t2, t0, 64)
+    //prgchk reg t2 == 0x0000000000000000
+
     li t1, 32
     srl t2, t0, t1
     //prgchk reg t2 == 0xffffffff

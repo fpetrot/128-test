@@ -4,11 +4,6 @@
 .section .text.init,"ax",@progbits
 .globl _start
 _start:
-# We're in bare metal, so set stack at the end of physical memory
-la      sp, _memory_end
-j main
-
-main:
     liu(t0, 0xffffffffffffffff)
     //prgchk reg t0 == 0xffffffffffffffff
 
@@ -21,4 +16,9 @@ main:
     // Shifting all bits out through the right.
     srli(t0, t0, 64)
     //prgchk reg t0 == 0
-j exit
+
+    liu(t0, 0xffffffffffffffff)
+    //prgchk reg t0 == 0xffffffffffffffff
+    srli(t0, t0, 32)
+    //prgchk reg t0 == 0xffffffff
+    j exit
