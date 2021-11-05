@@ -4,11 +4,6 @@
 .section .text.init,"ax",@progbits
 .globl _start
 _start:
-# We're in bare metal, so set stack at the end of physical memory
-la      sp, _memory_end
-j main
-
-main:
     // Check RV128 is running
     csrr t0, misa
     srli(t1, t0, 126)
@@ -94,4 +89,4 @@ main:
     slli t1, t1, 25
     and t2, t0, t1
     //prgchk reg t2 == 0
-j exit
+    j exit
