@@ -81,6 +81,7 @@ fin_for1_opt:
 die:
     li  t0, 0x100000
     li  t1, 0xdead3333
+    li  t1, 0xde003333
     sw  t1, 0(t0)
     wfi
     j       die
