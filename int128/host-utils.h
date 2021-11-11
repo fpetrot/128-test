@@ -30,11 +30,6 @@
 #ifndef HOST_UTILS_H
 #define HOST_UTILS_H
 
-#if 0
-#include "qemu/compiler.h"
-#include "qemu/bswap.h"
-#endif
-
 #ifdef CONFIG_INT128
 static inline void mulu64(uint64_t *plow, uint64_t *phigh,
                           uint64_t a, uint64_t b)
@@ -58,34 +53,32 @@ static inline uint64_t muldiv64(uint64_t a, uint32_t b, uint32_t c)
     return (__int128_t)a * b / c;
 }
 
-static inline void divu128(uint64_t *plow, uint64_t *phigh, uint64_t *prem,
-                           uint64_t divisor)
+static inline uint64_t divu128(uint64_t *plow, uint64_t *phigh,
+                               uint64_t divisor)
 {
     __uint128_t dividend = ((__uint128_t)*phigh << 64) | *plow;
     __uint128_t result = dividend / divisor;
+
     *plow = result;
     *phigh = result >> 64;
-    if (prem) {
-        *prem = dividend % divisor;
-    }
+    return dividend % divisor;
 }
 
-static inline void divs128(uint64_t *plow, int64_t *phigh, int64_t *prem,
-                           int64_t divisor)
+static inline int64_t divs128(uint64_t *plow, int64_t *phigh,
+                              int64_t divisor)
 {
     __int128_t dividend = ((__int128_t)*phigh << 64) | *plow;
     __int128_t result = dividend / divisor;
+
     *plow = result;
     *phigh = result >> 64;
-    if (prem) {
-        *prem = dividend % divisor;
-    }
+    return dividend % divisor;
 }
 #else
 void muls64(uint64_t *plow, uint64_t *phigh, int64_t a, int64_t b);
 void mulu64(uint64_t *plow, uint64_t *phigh, uint64_t a, uint64_t b);
-void divu128(uint64_t *plow, uint64_t *phigh, uint64_t *prem, uint64_t divisor);
-void divs128(uint64_t *plow, int64_t *phigh, int64_t *prem, int64_t divisor);
+uint64_t divu128(uint64_t *plow, uint64_t *phigh, uint64_t divisor);
+int64_t divs128(uint64_t *plow, int64_t *phigh, int64_t divisor);
 
 static inline uint64_t muldiv64(uint64_t a, uint32_t b, uint32_t c)
 {
@@ -586,21 +579,12 @@ static inline uint64_t usub64_borrow(uint64_t x, uint64_t y, bool *pborrow)
 
 /* Host type specific sizes of these routines.  */
 
-#if ULONG_MAX == UINT32_MAX
-# define clzl   clz32
-# define ctzl   ctz32
-# define clol   clo32
-# define ctol   cto32
-# define ctpopl ctpop32
-# define revbitl revbit32
-#else
 # define clzl   clz64
 # define ctzl   ctz64
 # define clol   clo64
 # define ctol   cto64
 # define ctpopl ctpop64
 # define revbitl revbit64
-#endif
 
 static inline bool is_power_of_2(uint64_t value)
 {

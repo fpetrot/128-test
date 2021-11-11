@@ -1,10 +1,6 @@
 #ifndef INT128_H
 #define INT128_H
 
-#ifdef QEMU_FOR_REAL
-#include "qemu/bswap.h"
-#endif
-
 #ifdef CONFIG_INT128
 typedef __int128_t Int128;
 
@@ -83,11 +79,6 @@ static inline Int128 int128_xor(Int128 a, Int128 b)
 static inline Int128 int128_rshift(Int128 a, int n)
 {
     return a >> n;
-}
-
-static inline Int128 int128_rlshift(Int128 a, int n)
-{
-    return (__uint128_t)a >> n;
 }
 
 static inline Int128 int128_lshift(Int128 a, int n)
@@ -169,17 +160,6 @@ static inline void int128_subfrom(Int128 *a, Int128 b)
 {
     *a -= b;
 }
-
-#ifdef QEMU_FOR_REAL
-static inline Int128 bswap128(Int128 a)
-{
-#if __has_builtin(__builtin_bswap128)
-    return __builtin_bswap128(a);
-#else
-    return int128_make128(bswap64(int128_gethi(a)), bswap64(int128_getlo(a)));
-#endif
-}
-#endif /* QEMU_FOR_REAL */
 
 #else /* !CONFIG_INT128 */
 
@@ -288,21 +268,6 @@ static inline Int128 int128_rshift(Int128 a, int n)
     }
 }
 
-static inline Int128 int128_rlshift(Int128 a, int n)
-{
-    uint64_t h;
-    if (!n) {
-        return a;
-    }
-    h = (uint64_t)a.hi >> (n & 63);
-    if (n >= 64) {
-        return int128_make128(h, 0);
-    } else {
-        return int128_make128((a.lo >> n) | ((uint64_t)a.hi << (64 - n)), h);
-    }
-}
-
-
 static inline Int128 int128_lshift(Int128 a, int n)
 {
     uint64_t l = a.lo << (n & 63);
@@ -398,22 +363,7 @@ static inline void int128_subfrom(Int128 *a, Int128 b)
     *a = int128_sub(*a, b);
 }
 
-
-#ifdef QEMU_FOR_REAL
-static inline Int128 bswap128(Int128 a)
-{
-    return int128_make128(bswap64(a.hi), bswap64(a.lo));
-}
-#endif /* QEMU_FOR_REAL */
-
 #endif /* CONFIG_INT128 */
-
-#ifdef QEMU_FOR_REAL
-static inline void bswap128s(Int128 *s)
-{
-    *s = bswap128(*s);
-}
-#endif
 
 #define UINT128_MAX int128_make128(~0LL, ~0LL)
 Int128 int128_divu(Int128, Int128);

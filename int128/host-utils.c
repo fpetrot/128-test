@@ -23,8 +23,6 @@
  * THE SOFTWARE.
  */
 
-#include "host-utils.h"
-
 #ifndef CONFIG_INT128
 /* Long integer helpers */
 static inline void mul64(uint64_t *plow, uint64_t *phigh,
@@ -87,10 +85,11 @@ void muls64 (uint64_t *plow, uint64_t *phigh, int64_t a, int64_t b)
 
 /*
  * Unsigned 128-by-64 division.
+ * Returns the remainder.
  * Returns quotient via plow and phigh.
- * Optionally (if prem != NULL), returns the remainder via prem.
+ * Also returns the remainder via the function return value.
  */
-inline void divu128(uint64_t *plow, uint64_t *phigh, uint64_t *prem, uint64_t divisor)
+uint64_t divu128(uint64_t *plow, uint64_t *phigh, uint64_t divisor)
 {
     uint64_t dhi = *phigh;
     uint64_t dlo = *plow;
@@ -100,9 +99,7 @@ inline void divu128(uint64_t *plow, uint64_t *phigh, uint64_t *prem, uint64_t di
     if (divisor == 0 || dhi == 0) {
         *plow  = dlo / divisor;
         *phigh = 0;
-        if (prem) {
-            *prem = dlo % divisor;
-        }
+        return dlo % divisor;
     } else {
         sh = clz64(divisor);
 
@@ -142,22 +139,20 @@ inline void divu128(uint64_t *plow, uint64_t *phigh, uint64_t *prem, uint64_t di
             *plow = udiv_qrnnd(&rem, dhi, dlo, divisor);
         }
 
-        if (prem) {
-            /*
-             * since the dividend/divisor might have been normalized,
-             * the remainder might also have to be shifted back
-             */
-            *prem = rem >> sh;
-        }
+        /*
+         * since the dividend/divisor might have been normalized,
+         * the remainder might also have to be shifted back
+         */
+        return rem >> sh;
     }
 }
 
 /*
  * Signed 128-by-64 division.
  * Returns quotient via plow and phigh.
- * Optionally (if prem != NULL), returns the remainder via prem.
+ * Also returns the remainder via the function return value.
  */
-void divs128(uint64_t *plow, int64_t *phigh, int64_t *prem, int64_t divisor)
+int64_t divs128(uint64_t *plow, int64_t *phigh, int64_t divisor)
 {
     bool neg_quotient = false, neg_remainder = false;
     uint64_t unsig_hi = *phigh, unsig_lo = *plow;
@@ -181,7 +176,7 @@ void divs128(uint64_t *plow, int64_t *phigh, int64_t *prem, int64_t divisor)
         divisor = -divisor;
     }
 
-    divu128(&unsig_lo, &unsig_hi, &rem, (uint64_t)divisor);
+    rem = divu128(&unsig_lo, &unsig_hi, (uint64_t)divisor);
 
     if (neg_quotient) {
         if (unsig_lo == 0) {
@@ -196,12 +191,10 @@ void divs128(uint64_t *plow, int64_t *phigh, int64_t *prem, int64_t divisor)
         *plow = unsig_lo;
     }
 
-    if (prem) {
-        if (neg_remainder) {
-            *prem = -rem;
-        } else {
-            *prem = rem;
-        }
+    if (neg_remainder) {
+        return -rem;
+    } else {
+        return rem;
     }
 }
 #endif

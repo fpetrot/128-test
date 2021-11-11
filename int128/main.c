@@ -5,8 +5,9 @@
 #include <stdio.h>
 #include <assert.h>
 
+#include "host-utils.h"
+#include "host-utils.c"
 #include "int128.h"
-/* quick and dirty c include */
 #include "int128.c"
 
 uint64_t r(void)
@@ -99,11 +100,13 @@ int main(void)
         printf("rs 0x%016lx%016lx\n", int128_gethi(rs), int128_getlo(rs));
     }
 
+#if 0
     for (int i = 0; i < 128; i++) {
         y = int128_make128(r(), r());
         /* shift fails if shamt > 127, no assert in function */
         Int128 r = int128_rlshift(y, i);
         printf("r%3d 0x%016lx%016lx\n", i, int128_gethi(r), int128_getlo(r));
     }
+#endif
     return 0;
 }
