@@ -4,11 +4,6 @@
 .section .text.init,"ax",@progbits
 .globl _start
 _start:
-# We're in bare metal, so set stack at the end of physical memory
-la      sp, _memory_end
-j main
-
-main:
     // Check incremental shifts from 0 to 63.
     li t0, 0xdeadbeefcafebabf
     srlid(t2, t0, 0)
@@ -268,4 +263,4 @@ main:
     srli(t2, t2, 64)
     //prgchk reg t2 == 0x0
 
-j exit
+    j exit

@@ -4,11 +4,6 @@
 .section .text.init,"ax",@progbits
 .globl _start
 _start:
-# We're in bare metal, so set stack at the end of physical memory
-la      sp, _memory_end
-j main
-
-main:
     // Test sign-extend with 1 
     liu(t0, 0xfedcba9876543210)
     //prgchk reg t0 == 0xfedcba9876543210
@@ -50,4 +45,4 @@ main:
     // No-op when adding to r0
     addid(zero, t0, 2047)
     //prgchk reg zero == 0
-j exit
+    j exit

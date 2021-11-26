@@ -12,12 +12,8 @@ vb :.octa 0x77777777777777777777777777777777
     .section .text.init,"ax",@progbits
     .global _start
 _start:
-    # We're in bare metal, so set stack at the end of physical memory
-    la      sp, _memory_end
-    j main
 # Intermediate checks => all insns but loads and stores still act on 64-bit
 # registers!
-main:
     # Quad load
     la t0, val
     la t2, lav

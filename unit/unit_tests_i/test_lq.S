@@ -47,11 +47,6 @@
 .section .text.init,"ax",@progbits
 .global _start
 _start:
-# We're in bare metal, so set stack at the end of physical memory
-la      sp, _memory_end
-j main
-
-main:
     // Basic loads
     la t0, tst1
     lq(t0, 0, t0)
@@ -221,4 +216,4 @@ main:
     //prgchk reg t1 == 0xfcfa75ba8a71928b
     srli(t1, t1, 64)
     //prgchk reg t1 == 0xa471884c8f32f364
-j exit
+    j exit

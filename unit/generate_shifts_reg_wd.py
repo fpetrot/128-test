@@ -55,9 +55,6 @@ if __name__ == "__main__":
 .section .text.init,"ax",@progbits
 .globl _start
 _start:
-la      sp, _memory_end
-j main
-main:
 ''')
 
 

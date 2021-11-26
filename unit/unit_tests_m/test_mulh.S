@@ -62,4 +62,4 @@ _start:
     //prgchk reg t1 == 0
     srli(t1, t1, 64)
     //prgchk reg t1 == 0
-j exit
+    j exit

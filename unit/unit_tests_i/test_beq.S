@@ -10,11 +10,6 @@
 .section .text.init,"ax",@progbits
 .globl _start
 _start:
-# We're in bare metal, so set stack at the end of physical memory
-la      sp, _memory_end
-j main
-
-main:
     // Basic test of non equal values.
     la t0, val1
     lq(t0, 0, t0)
@@ -35,8 +30,8 @@ main:
 
     //prgchk err
     nop
-after_tst1:
 
+after_tst1:
     // Check if upper 64 bits are compared
     la t0, val3
     lq(t0, 0, t0)
@@ -53,8 +48,8 @@ after_tst1:
 
     //prgchk err
     nop
-after_tst2:
     
+after_tst2:
     // Check equals with x0
     li t0, 0
     
@@ -62,9 +57,9 @@ after_tst2:
 
     //prgchk err
     nop
+
 after_tst3:
-    
-j exit
+    j exit
 
 all_err:
     //prgchk err

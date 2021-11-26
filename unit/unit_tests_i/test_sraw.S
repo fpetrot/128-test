@@ -4,11 +4,6 @@
 .section .text.init,"ax",@progbits
 .globl _start
 _start:
-# We're in bare metal, so set stack at the end of physical memory
-la      sp, _memory_end
-j main
-
-main:
     // Carry of zero sign bit
     li t0, 0x7fffffff
     li t1, 16
@@ -185,4 +180,4 @@ main:
     //prgchk reg t2 == 0xffffffffffffffff
     srli(t2, t2, 64)
     //prgchk reg t2 == 0xffffffffffffffff
-j exit
+    j exit

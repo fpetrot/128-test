@@ -7,11 +7,6 @@
 .section .text.init,"ax",@progbits
 .globl _start
 _start:
-# We're in bare metal, so set stack at the end of physical memory
-la      sp, _memory_end
-j main
-
-main:
     la t0, test_quad
     lq(t0, 0, t0)
 
@@ -44,4 +39,4 @@ main:
     //prgchk reg t1 == 0x41
     srli(t1, t1, 64)
     //prgchk reg t1 == 0
-j exit
+    j exit

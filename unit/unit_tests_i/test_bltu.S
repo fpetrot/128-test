@@ -66,7 +66,7 @@ after_tst3:
     lq(t1, 0, t1)
     
     bltu t0, t1, all_err
-j exit
+    j exit
 
 all_err:
     //prgchk err

@@ -65,11 +65,6 @@
 .section .text.init,"ax",@progbits
 .global _start
 _start:
-# We're in bare metal, so set stack at the end of physical memory
-la      sp, _memory_end
-j main
-
-main:
     // Test store and load in succession.
     la t0, store_1
     liu(t1, 0xdeadbeefcafebabe)
@@ -218,4 +213,4 @@ main:
     sq(t1, 2047, t0)
     //prgchk gdb ((unsigned long*) &bigtab_end)[0] == 0x1234567890abcdef
     //prgchk gdb ((unsigned long*) &bigtab_end)[1] == 0xdeadbeefcafebabe
-j exit
+    j exit

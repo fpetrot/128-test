@@ -104,4 +104,4 @@ _start:
     //prgchk reg t2 == 0x6034e4b6c81ebfcc
     srli(t2, t2, 64)
     //prgchk reg t2 == 0xcf3e53431e02fa94
-j exit
+    j exit

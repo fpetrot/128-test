@@ -4,11 +4,6 @@
 .section .text.init,"ax",@progbits
 .globl _start
 _start:
-# We're in bare metal, so set stack at the end of physical memory
-la      sp, _memory_end
-j main
-
-main:
     // Trivial addition with overflow : -1 + 1
     liu(t0, 1)
     //prgchk reg t0 == 1
@@ -59,4 +54,4 @@ main:
     //prgchk reg t2 == 0x8284f51c130d7da3
     srli(t3, t2, 64)
     //prgchk reg t3 == 0x15f6a4a20c90d56b
-j exit
+    j exit

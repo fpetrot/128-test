@@ -4,12 +4,6 @@
 .section .text.init,"ax",@progbits
 .globl _start
 _start:
-# We're in bare metal, so set stack at the end of physical memory
-la      sp, _memory_end
-j main
-
-.global main
-main:
     // Check with null-immediate.
 addr1:
     auipc t0, 0
@@ -82,4 +76,4 @@ after_skip:
     slli(t0, t0, 64)
     slli(t1, t1, 64)
     //prgchk gdb $t0 == $t1
-j exit
+    j exit

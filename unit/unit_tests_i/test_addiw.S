@@ -4,11 +4,6 @@
 .section .text.init,"ax",@progbits
 .globl _start
 _start:
-# We're in bare metal, so set stack at the end of physical memory
-la      sp, _memory_end
-j main
-
-main:
     // Test signext to 128 bits
     liu(t0, 0x80000000)
     addiw t0, t0, 0
@@ -36,4 +31,4 @@ main:
     //prgchk reg t0 == 0xffffffff80000000
     srli(t0, t0, 64)
     //prgchk reg t0 == 0xffffffffffffffff
-j exit
+    j exit

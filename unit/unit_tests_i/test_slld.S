@@ -4,11 +4,6 @@
 .section .text.init,"ax",@progbits
 .globl _start
 _start:
-# We're in bare metal, so set stack at the end of physical memory
-la      sp, _memory_end
-j main
-
-main:
     // Check only first 6 bits are used for shift.
     li t0, 0xdeadbeefcafebabe
     li t1, 96 // will correspond to a shift of 32
@@ -339,4 +334,4 @@ main:
     //prgchk reg t2 == 0x0
     srli(t2, t2, 64)
     //prgchk reg t2 == 0x0
-j exit
+    j exit

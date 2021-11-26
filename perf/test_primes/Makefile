@@ -1,6 +1,6 @@
 include ../config.mk
 
-TEST_VALUE ?= 1432101
+TEST_VALUE ?= 14321017
 CFLAGS += -DTEST_IN=$(TEST_VALUE)
 
 all: lpf128 lpf64 lpf32
@@ -25,7 +25,7 @@ lpf32: lpf32.o
 
 run:
 	$(MAKE) -s lpf$(TYPE_SIZE)
-	$(QEMU$(TYPE_SIZE)) -nographic -bios none -machine virt -m 512M -kernel lpf$(TYPE_SIZE)
+	@perf stat -e duration_time $(QEMU$(TYPE_SIZE)) -nographic -bios none -machine virt -m 512M -kernel lpf$(TYPE_SIZE)
 	
 run128:
 	$(MAKE) run TYPE_SIZE=128

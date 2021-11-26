@@ -4,11 +4,6 @@
 .section .text.init,"ax",@progbits
 .globl _start
 _start:
-# We're in bare metal, so set stack at the end of physical memory
-la      sp, _memory_end
-j main
-
-main:
     // Shifting all bits out through the left.
     li t0, 0xffffffffffffffff
     slli(t0, t0, 64)
@@ -156,4 +151,4 @@ main:
     //prgcheck reg t1 == 0x0
     slli(t1, t0, 63)
     //prgcheck reg t1 == 0x0
-j exit
+    j exit

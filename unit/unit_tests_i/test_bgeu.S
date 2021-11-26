@@ -66,7 +66,7 @@ after_tst2:
     //prgchk err
     nop
 after_tst3:
-j exit
+    j exit
 
 all_err:
     //prgchk err

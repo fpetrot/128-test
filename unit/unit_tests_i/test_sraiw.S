@@ -4,11 +4,6 @@
 .section .text.init,"ax",@progbits
 .globl _start
 _start:
-# We're in bare metal, so set stack at the end of physical memory
-la      sp, _memory_end
-j main
-
-main:
     // Check sign extensions.
     liu(t0, 0x80000000)
     sraiw t1, t0, 0
@@ -158,4 +153,4 @@ main:
     //prgchk reg t2 == 0xffffffffffffffff
     srli(t2, t2, 64)
     //prgchk reg t2 == 0xffffffffffffffff
-j exit
+    j exit

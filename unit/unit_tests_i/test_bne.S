@@ -9,11 +9,6 @@
 
 .section .text.init,"ax",@progbits
 .globl _start
-_start:
-# We're in bare metal, so set stack at the end of physical memory
-la      sp, _memory_end
-j main
-
 main:
     // Basic test of non equal values.
     la t0, val1
@@ -59,7 +54,7 @@ after_tst2:
     li t0, 0
     
     bne t0, zero, all_err
-j exit
+    j exit
 
 all_err:
     //prgchk err
