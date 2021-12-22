@@ -31,7 +31,7 @@ FORCE:
 
 run:
 	$(MAKE) clean TABSIZE=$(TABSIZE) TYPESIZE=$(TYPESIZE) a.$(TYPESIZE).out
-	$(QEMU$(TYPESIZE)) -nographic -bios none -machine virt -m 512M -kernel a.$(TYPESIZE).out
+	perf stat -e duration_time $(QEMU$(TYPESIZE)) -nographic -bios none -machine virt -m 512M -kernel a.$(TYPESIZE).out
 
 run128 :
 	$(MAKE) clean TABSIZE=$(TABSIZE) TYPESIZE=128 run

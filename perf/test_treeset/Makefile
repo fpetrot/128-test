@@ -50,7 +50,7 @@ run:
 	@echo "Compiling..."
 	$(MAKE) $(EXEC_BASE)_$(TYPE_SIZE)
 	@echo "Searching binary tree..."
-	@perf stat -e duration_time $(QEMU$(TYPE_SIZE)) -nographic -bios none -machine virt -m 512M -kernel $(EXEC_BASE)_$(TYPE_SIZE)
+	perf stat -e duration_time $(QEMU$(TYPE_SIZE)) -nographic -bios none -machine virt -m 512M -kernel $(EXEC_BASE)_$(TYPE_SIZE)
 
 runm:
 	@echo "Generating data..."
