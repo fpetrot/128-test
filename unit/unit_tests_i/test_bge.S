@@ -14,12 +14,12 @@
 .section .text.init,"ax",@progbits
 .globl _start
 _start:
-    // Check comparison is actually signed.
+    ## Check comparison is actually signed.
     li t0, -42
     li t1, 42
     bge t1, t0, after_tst1
 
-    //prgchk err
+    ##prgchk err
     nop
 after_tst1:
 
@@ -32,19 +32,19 @@ after_tst1:
     bge t1, t0, all_err
 
     bge t0, t1, after_tst2
-    //prgchk err
+    ##prgchk err
     nop
 after_tst2:
 
-    // Compare with self
+    ## Compare with self
     la t1, bigtest1
     lq(t1, 0, t1)
     bge t0, t1, after_tst22
-    //prgchk err GEQ with self is not true
+    ##prgchk err GEQ with self is not true
     nop
 after_tst22:
 
-    // Check comparison is on 128 bits.
+    ## Check comparison is on 128 bits.
     la t0, halftest1
     lq(t0, 0, t0)
 
@@ -52,11 +52,11 @@ after_tst22:
     lq(t1, 0, t1)
 
     bge t0, t1, after_tst23
-    //prgchk err
+    ##prgchk err
     nop
 after_tst23:
 
-    // Test with subtraction overflow (negative - positive -> positive)
+    ## Test with subtraction overflow (negative - positive -> positive)
     la t0, oftest1
     lq(t0, 0, t0)
 
@@ -65,7 +65,7 @@ after_tst23:
 
     bge t0, t1, all_err
 
-    // Test with subtraction overflow (positive - negative -> negative)
+    ## Test with subtraction overflow (positive - negative -> negative)
     la t0, oftest3
     lq(t0, 0, t0)
 
@@ -73,14 +73,14 @@ after_tst23:
     lq(t1, 0, t1)
 
     bge t0, t1, after_tst3
-    //prgchk err
+    ##prgchk err
     nop
 after_tst3:
-    // Check with 0, optimized path in codegen
+    ## Check with 0, optimized path in codegen
     la t0, halftest1
     lq(t0, 0, t0)
     bgez t0, 1f
-    //prgchk err
+    ##prgchk err
     nop
 1:
     la t0, halftest2
@@ -89,5 +89,5 @@ after_tst3:
     j exit
 
 all_err:
-    //prgchk err
+    ##prgchk err
     nop

@@ -11,7 +11,7 @@ _start:
     slliw t0, t0, 31
     //prgchk reg t0 == 0xffffffff80000000
     // Check sign extend to 128 bits
-    srli(t1, t0, 64)
+    srli t1, t0, 64 
     //prgchk reg t1 == 0xffffffffffffffff
 
     slliw t0, t0, 1
@@ -27,7 +27,7 @@ _start:
     //prgchk reg t0 == 0x80000000
     srliw t1, t0, 0
     //prgchk reg t1 == 0xffffffff80000000
-    srli(t1, t1, 64)
+    srli t1, t1, 64 
     //prgchk reg t1 == 0xffffffffffffffff
 
     // --- SRAIW

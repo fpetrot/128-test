@@ -12,35 +12,35 @@
 .section .text.init,"ax",@progbits
 .globl _start
 _start:
-    // Is value non-zero (checking both 64-bit words) ?
+    ## Is value non-zero (checking both 64-bit words) ?
     la t0, val1
     lq(t0, 0, t0)
 
     beqz t0, all_err
 
-    // Is value non-zero (checking upper 64-bit word) ?
+    ## Is value non-zero (checking upper 64-bit word) ?
     la t0, val3
     lq(t0, 0, t0)
 
     beqz t0, all_err
 
-    // Is value non-zero (checking lower 64-bit word) ?
+    ## Is value non-zero (checking lower 64-bit word) ?
     la t0, val5
     lq(t0, 0, t0)
 
     beqz t0, all_err
 
-    // Is value zero, finally ?
+    ## Is value zero, finally ?
     la t0, val6
     lq(t0, 0, t0)
     
     beqz t0, 1f
 
-    //prgchk err
+    ##prgchk err
     nop
 
 1:  j exit
 
 all_err:
-    //prgchk err
+    ##prgchk err
     nop

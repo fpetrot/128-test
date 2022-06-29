@@ -14,7 +14,7 @@
 .section .text.init,"ax",@progbits
 .globl _start
 _start:
-    // Check comparison is actually signed.
+    ## Check comparison is actually signed.
     li t0, -42
     bgez t0, all_err
 
@@ -22,14 +22,14 @@ _start:
     lq(t0, 0, t0)
 
     bgez t0, 1f
-    //prgchk err
+    ##prgchk err
     nop
 1:
     la t0, halftest1
     lq(t0, 0, t0)
 
     bgez t0, 1f
-    //prgchk err
+    ##prgchk err
     nop
 1:
     la t0, halftest2
@@ -44,12 +44,12 @@ _start:
 
     li t0, 0
     bgez t0, 1f
-    //prgchk err
+    ##prgchk err
     nop
 
 1:  j exit
 
 all_err:
-    //prgchk err
+    ##prgchk err
     nop
 

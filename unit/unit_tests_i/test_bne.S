@@ -10,7 +10,7 @@
 .section .text.init,"ax",@progbits
 .globl _start
 main:
-    // Basic test of non equal values.
+    ## Basic test of non equal values.
     la t0, val1
     lq(t0, 0, t0)
 
@@ -19,11 +19,11 @@ main:
 
     bne t0, t1, after_tst1
 
-    //prgchk err
+    ##prgchk err
     nop
 after_tst1:
 
-    // Basic test of equal values.
+    ## Basic test of equal values.
     la t0, val2
     lq(t0, 0, t0)
 
@@ -32,7 +32,7 @@ after_tst1:
 
     bne t0, t1, all_err
 
-    // Check if upper 64 bits are compared
+    ## Check if upper 64 bits are compared
     la t0, val3
     lq(t0, 0, t0)
 
@@ -46,16 +46,16 @@ after_tst1:
 
     bne t0, t1, after_tst2
 
-    //prgchk err
+    ##prgchk err
     nop
 after_tst2:
     
-    // Check not equals with x0
+    ## Check not equals with x0
     li t0, 0
     
     bne t0, zero, all_err
     j exit
 
 all_err:
-    //prgchk err
+    ##prgchk err
     nop

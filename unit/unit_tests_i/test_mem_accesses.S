@@ -17,8 +17,8 @@ _start:
     # Quad load
     la t0, val
     la t2, lav
-    lq(t1, 0, t0)
-    sq(t1, 0, t2)
+    lq t1, 0(t0)
+    sq t1, 0(t2)
     la t2, vd
     sd t1, 0(t2)
     la t2, vw

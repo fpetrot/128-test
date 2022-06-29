@@ -10,48 +10,48 @@
 .globl _start
 _start:
     la t0, test_quad
-    lq(t0, 0, t0)
+    lq t0, 0(t0)
     
-    // xor with -1 (bitwise not)
+    ## xor with -1 (bitwise not)
     li t1, -1
     xor t1, t0, t1
-    //prgchk reg t1 == 0xf136b2d7dfe1e796
-    srli(t1, t1, 64)
-    //prgchk reg t1 == 0x8afcc87a46356113
+    ##prgchk reg t1 == 0xf136b2d7dfe1e796
+    srli t1, t1, 64 
+    ##prgchk reg t1 == 0x8afcc87a46356113
 
-    // xor with 0 = no-op
+    ## xor with 0 = no-op
     li t1, 0
     xor t1, t0, 0
-    //prgchk reg t1 == 0x0ec94d28201e1869
-    srli(t1, t1, 64)
-    //prgchk reg t1 == 0x75033785b9ca9eec
+    ##prgchk reg t1 == 0x0ec94d28201e1869
+    srli t1, t1, 64 
+    ##prgchk reg t1 == 0x75033785b9ca9eec
 
-    // xor with zero dest : no-op
+    ## xor with zero dest : no-op
     xor zero, t0, t1
-    //prgchk reg zero == 0
-    srli(t1, zero, 64)
-    //prgchk reg t1 == 0
+    ##prgchk reg zero == 0
+    srli t1, zero, 64 
+    ##prgchk reg t1 == 0
 
-    // xor with self : mov zero
+    ## xor with self : mov zero
     xor t1, t0, t0
-    //prgchk reg t2 == 0
-    srli(t2, t2, 64)
-    //prgchk reg t2 == 0
+    ##prgchk reg t2 == 0
+    srli t2, t2, 64 
+    ##prgchk reg t2 == 0
 
-    // try a few 128-bit bitmasks
+    ## try a few 128-bit bitmasks
     la t1, test_mask1
-    lq(t1, 0, t1)
+    lq t1, 0(t1)
 
     xor t2, t1, t0
-    //prgchk reg t2 == 0x5b9c187d754b4d3c
-    srli(t2, t2, 64)
-    //prgchk reg t2 == 0x205662d0ec9fcbb9
+    ##prgchk reg t2 == 0x5b9c187d754b4d3c
+    srli t2, t2, 64 
+    ##prgchk reg t2 == 0x205662d0ec9fcbb9
 
     la t1, test_mask2
-    lq(t1, 0, t1)
+    lq t1, 0(t1)
 
     xor t2, t1, t0
-    //prgchk reg t2 == 0x58b11b50322af786
-    srli(t2, t2, 64)
-    //prgchk reg t2 == 0x673725b112073521
+    ##prgchk reg t2 == 0x58b11b50322af786
+    srli t2, t2, 64 
+    ##prgchk reg t2 == 0x673725b112073521
     j exit

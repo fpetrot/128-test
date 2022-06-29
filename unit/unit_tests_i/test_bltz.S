@@ -14,38 +14,38 @@
 .section .text.init,"ax",@progbits
 .globl _start
 _start:
-    // Check comparison is actually signed.
+    ## Check comparison is actually signed.
     li t0, -666
     bltz t0, 1f
 
-    //prgchk err
+    ##prgchk err
     nop
 1:
-    // Check comparison is actually signed.
+    ## Check comparison is actually signed.
     li t0, 13
     bltz t0, all_err
 
-    // Well, just the upper bit set
+    ## Well, just the upper bit set
     la t0, oftest1
     lq(t0, 0, t0)
 
     bltz t0, 1f
 
-    //prgchk err
+    ##prgchk err
     nop
 1:
-    // Well, just the upper bit not set
+    ## Well, just the upper bit not set
     la t0, oftest3
     lq(t0, 0, t0)
 
     bltz t0, all_err
 
-    // Compare with zero, to finish with
+    ## Compare with zero, to finish with
     li t0, 0
     bltz t0, all_err
 
     j exit
 
 all_err:
-    //prgchk err
+    ##prgchk err
     nop

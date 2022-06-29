@@ -17,22 +17,22 @@
 .section .text.init,"ax",@progbits
 .globl _start
 _start:
-    // Check that comparison is really unsigned.
+    ## Check that comparison is really unsigned.
     li t0, -1
     li t1, 42
     bgeu t0, t1, after_tst1
-    //prgchk err
+    ##prgchk err
     nop
 after_tst1:
 
-    // Test all five orderings of the words.
+    ## Test all five orderings of the words.
     la t0, tst1_1
     lq(t0, 0, t0)
     la t1, tst1_2
     lq(t1, 0, t1)
     
     bgeu t0, t1, after_tst2
-    //prgchk err
+    ##prgchk err
     nop
 after_tst2:
 
@@ -63,11 +63,11 @@ after_tst2:
     lq(t1, 0, t1)
     
     bgeu t0, t1, after_tst3
-    //prgchk err
+    ##prgchk err
     nop
 after_tst3:
     j exit
 
 all_err:
-    //prgchk err
+    ##prgchk err
     nop

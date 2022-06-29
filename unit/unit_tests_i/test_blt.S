@@ -14,12 +14,12 @@
 .section .text.init,"ax",@progbits
 .globl _start
 _start:
-    // Check comparison is actually signed.
+    ## Check comparison is actually signed.
     li t0, -42
     li t1, 42
     blt t0, t1, after_tst1
 
-    //prgchk err
+    ##prgchk err
     nop
 after_tst1:
 
@@ -32,16 +32,16 @@ after_tst1:
     blt t0, t1, all_err
 
     blt t1, t0, after_tst2
-    //prgchk err
+    ##prgchk err
     nop
 after_tst2:
 
-    // Compare with self
+    ## Compare with self
     la t1, bigtest1
     lq(t1, 0, t1)
     blt t0, t1, all_err
 
-    // Check comparison is on 128 bits.
+    ## Check comparison is on 128 bits.
     la t0, halftest1
     lq(t0, 0, t0)
 
@@ -50,7 +50,7 @@ after_tst2:
 
     blt t0, t1, all_err
 
-    // Test with subtraction overflow (negative - positive -> positive)
+    ## Test with subtraction overflow (negative - positive -> positive)
     la t0, oftest1
     lq(t0, 0, t0)
 
@@ -59,11 +59,11 @@ after_tst2:
 
     blt t0, t1, after_tst3
 
-    //prgchk err
+    ##prgchk err
     nop
 after_tst3:
 
-    // Test with subtraction overflow (positive - negative -> negative)
+    ## Test with subtraction overflow (positive - negative -> negative)
     la t0, oftest3
     lq(t0, 0, t0)
 
@@ -72,12 +72,12 @@ after_tst3:
 
     blt t0, t1, all_err
 
-    // Comparison with zero, to check the optimized path in tcg generation
+    ## Comparison with zero, to check the optimized path in tcg generation
     la t1, halftest2
     lq(t1, 0, t1)
 
     bltz t1, 1f
-    //prgchk err
+    ##prgchk err
     nop
 1:  la t1, halftest1
     lq(t1, 0, t1)
@@ -86,5 +86,5 @@ after_tst3:
     j exit
 
 all_err:
-    //prgchk err
+    ##prgchk err
     nop
