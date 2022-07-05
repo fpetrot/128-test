@@ -40,12 +40,13 @@ _start:
     /* load stuff and check */
     la   sp, stacklq
     c.lqsp x3, 0x0(sp)
+    c.ldsp x6, 0x8(sp)
     ##prgchk reg x5 == 0x0000000000000001
     srli x4, x5, 64 
     ##prgchk reg x4 == 0xd000000000000000
     c.lqsp x6, 0x10(sp)
     ##prgchk reg x6 == 0x0000000000000002
-    srli x4, x6, 64(sp)
+    srli x4, x6, 64
     ##prgchk reg x4 == 0xe000000000000000
     c.lqsp x7, 0x20(sp)
     ##prgchk reg x7 == 0x0000000000000003
