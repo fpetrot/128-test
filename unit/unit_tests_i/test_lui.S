@@ -23,9 +23,9 @@ _start:
     ##prgchk reg t4 == 0xffffffffffffffff
 
     ## Load garbage and then lui 0, check if zeroed correctly.
-    liu(t0, 0xffffffffffffffff)
+    li t0, 0xffffffffffffffff
     slli t0, t0, 64
-    liu(t1, 0xffffffffffffffff)
+    li t1, 0xffffffffffffffff
     or t0, t0, t1
 
     lui t0, 0

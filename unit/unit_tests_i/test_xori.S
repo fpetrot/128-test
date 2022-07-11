@@ -41,7 +41,7 @@ _start:
     ##prgchk reg t1 == 0
 
     ## xori with self : mov zero
-    liu(t1, 1789)
+    li t1, 1789
     xori t2, t1, 1789
     ##prgchk reg t2 == 0
     srli t2, t2, 64 

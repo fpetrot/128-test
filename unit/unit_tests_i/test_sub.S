@@ -21,7 +21,7 @@ _start:
     ##prgchk reg t3 == 0xffffffffffffffff
 
     ## No effect subtraction : 0x1234567890abcdef - 0
-    liu(t1, 0x1234567890abcdef)
+    li t1, 0x1234567890abcdef
 
     sub t2, t1, t0
     ##prgchk reg t2 == 0x1234567890abcdef
@@ -43,17 +43,17 @@ _start:
     ##prgchk reg t4 == 0
 
     ## Substract two arbitrary 128-bit values (positive result).
-    liu(t1, 0x1337d00dcafebabe)
+    li t1, 0x1337d00dcafebabe
     ##prgchk reg t1 == 0x1337d00dcafebabe
     slli t0, t1, 64
-    liu(t1, 0x1234567890abcdef)
+    li t1, 0x1234567890abcdef
     ##prgchk reg t1 == 0x1234567890abcdef
     or t0, t0, t1
     ##prgchk reg t1 == 0x1234567890abcdef
 
-    liu(t2, 0x2bed49441921aad)
+    li t2, 0x2bed49441921aad
     slli t1, t2, 64
-    liu(t2, 0x70509ea38261afb4)
+    li t2, 0x70509ea38261afb4
     or t1, t1, t2
 
     sub t2, t0, t1

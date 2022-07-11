@@ -17,7 +17,7 @@ _start:
     ##prgchk reg t3 == 0xffffffffffffffff
 
     ## No effect subtraction : 0x12345678 - 0
-    liu(t1, 0x12345678)
+    li t1, 0x12345678
 
     subw t2, t1, t0
     ##prgchk reg t2 == 0x12345678

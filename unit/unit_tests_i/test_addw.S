@@ -5,10 +5,10 @@
 .globl _start
 _start:
     ## Addition with 32 bit overflow.
-    liu(t0, 0xfedcba98)
+    li t0, 0xfedcba98
     ##prgchk reg t0 == 0xfedcba98
 
-    liu(t1, 0x12345678)
+    li t1, 0x12345678
     ##prgcheck reg t1 == 0x12345678
 
     addw t2, t0, t1
@@ -22,14 +22,14 @@ _start:
     ##prgchk reg t2 == 0
 
     ## Add to zero (only sign extend).
-    liu(t0, 0xffffffff)
+    li t0, 0xffffffff
     addw t1, t0, zero
     ##prgchk reg t1 == 0xffffffffffffffff
     srli t2, t1, 64
     ##prgchk reg t2 == 0xffffffffffffffff
 
     ## Full overflow from 2**32 - 1 to 0
-    liu(t1, 1)
+    li t1, 1
     addw t2, t0, t1
     ##prgchk reg t2 == 0
     srli t2, t2, 64

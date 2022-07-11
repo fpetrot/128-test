@@ -5,13 +5,13 @@
 .globl _start
 _start:
     ## Check sign extensions.
-    liu(t0, 0x80000000)
+    li t0, 0x80000000
     slliw t1, t0, 0
     ##prgchk reg t1 == 0xffffffff80000000
     srli t1, t1, 64 
     ##prgchk reg t1 == 0xffffffffffffffff
 
-    liu(t0, 0x7fedfedf)
+    li t0, 0x7fedfedf
     slliw t1, t0, 0
     ##prgchk reg t1 == 0x7fedfedf
     srli t1, t1, 64 

@@ -15,7 +15,7 @@ _start:
     srli t2, t2, 64 
     ##prgchk reg t2 == 0xffffffff
 
-    liu(t0, 0xffffffffffffffff)
+    li t0, 0xffffffffffffffff
     ##prgchk reg t0 == 0xffffffffffffffff
     srli t2, t0, 64 
     ##prgchk reg t2 == 0x0000000000000000
@@ -38,9 +38,9 @@ _start:
     ##prgchk reg t2 == 0
 
     ## Incremental shifts
-    liu(t0, 0xdeadbeefcafebabf)
+    li t0, 0xdeadbeefcafebabf
     slli t0, t0, 64 
-    liu(t1, 0xcafed00ddeaddead)
+    li t1, 0xcafed00ddeaddead
     or t0, t0, t1
     li t1, 0
     srl t2, t0, t1

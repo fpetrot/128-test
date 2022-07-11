@@ -41,7 +41,7 @@ _start:
     ##prgchk reg t1 == 0
 
     ## Test overflow into upper 64 bits.
-    liu(t1, 0xffffffffffffffff)
+    li t1, 0xffffffffffffffff
     addi t2, t1, 1
     ##prgchk reg t2 == 0
     srli  t2, t2, 64

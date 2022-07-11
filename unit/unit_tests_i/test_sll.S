@@ -4,12 +4,12 @@
 .section .text.init,"ax",@progbits
 .globl _start
 _start:
-    liu(t0, 0xffffffffffffffff)
+    li t0, 0xffffffffffffffff
     ##prgchk reg t0 == 0xffffffffffffffff
-    liu(t1, 32)
+    li t1, 32
     ##prgchk reg t1 == 32
 
-    liu(t2, 0xffffffffffffffff)
+    li t2, 0xffffffffffffffff
     ##prgchk reg t2 == 0xffffffffffffffff
     sll t2, t0, t1
     ##prgchk reg t2 == 0xffffffff00000000
@@ -20,13 +20,13 @@ _start:
     ## Shift by zero
     lui t0, 0
     ##progchk reg t0 == 0
-    liu(t1, 0xdeadbeefcafebabf)
+    li t1, 0xdeadbeefcafebabf
     ##prgchk reg t1 == 0xdeadbeefcafebabf
     sll t2, t1, t0
     ##prgchk reg t2 == 0xdeadbeefcafebabf
 
     ## Shift by max shift
-    liu(t0, 127)
+    li t0, 127
     ##prgchk reg t0 == 127
     sll t2, t1, t0
     ##prgchk reg t2 == 0
@@ -34,21 +34,21 @@ _start:
     ##prgchk reg t2 == 0x8000000000000000
 
     ## Incremental shifts
-    liu(t0, 0xdeadbeefcafebabf)
+    li t0, 0xdeadbeefcafebabf
     slli t0, t0, 64 
-    liu(t1, 0xcafed00ddeaddead)
+    li t1, 0xcafed00ddeaddead
     or t0, t0, t1
-    liu(t1, 0)
+    li t1, 0
     sll t2, t0, t1
     ##prgchk reg t2 == 0xcafed00ddeaddead
     srli t2, t2, 64 
     ##prgchk reg t2 == 0xdeadbeefcafebabf
-    liu(t1, 1)
+    li t1, 1
     sll t2, t0, t1
     ##prgchk reg t2 == 0x95fda01bbd5bbd5a
     srli t2, t2, 64 
     ##prgchk reg t2 == 0xbd5b7ddf95fd757f
-    liu(t1, 2)
+    li t1, 2
     sll t2, t0, t1
     ##prgchk reg t2 == 0x2bfb40377ab77ab4
     srli t2, t2, 64 

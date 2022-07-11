@@ -91,7 +91,7 @@ _start:
     ##prgchk reg t1 == 0
 
     ## rs1_hi < imm_hi && rs1_lo >= imm_lo
-    liu(t0, 0xffffffffffffffff)
+    li t0, 0xffffffffffffffff
     sltiu t1, t0, -2000
     ##prgchk reg t1 == 1
     srli t1, t1, 64 
