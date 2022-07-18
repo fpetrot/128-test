@@ -141,6 +141,7 @@ void print_double(double f)
    putstr(buffer);
 }
 
+#if 0
 void cinit_array_cholesky_double(int n, double a[n][n])
 {
    int i, j;
@@ -168,6 +169,7 @@ void cinit_array_cholesky_double(int n, double a[n][n])
       for (s = 0; s < n; ++s)
          a[r][s] = b[r][s];
 }
+#endif
 
 void print_array_cholesky_double(int n, double a[n][n])
 {

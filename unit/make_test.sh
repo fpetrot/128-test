@@ -15,9 +15,9 @@ if [ -z $1 ]; then
     exit 1
 fi
 
-if [ common/lib.c -nt out/lib.o ]; then
-    ${CROSS_GCC} -mcmodel=medany -I./common/include -O3 -g -march=rv64imfd -mabi=lp64d -fno-math-errno -Wall -Werror -ffreestanding -c common/lib.c -o out/lib.o
-fi
+#if [ common/lib.c -nt out/lib.o ]; then
+    ${CROSS_GCC} -mcmodel=medany -I./common/include -O3 -g -march=rv128imfdc -mabi=llp128 -fno-math-errno -Wall -Werror -ffreestanding -c common/lib.c -o out/lib.o
+#fi
 baseName=""
 if [[ $1 == *.S ]]; then
     baseName=$(basename -s .S $(basename $1))
