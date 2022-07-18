@@ -8,18 +8,18 @@ _start:
     li t0, 1
     slli t0, t0, 64
     srli t0, t0, 64
-    ## prgchk reg t0 == 1
+    //prgchk reg t0 == 1
     slli t0, t0, 127
     srai t0, t0, 127
-    ## prgchk reg t0 == 0xffffffffffffffff
+    //prgchk reg t0 == 0xffffffffffffffff
 
     li t1, 1
-    ## prgchk reg t1 == 1
+    //prgchk reg t1 == 1
 
     add t2, t0, t1
-    ## prgchk reg t2 == 0
+    //prgchk reg t2 == 0
     srli t3, t2, 64
-    ## prgchk reg t3 == 0
+    //prgchk reg t3 == 0
 
     ##  No effect addition with zero
     li t1, 0x1234567890abcdef
@@ -28,24 +28,24 @@ _start:
     or t1, t1, t2
 
     add t2, t1, zero
-    ## prgchk reg t2 == 0xdeadbeefcafebabe
+    //prgchk reg t2 == 0xdeadbeefcafebabe
     srli t3, t2, 64
-    ## prgchk reg t3 == 0x1234567890abcdef
+    //prgchk reg t3 == 0x1234567890abcdef
 
     ##  Destination to r0 : no effect
     add zero, t1, t0
-    ## prgchk reg zero == 0
+    //prgchk reg zero == 0
     srli t0, zero, 64
-    ## prgchk reg t0 == 0
+    //prgchk reg t0 == 0
 
     ##  Add two arbitrary 128-bit values.
     li t1, 0x1337d00dcafebabe
-    ## prgchk reg t1 == 0x1337d00dcafebabe
+    //prgchk reg t1 == 0x1337d00dcafebabe
     slli t0, t1, 64
     li t1, 0x1234567890abcdef
-    ## prgchk reg t1 == 0x1234567890abcdef
+    //prgchk reg t1 == 0x1234567890abcdef
     or t0, t0, t1
-    ## prgchk reg t1 == 0x1234567890abcdef
+    //prgchk reg t1 == 0x1234567890abcdef
 
     li t2, 0x2bed49441921aad
     slli t1, t2, 64
@@ -53,7 +53,7 @@ _start:
     or t1, t1, t2
 
     add t2, t0, t1
-    ## prgchk reg t2 == 0x8284f51c130d7da3
+    //prgchk reg t2 == 0x8284f51c130d7da3
     srli t3, t2, 64
-    ## prgchk reg t3 == 0x15f6a4a20c90d56b
+    //prgchk reg t3 == 0x15f6a4a20c90d56b
     j exit
