@@ -148,7 +148,7 @@ def generate_gdb_script(src_filename: str) -> TestStatus:
 
     gdb_script_file = open(f"out/{base_filename}.gdbcmd", "w")
 
-    gdb_script_file.write("set logging off\ntarget remote :1234\n")
+    gdb_script_file.write("set logging enable off\ntarget remote :1234\n")
 
     nchecks = 0
     for lineno, line in enumerate(src_file):
@@ -181,7 +181,7 @@ def run_test(test_filename: str, silent: bool = True) -> TestStatus:
     if not gdbgen_status:
         return gdbgen_status
 
-    qemuproc = subprocess.Popen([QEMU_EXEC, '-cpu', 'x-rv128', '-accel', 'tcg,thread=single', '-bios', 'none', '-machine', 'virt', '-nographic',
+    qemuproc = subprocess.Popen([QEMU_EXEC, '-cpu', 'x-rv128', '-accel', 'tcg,thread=single', '-bios', 'none', '-nographic',
      '-kernel', f'out/{test_name}', '-S', '-s'], stdout=(open("/dev/null") if silent else sys.stdout))
     test_retval = os.system(f"{CROSS_GDB} -q out/{test_name} < out/{os.path.basename(test_filename)}.gdbcmd {' &> /dev/null' if silent else ''}")
 
