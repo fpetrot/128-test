@@ -83,3 +83,20 @@
 +-------------+-----+-------+----+-------------+
 31            20    15      12   7             0
 */
+
+ /*
+.insn ca opcode2, func6, func2, rd', rs2'
++-- ----+----------+-------+------+---------+
+| func6 | rd'/rs1' | func2 | rs2' | opcode2 |
++-------+----------+-------+------+---------+
+15      10         7       5      2         0
+*/
+
+#define csubw(rdrs1, rs2)               .insn ca 0b01, 0b100111, 0b00, rdrs1, rs2
+#define caddw(rdrs1, rs2)               .insn ca 0b01, 0b100111, 0b01, rdrs1, rs2
+#define csubd(rdrs1, rs2)               .insn ca 0b01, 0b100111, 0b10, rdrs1, rs2
+#define caddd(rdrs1, rs2)               .insn ca 0b01, 0b100111, 0b11, rdrs1, rs2
+
+#define cslli(rd, imm)                  .insn ci 0b10, 0b000, rd, imm
+#define csrli(rd, s, imm)               .half  0b100 ## s ## 00 ## rd ## imm ## 01
+#define csrai(rd, s, imm)               .half  0b100 ## s ## 01 ## rd ## imm ## 01
