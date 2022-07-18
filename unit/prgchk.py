@@ -1,4 +1,4 @@
-#!/bin/env python3
+#!/usr/bin/env python3
 
 import sys
 import os
@@ -148,7 +148,7 @@ def generate_gdb_script(src_filename: str) -> TestStatus:
 
     gdb_script_file = open(f"out/{base_filename}.gdbcmd", "w")
 
-    gdb_script_file.write("set logging off\ntarget remote :1234\n")
+    gdb_script_file.write("set logging enable off\ntarget remote :1144\n")
 
     nchecks = 0
     for lineno, line in enumerate(src_file):
@@ -181,8 +181,8 @@ def run_test(test_filename: str, silent: bool = True) -> TestStatus:
     if not gdbgen_status:
         return gdbgen_status
 
-    qemuproc = subprocess.Popen([QEMU_EXEC, '-cpu', 'x-rv128', '-accel', 'tcg,thread=single', '-bios', 'none', '-machine', 'virt', '-nographic',
-     '-kernel', f'out/{test_name}', '-S', '-s'], stdout=(open("/dev/null") if silent else sys.stdout))
+    qemuproc = subprocess.Popen([QEMU_EXEC, '-machine', 'virt', '-cpu', 'x-rv128', '-accel', 'tcg,thread=single', '-bios', 'none', '-machine', 'virt', '-nographic',
+        '-kernel', f'out/{test_name}', '-S', '-gdb', 'tcp::1144'], stdout=(open("/dev/null") if silent else sys.stdout))
     test_retval = os.system(f"{CROSS_GDB} -q out/{test_name} < out/{os.path.basename(test_filename)}.gdbcmd {' &> /dev/null' if silent else ''}")
 
     qemu_retval = qemuproc.wait()
