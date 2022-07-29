@@ -5,8 +5,8 @@
 .EXPORT_ALL_VARIABLES:
 
 CROSS_COMPILE      ?= riscv128-unknown-elf-
-MARCH              ?= rv128i
-MABI               ?= llp128
+MARCH              ?= rv128imafdc
+MABI               ?= llp128d
 QEMU               ?= qemu-system-riscv64
 
 .PHONY: all
