@@ -27,7 +27,7 @@ do
 	RES=$(timeout --foreground 3 $QEMU_CMD $i)
 	if [ $? -ne 0 ]
 	then
-		echo -e "${RED}-> ERROR: EXECUTION HAVE FAILED${NC}"
+		echo -e "${RED}-> ERROR: EXECUTION HAS FAILED${NC}"
 		TESTS_FAIL=$(($TESTS_FAIL+1))
 	else
 		DIFF=$(diff <(echo "$RES") "../../../exp/global-tests/$i.exp")
