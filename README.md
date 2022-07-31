@@ -1,6 +1,8 @@
 # 128-test
 Some unit and functional tests for 128-bit (and 64 and 32) riscv
 
+Note that now the 128-bit version of the software needs to be cross-compiled with our 128-bit version of the gnu toolchain and executed with our 128-bit version of QEMU.
+
 ‘unit’ contains test generators for various instructions, in particular 128-bit shifts
 
 'int128' contains random tests to check the 128-bit implementation of div[su]/rem[su]
