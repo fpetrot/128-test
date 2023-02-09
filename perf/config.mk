@@ -1,6 +1,8 @@
 # Common variables for all tests (toolchain, flags, etc...).
 
 # Compiler should be the same for all three arches.
+CROSS_AS_128=riscv128-unknown-elf-as
+CROSS_AS=$(CROSS_AS_128)
 CROSS_GCC=riscv64-unknown-elf-gcc
 CROSS_GCC_128=$(CROSS_GCC)
 CROSS_GCC_64=$(CROSS_GCC)

@@ -5,8 +5,11 @@ CFLAGS += -DTEST_IN=$(TEST_VALUE)
 
 all: lpf128 lpf64 lpf32
 
-lpf128.o: lpf.S
-	$(CROSS_GCC) $(CFLAGS) $(CFLAGS_128) -DTYPE_SIZE=128 -c $< -o $@
+lpf128.o: lpf128.s
+	$(CROSS_AS) $< -o $@
+	
+lpf128.s: lpf.S
+	cpp $(CFLAGS) -DTYPE_SIZE=128 $< -o $@
 	
 lpf64.o: lpf.S
 	$(CROSS_GCC) $(CFLAGS) $(CFLAGS_64) -DTYPE_SIZE=64 -c $< -o $@
