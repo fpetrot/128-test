@@ -14,9 +14,9 @@ CROSS_LD_32=$(CROSS_LD) -m elf32lriscv
 
 CFLAGS=-I../common/include -O0 -g
 
-QEMU128=/scratch/qemu-for-upstream/build-for-upstream/qemu-system-riscv64 -cpu rv128 -accel tcg,thread=single
-QEMU64=/scratch/qemu-for-upstream/build-for-upstream/qemu-system-riscv64
-QEMU32=/scratch/qemu-for-upstream/build-for-upstream/qemu-system-riscv32
+QEMU128=qemu-system-riscv64 -cpu x-rv128 -accel tcg,thread=single
+QEMU64=qemu-system-riscv64
+QEMU32=qemu-system-riscv32
 
 CFLAGS_32=-march=rv32imafc -mabi=ilp32f
 CFLAGS_64=-march=rv64imafdc -mabi=lp64d
