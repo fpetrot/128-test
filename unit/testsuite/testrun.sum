@@ -1,0 +1,24 @@
+Test Run By fred on Sat Apr 15 16:54:31 2023
+Native configuration is x86_64-unknown-linux-gnu
+
+		===  tests ===
+
+Schedule of variations:
+    unix
+
+Running target unix
+Running ./riscv.exp ...
+PASS: Le fichier ./addid_test/addid0.s a été compilé avec succès et correspond à la sortie de objdump.
+FAIL: Le fichier ./srai_test/srai0.s a été compilé avec succès mais ne correspond pas à la sortie de objdump. Voir le fichier ./srai_test/srai0.l pour plus de détails.
+FAIL: Le fichier ./srli_test/srli0.s a été compilé avec succès mais ne correspond pas à la sortie de objdump. Voir le fichier ./srli_test/srli0.l pour plus de détails.
+FAIL: Le fichier ./slli_test/slli0.s a été compilé avec succès mais ne correspond pas à la sortie de objdump. Voir le fichier ./slli_test/slli0.l pour plus de détails.
+PASS: Le fichier ./ldu_test/ldu0.s a été compilé avec succès et correspond à la sortie de objdump.
+PASS: Le fichier ./lq_test/lq0.s a été compilé avec succès et correspond à la sortie de objdump.
+PASS: Le fichier ./sq_test/sq3.s a été compilé avec succès et correspond à la sortie de objdump.
+PASS: Le fichier ./sq_test/sq.s a été compilé avec succès et correspond à la sortie de objdump.
+PASS: Le fichier ./sq_test/sq2.s a été compilé avec succès et correspond à la sortie de objdump.
+
+		===  Summary ===
+
+# of expected passes		6
+# of unexpected failures	3
