@@ -1,6 +1,6 @@
 #if TYPE_SIZE == 128
-    #define load(rd, imm, rs1) lq(rd, imm, rs1)
-    #define store(rs2, imm, rs1) sq(rs2, imm, rs1)
+    #define load(rd, imm, rs1) lq rd, imm(rs1)
+    #define store(rs2, imm, rs1) sq rs2, imm(rs1)
     #define TYPE_OFF 16
     #define TYPE_SHFT 4
 #elif TYPE_SIZE == 64
