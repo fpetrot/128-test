@@ -1,0 +1,72 @@
+# Déclaration de la fonction de test
+proc loop_through_files {dir} {
+
+    set as_cmd "riscv128-unknown-elf-as"
+  set objdump_cmd "riscv128-unknown-elf-objdump"
+  
+  if {[catch {exec which $as_cmd} output] == 1} {
+    fail "La commande $as_cmd est introuvable"
+    exit 1
+  }
+  if {[catch {exec which $objdump_cmd} output] == 1} {
+    fail "La commande $objdump_cmd est introuvable"
+    exit 1
+  }
+
+  set test_count 0
+  set pass_count 0
+  set fail_count 0
+
+  # Boucle sur tous les fichiers avec l'extension .s dans le répertoire donné
+  foreach file [glob -nocomplain -types f -directory $dir **/*.s] {
+      # Génère un nom de fichier .o à partir du nom de fichier .s
+      incr test_count
+      set obj_file [file rootname $file].o
+      # Compile le fichier .s en fichier .o
+      if {[catch {exec $as_cmd $file -o $obj_file} result]} {
+          fail "Erreur lors de la compilation de $file: $result"
+          incr fail_count
+      }
+      # Génère un nom de fichier .l à partir du nom de fichier .o
+      set objdump_file [file rootname $file].l
+      # Exécute objdump sur le fichier .o et écrit la sortie dans le fichier .l
+      if {[catch {exec $objdump_cmd -Mno-aliases -d --no-addresses --no-show-raw-insn $obj_file > $objdump_file} result]} {
+          fail "Erreur lors de l'exécution de objdump sur $obj_file: $result"
+          incr fail_count
+      }
+
+      # Supprimer l'entête du objdump
+      if {[catch {exec sed -i "/Disassembly of section \.text:/,$!d;/Disassembly of section \.text:/d" $objdump_file } result]} {
+          fail "Erreur lors du sed"
+          fail $result
+          incr fail_count
+      }
+
+      set fp [open $objdump_file r]
+
+      # Récupère le contenu du fichier objdump
+      set objdump_content [read $fp]
+      close $fp
+      set text_content [regsub -all {[<>]} $objdump_content ""]
+      set pf [open $objdump_file w]
+      puts $fp $text_content
+      close $fp
+
+      # Compare le fichier .s et le fichier .l
+      set cmp_result [catch {exec diff -w -B $file $objdump_file}]
+      if {$cmp_result == 0} {
+          incr pass_count
+          pass "Le fichier $file a été compilé avec succès et correspond à la sortie de objdump."
+      } else {
+          fail "Le fichier $file a été compilé avec succès mais ne correspond pas à la sortie de objdump. Voir le fichier $objdump_file pour plus de détails."
+          incr fail_count
+      }
+  }
+  puts "Résumé des résultats :"
+  puts "Nombre de fichier testé : $test_count"
+  puts "Pass : $pass_count"
+  puts "Fail : $fail_count"
+}
+
+# Appel de la fonction pour parcourir les fichiers
+loop_through_files [file dirname [info script]]
