@@ -1,8 +1,8 @@
 # Déclaration de la fonction de test
 proc loop_through_files {dir} {
 
-  set as_cmd "~/sandbox/bin/riscv128-unknown-elf-as"
-  set objdump_cmd "~/sandbox/bin/riscv128-unknown-elf-objdump"
+  #set as_cmd "~/sandbox/bin/riscv128-unknown-elf-as"
+  #set objdump_cmd "~/sandbox/bin/riscv128-unknown-elf-objdump"
 
   set test_count 0
   set pass_count 0

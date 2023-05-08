@@ -1,0 +1,2 @@
+set as_cmd "~/sandbox/bin/riscv128-unknown-elf-as"
+set objdump_cmd "~/sandbox/bin/riscv128-unknown-elf-objdump"
