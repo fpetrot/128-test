@@ -1,4 +1,4 @@
-CROSS="riscv64-unknown-elf"
+CROSS="riscv128-unknown-elf"
 CROSS_GDB=CROSS+"-gdb"
 CROSS_GCC=CROSS+"-gcc"
 CROSS_LD=CROSS+"-ld"
