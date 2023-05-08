@@ -7,7 +7,7 @@ import subprocess
 
 from typing import Callable, Dict, List, NamedTuple, Optional
 
-from vars import CROSS_GCC, CROSS_GDB, QEMU_EXEC, CROSS_LD
+from vars import CROSS_GCC, CROSS_GDB, QEMU_EXEC, CROSS_LD, CROSS_AS, CPP
 from enum import auto, Enum
 
 chk_comm_re = re.compile(r"//prgchk")
@@ -172,6 +172,8 @@ def run_test(test_filename: str, silent: bool = True) -> TestStatus:
     test_name = os.path.splitext(os.path.basename(test_filename))[0]
 
     os.environ['CROSS_GCC'] = CROSS_GCC
+    os.environ['CPP'] = CPP
+    os.environ['CROSS_AS'] = CROSS_AS
     os.environ['CROSS_LD'] = CROSS_LD
     retval = os.system(f"./make_test.sh {test_filename} {'&> /dev/null' if silent else ''}")
     if retval != 0:
