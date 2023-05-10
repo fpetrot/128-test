@@ -27,7 +27,7 @@ _start:
 
     // Well, just the upper bit set
     la t0, oftest1
-    lq(t0, 0, t0)
+    lq t0, 0(t0)
 
     bltz t0, 1f
 
@@ -36,7 +36,7 @@ _start:
 1:
     // Well, just the upper bit not set
     la t0, oftest3
-    lq(t0, 0, t0)
+    lq t0, 0(t0)
 
     bltz t0, all_err
 

@@ -14,72 +14,47 @@ _start:
     // Arbitrary value loading (checks sign ext to 128 bits)
     la t0, tst0
     lb t0, 0(t0)
-    //prgchk reg t0 == 0xffffffffffffff80
-    srli(t0, t0, 64)
-    //prgchk reg t0 == 0xffffffffffffffff
+    //prgchk reg t0 == 0xffffffffffffffffffffffffffffff80
 
     la t0, tst1
     lb t0, 0(t0)
     //prgchk reg t0 == 0x42
-    srli(t0, t0, 64)
-    //prgchk reg t0 == 0
 
     la t0, tst2
     lb t0, 0(t0)
     //prgchk reg t0 == 0
-    srli(t0, t0, 64)
-    //prgchk reg t0 == 0
 
     la t0, tst3
     lb t0, 0(t0)
-    //prgchk reg t0 == 0xffffffffffffffff
-    srli(t0, t0, 64)
-    //prgchk reg t0 == 0xffffffffffffffff
+    //prgchk reg t0 == 0xffffffffffffffffffffffffffffffff
 
     // Check loads with offsets
     la t0, tab_tst
     lb t1, 0(t0)
-    //prgchk reg t1 == 1
-    srli(t1, t1, 64)
-    //prgchk reg t1 == 0
+    //prgchk reg t1 == 0X0000000000000000000000000000001
     
     lb t1, 1(t0)
-    //prgchk reg t1 == 2
-    srli(t1, t1, 64)
-    //prgchk reg t1 == 0
+    //prgchk reg t1 == 0X0000000000000000000000000000002
+
     
     lb t1, 2(t0)
-    //prgchk reg t1 == 3
-    srli(t1, t1, 64)
-    //prgchk reg t1 == 0
+    //prgchk reg t1 == 0X0000000000000000000000000000003
 
     lb t1, 3(t0)
-    //prgchk reg t1 == 5
-    srli(t1, t1, 64)
-    //prgchk reg t1 == 0
+    //prgchk reg t1 == 0X0000000000000000000000000000005
 
     lb t1, 4(t0)
-    //prgchk reg t1 == 7
-    srli(t1, t1, 64)
-    //prgchk reg t1 == 0
+    //prgchk reg t1 == 0X0000000000000000000000000000007
 
     lb t1, 5(t0)
-    //prgchk reg t1 == 11
-    srli(t1, t1, 64)
-    //prgchk reg t1 == 0
+    //prgchk reg t1 == 0X000000000000000000000000000000b
 
     lb t1, 6(t0)
-    //prgchk reg t1 == 13
-    srli(t1, t1, 64)
-    //prgchk reg t1 == 0
+    //prgchk reg t1 == 0X000000000000000000000000000000d
 
     lb t1, 7(t0)
-    //prgchk reg t1 == 17
-    srli(t1, t1, 64)
-    //prgchk reg t1 == 0
+    //prgchk reg t1 == 0X0000000000000000000000000000011
 
     lb t1, 8(t0)
-    //prgchk reg t1 == 0xffffffffffffffff
-    srli(t1, t1, 64)
-    //prgchk reg t1 == 0xffffffffffffffff
+    //prgchk reg t1 == 0xffffffffffffffffffffffffffffffff
     j exit

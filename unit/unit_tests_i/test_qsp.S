@@ -39,71 +39,39 @@ stacksq: .octa 0xdffffffffffffffffffffffffffffff1
 _start:
     /* load stuff and check */
     la   sp, stacklq
-    lqsp(r5, 0x00)
-    //prgchk reg x5 == 0x0000000000000001
-    srli(x4, x5, 64)
-    //prgchk reg x4 == 0xd000000000000000
-    lqsp(r6, 0x10)
-    //prgchk reg x6 == 0x0000000000000002
-    srli(x4, x6, 64)
-    //prgchk reg x4 == 0xe000000000000000
-    lqsp(r7, 0x20)
-    //prgchk reg x7 == 0x0000000000000003
-    srli(x4, x7, 64)
-    //prgchk reg x4 == 0xa000000000000000
-    lqsp(r8, 0x30)
-    //prgchk reg x8 == 0x0000000000000004
-    srli(x4, x8, 64)
-    //prgchk reg x4 == 0xd000000000000000
-    lqsp(r9, 0x40)
-    //prgchk reg x9 == 0x0000000000000005
-    srli(x4, x9, 64)
-    //prgchk reg x4 == 0xb000000000000000
-    lqsp(r10, 0x50)
-    //prgchk reg x10 == 0x0000000000000006
-    srli(x4, x10, 64)
-    //prgchk reg x4 == 0xe000000000000000
-    lqsp(r11, 0x60)
-    //prgchk reg x11 == 0x0000000000000007
-    srli(x4, x11, 64)
-    //prgchk reg x4 == 0xe000000000000000
-    lqsp(r12, 0x70)
-    //prgchk reg x12 == 0x0000000000000008
-    srli(x4, x12, 64)
-    //prgchk reg x4 == 0xf000000000000000
-    lqsp(r13, 0x80)
-    //prgchk reg x13 == 0x0000000000000009
-    srli(x4, x13, 64)
-    //prgchk reg x4 == 0xc000000000000000
-    lqsp(r14, 0x90)
-    //prgchk reg x14 == 0x000000000000000a
-    srli(x4, x14, 64)
-    //prgchk reg x4 == 0xa000000000000000
-    lqsp(r15, 0xa0)
-    //prgchk reg x15 == 0x000000000000000b
-    srli(x4, x15, 64)
-    //prgchk reg x4 == 0xf000000000000000
-    lqsp(r16, 0xb0)
-    //prgchk reg x16 == 0x000000000000000c
-    srli(x4, x16, 64)
-    //prgchk reg x4 == 0xe000000000000000
-    lqsp(r17, 0xc0)
-    //prgchk reg x17 == 0x000000000000000d
-    srli(x4, x17, 64)
-    //prgchk reg x4 == 0xb000000000000000
-    lqsp(r18, 0xd0)
-    //prgchk reg x18 == 0x000000000000000e
-    srli(x4, x18, 64)
-    //prgchk reg x4 == 0xa000000000000000
-    lqsp(r19, 0xe0)
-    //prgchk reg x19 == 0x000000000000000f
-    srli(x4, x19, 64)
-    //prgchk reg x4 == 0xb000000000000000
-    lqsp(r20, 0xf0)
-    //prgchk reg x20 == 0x0000000000000000
-    srli(x4, x20, 64)
-    //prgchk reg x4 == 0xe000000000000000
-
+    lqsp r5, 0x00
+    //prgchk reg x5 == 0xd0000000000000000000000000000001
+     lqsp r6, 0x10
+    //prgchk reg x6 == 0xe0000000000000000000000000000002
+     lqsp r7, 0x20
+    //prgchk reg x7 == 0xa0000000000000000000000000000003
+     lqsp r8, 0x30
+    //prgchk reg x8 == 0xd0000000000000000000000000000004
+     lqsp r9, 0x40
+    //prgchk reg x9 == 0xb0000000000000000000000000000005
+     lqsp r10, 0x50
+    //prgchk reg x10 == 0xe0000000000000000000000000000006
+     lqsp r11, 0x60
+    //prgchk reg x11 == 0xe0000000000000000000000000000007
+     lqsp r12, 0x70
+    //prgchk reg x12 == 0xf0000000000000000000000000000008
+     lqsp r13, 0x80
+    //prgchk reg x13 == 0xc0000000000000000000000000000009
+     lqsp r14, 0x90
+    //prgchk reg x14 == 0xa000000000000000000000000000000a
+     lqsp r15, 0xa0
+    //prgchk reg x15 == 0xf000000000000000000000000000000b
+     lqsp r16, 0xb0
+    //prgchk reg x16 == 0x000000000000000000000000000000c
+     lqsp r17, 0xc0
+    //prgchk reg x17 == 0xb000000000000000000000000000000d
+     lqsp r18, 0xd0
+    //prgchk reg x18 == 0xa000000000000000000000000000000e
+     lqsp r19, 0xe0
+    //prgchk reg x19 == 0xb000000000000000000000000000000f
+     lqsp r20, 0xf0
+    //prgchk reg x20 == 0xe0000000000000000000000000000000
+ 
     /* save stuff and check */
     la   sp, stacksq
     sqsp(r5, 0x00)
