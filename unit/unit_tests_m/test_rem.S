@@ -19,23 +19,19 @@
 .global _start
 _start:
     la t0, big1
-    lq(t0, 0, t0)
+    lq t0, 0(t0)
 
     la t1, big2
-    lq(t1, 0, t1)
+    lq t1, 0(t1)
 
     rem t2, t0, t1
-    //prgchk reg t2 == 0x7b18ad49488b569a
-    srli(t2, t2, 64)
-    //prgchk reg t2 == 0x40ff
+    //prgchk reg t2 == 0x40ff7b18ad49488b569a
 
     // Check trucature towards 0
     li t0, 3
     li t1, -2
     rem t2, t0, t1
     //prgchk reg t2 == 1
-    srli(t2, t2, 64)
-    //prgchk reg t2 == 0
 
     // Check signedness of division.
     li t0, -2048
@@ -48,40 +44,28 @@ _start:
 
     lqg(t1, div1)
     rem t2, t0, t1
-    //prgchk reg t2 == 0xffffffff9fb7bfc2
-    srli(t2, t2, 64)
-    //prgchk reg t2 == 0xffffffffffffffff
+    //prgchk reg t2 == 0xffffffffffffffffffffffff9fb7bfc2
 
     lqg(t1, div2)
     rem t2, t0, t1
-    //prgchk reg t2 == 0x0241c351efac54ae
-    srli(t2, t2, 64)
-    //prgchk reg t2 == 0xffffffffffffffff
+    //prgchk reg t2 == 0xffffffffffffffff0241c351efac54ae
 
     lqg(t1, div3)
     rem t2, t0, t1
-    //prgchk reg t2 == 0xbf6056b034ce3f72
-    srli(t2, t2, 64)
-    //prgchk reg t2 == 0xfffffffffcb69b69
+    //prgchk reg t2 == 0xfffffffffcb69b69bf6056b034ce3f72
 
     lqg(t1, div4)
     rem t2, t0, t1
-    //prgchk reg t2 == 0x6034e4b6c81ebfcc
-    srli(t2, t2, 64)
-    //prgchk reg t2 == 0xcf3e53431e02fa94
+    //prgchk reg t2 == 0xcf3e53431e02fa946034e4b6c81ebfcc
 
     // Check div by zero behavior
     liu(t1, 0)
     rem t2, t0, t1
-    //prgchk reg t2 == 0x6034e4b6c81ebfcc
-    srli(t2, t2, 64)
-    //prgchk reg t2 == 0xcf3e53431e02fa94
+    //prgchk reg t2 == 0xcf3e53431e02fa946034e4b6c81ebfcc
 
     // Check overflow behavior.
     lqg(t0, minsgn)
     lqg(t1, minone)
     rem t2, t0, t1
-    //prgchk reg t2 == 0
-    srli(t2, t2, 64)
     //prgchk reg t2 == 0
     j exit

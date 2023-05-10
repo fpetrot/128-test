@@ -12,10 +12,10 @@
 main:
     // Basic test of non equal values.
     la t0, val1
-    lq(t0, 0, t0)
+    lq t0, 0(t0)
 
     la t1, val2
-    lq(t1, 0, t1)
+    lq t1, 0(t1)
 
     bne t0, t1, after_tst1
 
@@ -25,24 +25,24 @@ after_tst1:
 
     // Basic test of equal values.
     la t0, val2
-    lq(t0, 0, t0)
+    lq t0, 0(t0)
 
     la t1, val2
-    lq(t1, 0, t1)
+    lq t1, 0(t1)
 
     bne t0, t1, all_err
 
     // Check if upper 64 bits are compared
     la t0, val3
-    lq(t0, 0, t0)
+    lq t0, 0(t0)
 
     la t1, val3
-    lq(t1, 0, t1)
+    lq t1, 0(t1)
 
     bne t0, t1, all_err
 
     la t1, val4
-    lq(t1, 0, t1)
+    lq t1, 0(t1)
 
     bne t0, t1, after_tst2
 

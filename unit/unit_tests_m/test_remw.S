@@ -18,32 +18,22 @@ _start:
     li t1, -2
     remw t2, t0, t1
     //prgchk reg t2 == 1
-    srli(t2, t2, 64)
-    //prgchk reg t2 == 0
 
     // Various basic divisions
     lw t0, w1
     lw t1, w2
     remw t2, t0, t1
-    //prgchk reg t2 == 0xfffffffff49f49f1
-    srli(t2, t2, 64)
-    //prgchk reg t2 == 0xffffffffffffffff
+    //prgchk reg t2 == 0xfffffffffffffffffffffffff49f49f1
 
     remw t2, t1, t0
     //prgchk reg t2 == 0x12345678
-    srli(t2, t2, 64)
-    //prgchk reg t2 == 0
 
     lw t1, w3
     remw t2, t0, t1
-    //prgchk reg t2 == 0xffffffffffffffff
-    srli(t2, t2, 64)
-    //prgchk reg t2 == 0xffffffffffffffff
+    //prgchk reg t2 == 0xffffffffffffffffffffffffffffffff
     
     // Divide by self.
     remw t2, t0, t0
-    //prgchk reg t2 == 0
-    srli(t2, t2, 64)
     //prgchk reg t2 == 0
 
     // Divide by -1
@@ -51,19 +41,13 @@ _start:
     lw t1, w5
     remw t2, t0, t1
     //prgchk reg t2 == 0
-    srli(t2, t2, 64)
-    //prgchk reg t2 == 0
 
     lw t0, w4
     remw t2, t0, t1
     //prgchk reg t2 == 0
-    srli(t2, t2, 64)
-    //prgchk reg t2 == 0
 
     lw t0, w6
     remw t2, t0, t1
-    //prgchk reg t2 == 0
-    srli(t2, t2, 64)
     //prgchk reg t2 == 0
 
     // Check overflow behavior.
@@ -71,14 +55,10 @@ _start:
     lw t1, w5
     remw t2, t0, t1
     //prgchk reg t2 == 0
-    srli(t2, t2, 64)
-    //prgchk reg t2 == 0
 
     // Check div by zero behavior
     lw t0, w1
     liu(t1, 0)
     remw t2, t0, t1
-    //prgchk reg t2 == 0xffffffff87654321
-    srli(t2, t2, 64)
-    //prgchk reg t2 == 0xffffffffffffffff
+    //prgchk reg t2 == 0xffffffffffffffffffffffff87654321
     j exit
