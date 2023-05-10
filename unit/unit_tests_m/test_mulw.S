@@ -17,36 +17,26 @@ _start:
     //prgchk reg t2 == 0x70b88d78
     mulw t2, t1, t0
     //prgchk reg t2 == 0x70b88d78
-    srli(t2, t2, 64)
-    //prgchk reg t2 == 0
 
     lw t0, w2
     lw t1, minusone
     mulw t2, t0, t1
     //prgchk reg t2 == 0x789abcdf
-    srli(t2, t2, 64)
-    //prgchk reg t2 == 0
 
     lw t0, minusone
     lw t1, w3
     mulw t2, t0, t1
     //prgchk reg t2 == 42
-    srli(t2, t2, 64)
-    //prgchk reg t2 == 0
 
     lw t0, minusone
     mulw t2, t0, t0
     //prgchk reg t2 == 1
-    srli(t2, t2, 64)
-    //prgchk reg t2 == 0
 
     // test sign extension
     lw t0, w4
-    liu(t1, 2)
+    liu t1, 2
     mulw t2, t0, t1
     //prgchk reg t2 == 0xffffffffe0000000
     mulw t2, t1, t0
-    //prgchk reg t2 == 0xffffffffe0000000
-    srli(t2, t2, 64)
-    //prgchk reg t2 == 0xffffffffffffffff
+    //prgchk reg t2 == 0xffffffffffffffffffffffffe0000000
     j exit

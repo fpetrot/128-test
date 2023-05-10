@@ -13,72 +13,56 @@
 .global _start
 _start:
     // Test of multiplication of a few large constants.
-    lqg(t0, big1)
-    lqg(t1, big2)
+    lqg t0, big1
+    lqg t1, big2
 
     mulhu t2, t0, t1
-    //prgchk reg t2 == 0x2129d92ab00f39f7
-    srli(t2, t2, 64)
-    //prgchk reg t2 == 0x29bd3b3f18443fa3
+    //prgchk reg t2 == 0x29bd3b3f18443fa32129d92ab00f39f7
 
-    lqg(t0, big4)
-    lqg(t1, big5)
+    lqg t0, big4
+    lqg t1, big5
     mulhu t2, t0, t1
     //prgchk reg t2 == 0x121fa000a3723a57
-    srli(t2, t2, 64)
-    //prgchk reg t2 == 0
 
     mulhu t2, t0, t0
-    //prgchk reg t2 == 0xa6475f09a2f2a521
-    srli(t2, t2, 64)
-    //prgchk reg t2 == 0x14b66dc328828bc
+    //prgchk reg t2 == 0x14b66dc328828bca6475f09a2f2a521
 
     mulhu t2, t1, t1
     //prgchk reg t2 == 0
-    srli(t2, t2, 64)
-    //prgchk reg t2 == 0
 
     // Multiply large by small (with sign bit one : check unsigned mult).
-    lqg(t0, big3)
+    lqg t0, big3
 
     li t1, 358
     mulhu t2, t0, t1
     //prgchk reg t2 == 0x165
-    srli(t2, t2, 64)
-    //prgchk reg t2 == 0
 
     // Max value squared
     la t0, maxval
-    lq(t0, 0, t0)
+    lq t0, 0(t0)
 
     mulhu t1, t0, t0
-    //prgchk reg t1 == 0xfffffffffffffffe
+    //prgchk reg t1 == 0xfffffffffffffffffffffffffffffffe
     srli(t1, t1, 64)
-    //prgchk reg t1 == 0xffffffffffffffff
+    //prgchk reg t1 == 0x
 
     // Mul by zero absorption
-    lqg(t0, big1)
+    lqg t0, big1
     liu(t1, 0)
 
     mulhu t2, t0, t1
     //prgchk reg t2 == 0
-    srli(t2, t2, 64)
-    //prgchk reg t2 == 0
 
     // Big value by max value.
-    lqg(t0, big1)
-    lqg(t1, maxval)
+    lqg t0, big1
+    lqg t1, maxval
 
     mulhu t2, t0, t1
-    //prgchk reg t2 == 0xde577df24a0c25b2
-    srli(t2, t2, 64)
-    //prgchk reg t2 == 0x55fbabad285eb8bf
+    //prgchk reg t2 == 0x55fbabad285eb8bfde577df24a0c25b2
 
     // Negative * -1, but unsigned upper bits.
-    lqg(t0, big3)
-    lqg(t1, maxval)
+    lqg t0, big3
+    lqg t1, maxval
     mulhu t2, t0, t1
-    //prgchk reg t2 == 0x10fedcba98765432
-    srli(t2, t2, 64)
-    //prgchk reg t2 == 0xffffffffffff5432
+    //prgchk reg t2 == 0xffffffffffff543210fedcba98765432
     j exit
