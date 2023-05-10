@@ -27,9 +27,9 @@ after_tst1:
 
     // Test all five orderings of the words.
     la t0, tst1_1
-    lq(t0, 0, t0)
+    lq t0, 0(t0)
     la t1, tst1_2
-    lq(t1, 0, t1)
+    lq t1, 0(t1)
     
     bgeu t0, t1, after_tst2
     //prgchk err
@@ -37,30 +37,30 @@ after_tst1:
 after_tst2:
 
     la t0, tst2_1
-    lq(t0, 0, t0)
+    lq t0, 0(t0)
     la t1, tst2_2
-    lq(t1, 0, t1)
+    lq t1, 0(t1)
     
     bgeu t0, t1, all_err
 
     la t0, tst3_1
-    lq(t0, 0, t0)
+    lq t0, 0(t0)
     la t1, tst3_2
-    lq(t1, 0, t1)
+    lq t1, 0(t1)
     
     bgeu t0, t1, all_err
 
     la t0, tst4_1
-    lq(t0, 0, t0)
+    lq t0, 0(t0)
     la t1, tst4_2
-    lq(t1, 0, t1)
+    lq t1, 0(t1)
     
     bgeu t0, t1, all_err
 
     la t0, tst5_1
-    lq(t0, 0, t0)
+    lq t0, 0(t0)
     la t1, tst5_2
-    lq(t1, 0, t1)
+    lq t1, 0(t1)
     
     bgeu t0, t1, after_tst3
     //prgchk err

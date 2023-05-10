@@ -6,99 +6,99 @@
 _start:
     li t0, 0xdeadbeefcafebabe
     sraid(t2, t0, 0)
-    //prgchk reg t2 == 0xdeadbeefcafebabe
+    //prgchk reg t2 == 0xffffffffffffffffdeadbeefcafebabe
     srli(t2, t2, 64)
     //prgchk reg t2 == 0xffffffffffffffff
     sraid(t2, t0, 1)
-    //prgchk reg t2 == 0xef56df77e57f5d5f
+    //prgchk reg t2 == 0xffffffffffffffffef56df77e57f5d5f
     srli(t2, t2, 64)
     //prgchk reg t2 == 0xffffffffffffffff
     sraid(t2, t0, 2)
-    //prgchk reg t2 == 0xf7ab6fbbf2bfaeaf
+    //prgchk reg t2 == 0xfffffffffffffffff7ab6fbbf2bfaeaf
     srli(t2, t2, 64)
     //prgchk reg t2 == 0xffffffffffffffff
     sraid(t2, t0, 3)
-    //prgchk reg t2 == 0xfbd5b7ddf95fd757
+    //prgchk reg t2 == 0xfffffffffffffffffbd5b7ddf95fd757
     srli(t2, t2, 64)
     //prgchk reg t2 == 0xffffffffffffffff
     sraid(t2, t0, 4)
-    //prgchk reg t2 == 0xfdeadbeefcafebab
+    //prgchk reg t2 == 0xfffffffffffffffffdeadbeefcafebab
     srli(t2, t2, 64)
     //prgchk reg t2 == 0xffffffffffffffff
     sraid(t2, t0, 5)
-    //prgchk reg t2 == 0xfef56df77e57f5d5
+    //prgchk reg t2 == 0xfffffffffffffffffef56df77e57f5d5
     srli(t2, t2, 64)
     //prgchk reg t2 == 0xffffffffffffffff
     sraid(t2, t0, 6)
-    //prgchk reg t2 == 0xff7ab6fbbf2bfaea
+    //prgchk reg t2 == 0xffffffffffffffffff7ab6fbbf2bfaea
     srli(t2, t2, 64)
     //prgchk reg t2 == 0xffffffffffffffff
     sraid(t2, t0, 7)
-    //prgchk reg t2 == 0xffbd5b7ddf95fd75
+    //prgchk reg t2 == 0xffffffffffffffffffbd5b7ddf95fd75
     srli(t2, t2, 64)
     //prgchk reg t2 == 0xffffffffffffffff
     sraid(t2, t0, 8)
-    //prgchk reg t2 == 0xffdeadbeefcafeba
+    //prgchk reg t2 == 0xffffffffffffffffffdeadbeefcafeba
     srli(t2, t2, 64)
     //prgchk reg t2 == 0xffffffffffffffff
     sraid(t2, t0, 9)
-    //prgchk reg t2 == 0xffef56df77e57f5d
+    //prgchk reg t2 == 0xffffffffffffffffffef56df77e57f5d
     srli(t2, t2, 64)
     //prgchk reg t2 == 0xffffffffffffffff
     sraid(t2, t0, 10)
-    //prgchk reg t2 == 0xfff7ab6fbbf2bfae
+    //prgchk reg t2 == 0xfffffffffffffffffff7ab6fbbf2bfae
     srli(t2, t2, 64)
     //prgchk reg t2 == 0xffffffffffffffff
     sraid(t2, t0, 11)
-    //prgchk reg t2 == 0xfffbd5b7ddf95fd7
+    //prgchk reg t2 == 0xfffffffffffffffffffbd5b7ddf95fd7
     srli(t2, t2, 64)
     //prgchk reg t2 == 0xffffffffffffffff
     sraid(t2, t0, 12)
-    //prgchk reg t2 == 0xfffdeadbeefcafeb
+    //prgchk reg t2 == 0xfffffffffffffffffffdeadbeefcafeb
     srli(t2, t2, 64)
     //prgchk reg t2 == 0xffffffffffffffff
     sraid(t2, t0, 13)
-    //prgchk reg t2 == 0xfffef56df77e57f5
+    //prgchk reg t2 == 0xfffffffffffffffffffef56df77e57f5
     srli(t2, t2, 64)
     //prgchk reg t2 == 0xffffffffffffffff
     sraid(t2, t0, 14)
-    //prgchk reg t2 == 0xffff7ab6fbbf2bfa
+    //prgchk reg t2 == 0xffffffffffffffffffff7ab6fbbf2bfa
     srli(t2, t2, 64)
     //prgchk reg t2 == 0xffffffffffffffff
     sraid(t2, t0, 15)
-    //prgchk reg t2 == 0xffffbd5b7ddf95fd
+    //prgchk reg t2 == 0xffffffffffffffffffffbd5b7ddf95fd
     srli(t2, t2, 64)
     //prgchk reg t2 == 0xffffffffffffffff
     sraid(t2, t0, 16)
-    //prgchk reg t2 == 0xffffdeadbeefcafe
+    //prgchk reg t2 == 0xffffffffffffffffffffdeadbeefcafe
     srli(t2, t2, 64)
     //prgchk reg t2 == 0xffffffffffffffff
     sraid(t2, t0, 17)
-    //prgchk reg t2 == 0xffffef56df77e57f
+    //prgchk reg t2 == 0xffffffffffffffffffffef56df77e57f
     srli(t2, t2, 64)
     //prgchk reg t2 == 0xffffffffffffffff
     sraid(t2, t0, 18)
-    //prgchk reg t2 == 0xfffff7ab6fbbf2bf
+    //prgchk reg t2 == 0xfffffffffffffffffffff7ab6fbbf2bf
     srli(t2, t2, 64)
     //prgchk reg t2 == 0xffffffffffffffff
     sraid(t2, t0, 19)
-    //prgchk reg t2 == 0xfffffbd5b7ddf95f
+    //prgchk reg t2 == 0xfffffffffffffffffffffbd5b7ddf95f
     srli(t2, t2, 64)
     //prgchk reg t2 == 0xffffffffffffffff
     sraid(t2, t0, 20)
-    //prgchk reg t2 == 0xfffffdeadbeefcaf
+    //prgchk reg t2 == 0xfffffffffffffffffffffdeadbeefcaf
     srli(t2, t2, 64)
     //prgchk reg t2 == 0xffffffffffffffff
     sraid(t2, t0, 21)
-    //prgchk reg t2 == 0xfffffef56df77e57
+    //prgchk reg t2 == 0xfffffffffffffffffffffef56df77e57
     srli(t2, t2, 64)
     //prgchk reg t2 == 0xffffffffffffffff
     sraid(t2, t0, 22)
-    //prgchk reg t2 == 0xffffff7ab6fbbf2b
+    //prgchk reg t2 == 0xffffffffffffffffffffff7ab6fbbf2b
     srli(t2, t2, 64)
     //prgchk reg t2 == 0xffffffffffffffff
     sraid(t2, t0, 23)
-    //prgchk reg t2 == 0xffffffbd5b7ddf95
+    //prgchk reg t2 == 0xffffffffffffffffffffffbd5b7ddf95
     srli(t2, t2, 64)
     //prgchk reg t2 == 0xffffffffffffffff
     sraid(t2, t0, 24)

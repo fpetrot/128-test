@@ -16,78 +16,58 @@
 .globl _start
 _start:
     la t0, test_quad
-    lq(t0, 0, t0)
+    lq t0, 0, t0
 
     // and with zero : movi 0
     li t1, 0
     and t1, t0, t1
-    //prgchk reg t1 == 0
-    srli(t1, t1, 64)
-    //prgchk reg t1 == 0
+    //prgchk reg t1 == 0x00000000000000000000000000000000
 
     // and with -1 : no-op
     li t1, -1
     and t1, t0, t1
-    //prgchk reg t1 == 0x0ec94d28201e1869
-    srli(t1, t1, 64)
-    //prgchk reg t1 == 0x75033785b9ca9eec
+    //prgchk reg t1 == 0x75033785b9ca9eec0ec94d28201e1869
 
     // various masks
     la t1, test_mask1
-    lq(t1, 0, t1)
+    lq t1, 0, t1
     and t2, t0, t1
-    //prgchk reg t2 == 0x0441450000141041
-    srli(t2, t2, 64)
-    //prgchk reg t2 == 0x5501150511401444
+    //prgchk reg t2 == 0x55011505114014440441450000141041
 
     la t1, test_mask2
-    lq(t1, 0, t1)
+    lq t1, 0, t1
     and t2, t0, t1
-    //prgchk reg t2 == 0x0648442800140869
-    srli(t2, t2, 64)
-    //prgchk reg t2 == 0x10001204a9c88acc
+    //prgchk reg t2 == 0x10001204a9c88acc0648442800140869
 
     la t1, mask_byte
-    lq(t1, 0, t1)
+    lq t1, 0, t1
     and t2, t0, t1
-    //prgchk reg t2 == 0x69
-    srli(t2, t2, 64)
-    //prgchk reg t2 == 0
+    //prgchk reg t2 == 0x00000000000000000000000000000069
 
     la t1, mask_half
-    lq(t1, 0, t1)
+    lq t1, 0, t1
     and t2, t0, t1
-    //prgchk reg t2 == 0x1869
-    srli(t2, t2, 64)
-    //prgchk reg t2 == 0
+    //prgchk reg t2 == 0x00000000000000000000000000001869
 
     la t1, mask_word
-    lq(t1, 0, t1)
+    lq t1, 0, t1
     and t2, t0, t1
-    //prgchk reg t2 == 0x201e1869
-    srli(t2, t2, 64)
-    //prgchk reg t2 == 0
+    //prgchk reg t2 == 0x000000000000000000000000201e1869
 
     la t1, mask_dword
-    lq(t1, 0, t1)
+    lq t1, 0, t1
     and t2, t0, t1
-    //prgchk reg t2 == 0x0ec94d28201e1869
-    srli(t2, t2, 64)
-    //prgchk reg t2 == 0
+    //prgchk reg t2 == 0x00000000000000000ec94d28201e1869
 
     la t1, mask_sign
-    lq(t1, 0, t1)
+    lq t1, 0, t1
     and t2, t0, t1
-    //prgchk reg t2 == 0
-    srli(t2, t2, 64)
-    //prgchk reg t2 == 0
+    //prgchk reg t2 == 0x00000000000000000000000000000000
 
     la t0, test_neg
-    lq(t0, 0, t0)
+    lq t0, 0, t0
     la t1, mask_sign
-    lq(t1, 0, t1)
+    lq t1, 0, t1
     and t2, t0, t1
-    //prgchk reg t2 == 0
-    srli(t2, t2, 64)
-    //prgchk reg t2 == 0x8000000000000000
+    //prgchk reg t2 == 0x80000000000000000000000000000000
     j exit

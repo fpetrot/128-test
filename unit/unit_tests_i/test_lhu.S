@@ -17,79 +17,52 @@ _start:
     // Arbitrary value loading (checks sign ext to 128 bits)
     la t0, tst0
     lhu t0, 0(t0)
-    //prgchk reg t0 == 0x8086
-    srli(t0, t0, 64)
-    //prgchk reg t0 == 0
+    //prgchk reg t0 == 0x00000000000000000000000000008086
+
 
     la t0, tst1
     lhu t0, 0(t0)
-    //prgchk reg t0 == 0x4243
-    srli(t0, t0, 64)
-    //prgchk reg t0 == 0
+    //prgchk reg t0 == 0x00000000000000000000000000004243
 
     la t0, tst2
     lhu t0, 0(t0)
     //prgchk reg t0 == 0
-    srli(t0, t0, 64)
-    //prgchk reg t0 == 0
 
     la t0, tst3
     lhu t0, 0(t0)
-    //prgchk reg t0 == 0xffff
-    srli(t0, t0, 64)
-    //prgchk reg t0 == 0
+    //prgchk reg t0 == 0x0000000000000000000000000000ffff
 
     // Unaligned loads
     la t1, unaligned_1
     lhu t1, 0(t1)
-    //prgchk reg t1 == 0x5341
-    srli(t1, t1, 64)
-    //prgchk reg t1 == 0
+    //prgchk reg t1 == 0x00000000000000000000000000005341
 
     // Check loads with offsets.
     la t0, tab_tst
     lhu t1, 0(t0)
     //prgchk reg t1 == 1
-    srli(t1, t1, 64)
-    //prgchk reg t1 == 0
     
     lhu t1, 2(t0)
     //prgchk reg t1 == 2
-    srli(t1, t1, 64)
-    //prgchk reg t1 == 0
     
     lhu t1, 4(t0)
     //prgchk reg t1 == 3
-    srli(t1, t1, 64)
-    //prgchk reg t1 == 0
 
     lhu t1, 6(t0)
     //prgchk reg t1 == 5
-    srli(t1, t1, 64)
-    //prgchk reg t1 == 0
 
     lhu t1, 8(t0)
     //prgchk reg t1 == 7
-    srli(t1, t1, 64)
-    //prgchk reg t1 == 0
 
     lhu t1, 10(t0)
     //prgchk reg t1 == 11
-    srli(t1, t1, 64)
-    //prgchk reg t1 == 0
 
     lhu t1, 12(t0)
     //prgchk reg t1 == 13
-    srli(t1, t1, 64)
-    //prgchk reg t1 == 0
 
     lhu t1, 14(t0)
     //prgchk reg t1 == 17
-    srli(t1, t1, 64)
-    //prgchk reg t1 == 0
 
     lhu t1, 16(t0)
-    //prgchk reg t1 == 0xffff
-    srli(t1, t1, 64)
-    //prgchk reg t1 == 0
+    //prgchk reg t1 == 0x0000000000000000000000000000ffff
     j exit

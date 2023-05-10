@@ -67,99 +67,96 @@
 _start:
     // Test store and load in succession.
     la t0, store_1
-    liu(t1, 0xdeadbeefcafebabe)
-    slli(t1, t1, 64)
-    liu(t2, 0xfeedbeefbeeffeed)
+    liu t1, 0xdeadbeefcafebabe0000000000000000
+    liu t2, 0xfeedbeefbeeffeed
     or t1, t1, t2
-    sq(t1, 0, t0)
-    lq(t2, 0, t0)
-    //prgchk reg t2 == 0xfeedbeefbeeffeed
-    srli(t2, t2, 64)
-    //prgchk reg t2 == 0xdeadbeefcafebabe
+    sq t1, 0, t0
+    lq t2, 0(t0)
+    //prgchk reg t2 == 0xdeadbeefcafebabefeedbeefbeeffeed
+
 
     // Check standalone store.
     la t0, varl
-    liu(t1, 0xabcd12346321dcba)
-    slli(t1, t1, 64)
-    liu(t2, 0x7412589633698521)
+    liu t1, 0xabcd12346321dcba0000000000000000
+    liu t2, 0x7412589633698521
     or t1, t1, t2
-    sq(t1, 0, t0)
+    sq t1, 0, t0
     //prgchk var varl == 0x7412589633698521
     //prgchk var varh == 0xabcd12346321dcba
 
     // Check unaligned stores
     la t0, unal1l
-    sq(t1, 0, t0)
+    sq t1, 0, t0
     //prgchk var unal1l == 0x7412589633698521
     //prgchk var unal1h == 0xabcd12346321dcba
     
     la t0, unal2l
-    sq(t1, 0, t0)
+    sq t1, 0, t0
     //prgchk var unal2l == 0x7412589633698521
     //prgchk var unal2h == 0xabcd12346321dcba
 
     la t0, unal3l
-    sq(t1, 0, t0)
+    sq t1, 0, t0
     //prgchk var unal3l == 0x7412589633698521
     //prgchk var unal3h == 0xabcd12346321dcba
 
     la t0, unal4l
-    sq(t1, 0, t0)
+    sq t1, 0, t0
     //prgchk var unal4l == 0x7412589633698521
     //prgchk var unal4h == 0xabcd12346321dcba
 
     la t0, unal5l
-    sq(t1, 0, t0)
+    sq t1, 0, t0
     //prgchk var unal5l == 0x7412589633698521
     //prgchk var unal5h == 0xabcd12346321dcba
 
     la t0, unal6l
-    sq(t1, 0, t0)
+    sq t1, 0, t0
     //prgchk var unal6l == 0x7412589633698521
     //prgchk var unal6h == 0xabcd12346321dcba
 
     la t0, unal7l
-    sq(t1, 0, t0)
+    sq t1, 0, t0
     //prgchk var unal7l == 0x7412589633698521
     //prgchk var unal7h == 0xabcd12346321dcba
 
     la t0, unal8l
-    sq(t1, 0, t0)
+    sq t1, 0, t0
     //prgchk var unal8l == 0x7412589633698521
     //prgchk var unal8h == 0xabcd12346321dcba
 
     la t0, unal9l
-    sq(t1, 0, t0)
+    sq t1, 0, t0
     //prgchk var unal9l == 0x7412589633698521
     //prgchk var unal9h == 0xabcd12346321dcba
 
     la t0, unal10l
-    sq(t1, 0, t0)
+    sq t1, 0, t0
     //prgchk var unal10l == 0x7412589633698521
     //prgchk var unal10h == 0xabcd12346321dcba
 
     la t0, unal11l
-    sq(t1, 0, t0)
+    sq t1, 0, t0
     //prgchk var unal11l == 0x7412589633698521
     //prgchk var unal11h == 0xabcd12346321dcba
 
     la t0, unal12l
-    sq(t1, 0, t0)
+    sq t1, 0, t0
     //prgchk var unal12l == 0x7412589633698521
     //prgchk var unal12h == 0xabcd12346321dcba
 
     la t0, unal13l
-    sq(t1, 0, t0)
+    sq t1, 0, t0
     //prgchk var unal13l == 0x7412589633698521
     //prgchk var unal13h == 0xabcd12346321dcba
 
     la t0, unal14l
-    sq(t1, 0, t0)
+    sq t1, 0, t0
     //prgchk var unal14l == 0x7412589633698521
     //prgchk var unal14h == 0xabcd12346321dcba
 
     la t0, unal15l
-    sq(t1, 0, t0)
+    sq t1, 0, t0
     //prgchk var unal15l == 0x7412589633698521
     //prgchk var unal15h == 0xabcd12346321dcba
 
@@ -170,35 +167,35 @@ _start:
     li t2, 0x1234567890abcdef
     or t1, t1, t2
 
-    sq(t1, 0, t0)
+    sq t1, 0, t0
     //prgchk gdb ((unsigned long*) &tab_tst)[0] == 0x1234567890abcdef
     //prgchk gdb ((unsigned long*) &tab_tst)[1] == 0xdeadbeefcafebabe
 
-    sq(t1, 16, t0)
+    sq t1, 16, t0
     //prgchk gdb ((unsigned long*) &tab_tst)[2] == 0x1234567890abcdef
     //prgchk gdb ((unsigned long*) &tab_tst)[3] == 0xdeadbeefcafebabe
 
-    sq(t1, 32, t0)
+    sq t1, 32, t0
     //prgchk gdb ((unsigned long*) &tab_tst)[4] == 0x1234567890abcdef
     //prgchk gdb ((unsigned long*) &tab_tst)[5] == 0xdeadbeefcafebabe
 
-    sq(t1, 48, t0)
+    sq t1, 48, t0
     //prgchk gdb ((unsigned long*) &tab_tst)[6] == 0x1234567890abcdef
     //prgchk gdb ((unsigned long*) &tab_tst)[7] == 0xdeadbeefcafebabe
 
-    sq(t1, 64, t0)
+    sq t1, 64, t0
     //prgchk gdb ((unsigned long*) &tab_tst)[8] == 0x1234567890abcdef
     //prgchk gdb ((unsigned long*) &tab_tst)[9] == 0xdeadbeefcafebabe
 
-    sq(t1, 80, t0)
+    sq t1, 80, t0
     //prgchk gdb ((unsigned long*) &tab_tst)[10] == 0x1234567890abcdef
     //prgchk gdb ((unsigned long*) &tab_tst)[11] == 0xdeadbeefcafebabe
 
-    sq(t1, 96, t0)
+    sq t1, 96, t0
     //prgchk gdb ((unsigned long*) &tab_tst)[12] == 0x1234567890abcdef
     //prgchk gdb ((unsigned long*) &tab_tst)[13] == 0xdeadbeefcafebabe
 
-    sq(t1, 112, t0)
+    sq t1, 112, t0
     //prgchk gdb ((unsigned long*) &tab_tst)[14] == 0x1234567890abcdef
     //prgchk gdb ((unsigned long*) &tab_tst)[15] == 0xdeadbeefcafebabe
 
@@ -206,11 +203,11 @@ _start:
     la t0, bigtab_mid
     //prgchk gdb ((unsigned long*) &bigtab_start)[0] != 0x1234567890abcdef
     //prgchk gdb ((unsigned long*) &bigtab_start)[1] != 0xdeadbeefcafebabe
-    sq(t1, -2048, t0)
+    sq t1, -2048, t0
     //prgchk gdb ((unsigned long*) &bigtab_start)[0] == 0x1234567890abcdef
     //prgchk gdb ((unsigned long*) &bigtab_start)[1] == 0xdeadbeefcafebabe
 
-    sq(t1, 2047, t0)
+    sq t1, 2047, t0
     //prgchk gdb ((unsigned long*) &bigtab_end)[0] == 0x1234567890abcdef
     //prgchk gdb ((unsigned long*) &bigtab_end)[1] == 0xdeadbeefcafebabe
     j exit

@@ -9,34 +9,23 @@ _start:
     // have the behavior we expect
     li   t0, 0xdeadbeef // The non animal right activist constant
     li   t1, 0xcafebabe // The non politically correct constant
-    slli (t0, t0, 96)
+    slli t0, t0, 96
     or    t2, t1, t0
     // first check read and write
     csrw mscratch, t2
     csrr t3, mscratch
-    //prgchk reg t3 == 0x00000000cafebabe
-    srli(t3, t3, 64)
-    //prgchk reg t3 == 0xdeadbeef00000000
+    //prgchk reg t3 == 0xdeadbeef0000000000000000cafebabe
     // check swap
-    slli (t5, t1, 32)
-    srli (t4, t0, 32)
+    slli t5, t1, 32
     or    t2, t5, t4
     csrrw t4, mscratch, t2
-    //prgchk reg t4 == 0x00000000cafebabe
-    srli(t4, t4, 64)
-    //prgchk reg t4 == 0xdeadbeef00000000
+    //prgchk reg t4 == 0xdeadbeef0000000000000000cafebabe
     csrr t3, mscratch
-    //prgchk reg t3 == 0xcafebabe00000000
-    srli(t3, t3, 64)
-    //prgchk reg t3 == 0x00000000deadbeef
+    //prgchk reg t3 == 0x00000000deadbeefcafebabe00000000
     csrrsi   zero, mscratch, 15
     csrr t3, mscratch
-    //prgchk reg t3 == 0xcafebabe0000000f
-    srli(t3, t3, 64)
-    //prgchk reg t3 == 0x00000000deadbeef
+    //prgchk reg t3 == 0x00000000deadbeefcafebabe0000000f
     csrrci   zero, mscratch, 10
     csrr t3, mscratch
-    //prgchk reg t3 == 0xcafebabe00000005
-    srli(t3, t3, 64)
-    //prgchk reg t3 == 0x00000000deadbeef
+    //prgchk reg t3 == 0x00000000deadbeefcafebabe00000005
     j exit
