@@ -27,7 +27,7 @@ _start:
     // xor with zero dest : no-op
     xor zero, t0, t1
     //prgchk reg zero == 0
-    liu t1, zero
+    liu(t1, zero)
     //prgchk reg t1 == 0
 
     // xor with self : mov zero

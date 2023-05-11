@@ -31,6 +31,6 @@ _start:
     //prgchk reg zero == 0
 
     // Test overflow into upper 64 bits.
-    liu t1, 0x10000000000000000
+    liu(t1, 0x10000000000000000)
     //prgchk reg t1 == 0x10000000000000000
     j exit

@@ -34,7 +34,7 @@ _start:
 
     // test sign extension
     ld t0, d4
-    liu t1, 2
+    liu(t1, 2)
     muld t2, t0, t1
     //prgchk reg t2 == 0xe000000000000000
     muld t2, t1, t0

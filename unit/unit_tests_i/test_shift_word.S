@@ -15,7 +15,7 @@ _start:
     //prgchk reg t0 == 0
 
     // --- SRLIW
-    liu(t0, 0xffffffff)
+    liu(t0, 0xfffffff)
     
     srliw t1, t0, 4
     //prgchk reg t1 == 0x000000000fffffff
@@ -40,7 +40,7 @@ _start:
     sraiw t1, t0, 4
     //prgchk reg t1 == 0xfffffffff8000000
 
-    liu(t0, 0x70000000)
+    liu(t0, 0x70000000
     
     sraiw t1, t0, 1
     //prgchk reg t1 == 0x0000000038000000

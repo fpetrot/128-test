@@ -4,7 +4,7 @@
 .section .text.init,"ax",@progbits
 .globl _start
 _start:
-    liu t0, 0xffffffffffffffff
+    liu(t0, 0xffffffffffffffff)
     //prgchk reg t0 == 0xffffffffffffffff
     liu  t1, t0
     or t1, t1, t0

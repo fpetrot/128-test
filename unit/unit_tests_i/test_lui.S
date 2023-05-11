@@ -18,8 +18,8 @@ _start:
     //prgchk reg t3 == 0xfffffffffffffffffffffffffffff000
 
     // Load garbage and then lui 0, check if zeroed correctly.
-    liu t0, 0xffffffffffffffff
-    liu t1, 0xffffffffffffffff
+    liu(t0, 0xffffffffffffffff
+    liu(t1, 0xffffffffffffffff
     or t0, t0, t1
 
     lui t0, 0

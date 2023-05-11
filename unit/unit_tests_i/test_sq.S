@@ -67,8 +67,9 @@
 _start:
     // Test store and load in succession.
     la t0, store_1
-    liu t1, 0xdeadbeefcafebabe0000000000000000
-    liu t2, 0xfeedbeefbeeffeed
+    liu(t1, 0xdeadbeefcafebabe)
+    slli t1, t1, 64
+    liu(t2, 0xfeedbeefbeeffeed)
     or t1, t1, t2
     sq t1, 0, t0
     lq t2, 0(t0)
@@ -77,8 +78,9 @@ _start:
 
     // Check standalone store.
     la t0, varl
-    liu t1, 0xabcd12346321dcba0000000000000000
-    liu t2, 0x7412589633698521
+    liu(t1, 0xabcd12346321dcba)
+    slli t1, t1, 64
+    liu(t2, 0x7412589633698521)    
     or t1, t1, t2
     sq t1, 0, t0
     //prgchk var varl == 0x7412589633698521

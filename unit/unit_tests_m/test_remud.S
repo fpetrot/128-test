@@ -46,7 +46,7 @@ _start:
 
     // Check div by zero behavior
     ld t0, w1
-    liu t1, 0
+    liu(t1, 0)
     remud t2, t0, t1
     //prgchk reg t2 == 0xfffffffffffffffffedcba0987654321
     j exit

@@ -32,11 +32,11 @@ _start:
     // xori with zero dest : no-op
     xori zero, t0, 42
     //prgchk reg zero == 0
-    liu t1, zero
+    liu(t1, zero)
     //prgchk reg t1 == 0
 
     // xori with self : mov zero
-    liu t1, 1789
+    liu(t1, 1789)
     xori t2, t1, 1789
     //prgchk reg t2 == 0
     j exit

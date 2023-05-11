@@ -28,8 +28,6 @@ _start:
     li t1, 1
     divu t2, t0, t1
     //prgchk reg t2 == 0x7c4574e203312d7c2eccfc6e195e28ec
-    srli(t2, t2, 64)
-    //prgchk reg t2 == 0x
 
     // Div by self.
     divu t2, t0, t0
@@ -46,13 +44,13 @@ _start:
     //prgchk reg t2 == 0
  
     // Simple small division (no remainder)
-    liu t0, 21
-    liu t1, 3
+    liu(t0, 21)
+    liu(t1, 3)
     divu t2, t0, t1
     //prgchk reg t2 == 7
  
-    liu t0, 37
-    liu t1, 5
+    liu(t0, 37)
+    liu(t1, 5)
     divu t2, t0, t1
     //prgchk reg t2 == 7
  
@@ -83,9 +81,7 @@ _start:
     //prgchk reg t2 == 1
  
     // Check div by zero behavior
-    liu t1, 0
+    liu(t1, 0)
     divu t2, t0, t1
     //prgchk reg t2 == 0xffffffffffffffffffffffffffffffff
-    srli(t2, t2, 64)
-    //prgchk reg t2 == 0x
     j exit

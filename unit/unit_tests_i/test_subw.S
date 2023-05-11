@@ -13,21 +13,21 @@ _start:
 
     subw t2, t0, t1
     //prgchk reg t2 == 0xffffffffffffffff
-    liu t3, t2, 64
+    liu(t3, t2, 64)
     //prgchk reg t3 == 0xffffffffffffffffffffffffffffffff
 
     // No effect subtraction : 0x12345678 - 0
-    liu t1, 0x12345678
+    1, 0x12345678
 
     subw t2, t1, t0
     //prgchk reg t2 == 0x12345678
-    liu t3, t2, 64
+    liu(t3, t2, 64)
     //prgchk reg t3 == 0x12345678
 
     // Destination to r0 : no effect
     subw zero, t1, t0
     //prgchk reg zero == 0
-    liu t0, zero
+    liu(t0, zero)
     //prgchk reg t0 == 0
 
     // Subtract with self on 32 bits (with bits above 31 set)
@@ -42,12 +42,12 @@ _start:
 
     subw t2, t0, t1
     //prgchk reg t2 == 0x99be807
-    liu t3, t2, 64
+    liu(t3, t2, 64)
     //prgchk reg t3 == 0x99be807
 
     // Subtract two arbitrary 32-bit values (negative result).
     subw t2, t1, t0
     //prgchk reg t2 == 0xfffffffff66417f9
-    liu t3, t2, 64
+    liu(t3, t2, 64)
     //prgchk reg t3 == 0xfffffffffffffffffffffffff66417f9
     j exit

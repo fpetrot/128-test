@@ -45,7 +45,7 @@ _start:
 
 
     // Check div by zero behavior
-    liu t1, 0
+    liu(t1, 0)
     
     div t2, t0, t1
     //prgchk reg t2 == 0xffffffffffffffff
@@ -63,17 +63,17 @@ _start:
 
 
     // Check various divisor sizes.
-    lqg(t0, big1
-    lqg(t1, big2
+    lqg(t0, big1)
+    lqg(t1, big2)
     div t2, t0, t1
     //prgchk reg t2 == 0x25bae629
  
 
-    lqg(t1, big3
+    lqg(t1, big3)
     div t2, t0, t1
 
 
-    lqg(t1, big4
+    lqg(t1, big4)
     div t2, t0, t1
     //prgchk reg t2 == 0x2ff60f26e1ccda1e0ae1e9dc
 

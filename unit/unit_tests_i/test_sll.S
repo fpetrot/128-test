@@ -4,41 +4,41 @@
 .section .text.init,"ax",@progbits
 .globl _start
 _start:
-    liu t0, 0xffffffffffffffff
+    liu(t0, 0xffffffffffffffff)
     //prgchk reg t0 == 0xffffffffffffffff
-    liu t1, 32
+    liu(t1, 32
     //prgchk reg t1 == 32
 
-    liu t2, 0xffffffffffffffff
-    //prgchk reg t2 == 0xffffffffffffffff
+    liu(t2, 0xffffffffffffffff)
+    //prgchk reg t2 == 0xffffffffffffffff)
     sll t2, t0, t1
     //prgchk reg t2 == 0x00000000ffffffffffffffff00000000
 
     // Shift by zero
     lui t0, 0
     //progchk reg t0 == 0
-    liu t1, 0xdeadbeefcafebabf
+    liu(t1, 0xdeadbeefcafebabf)
     //prgchk reg t1 == 0xdeadbeefcafebabf
     sll t2, t1, t0
     //prgchk reg t2 == 0xdeadbeefcafebabf
 
     // Shift by max shift
-    liu t0, 127
+    liu(t0, 127)
     //prgchk reg t0 == 127
     sll t2, t1, t0
     //prgchk reg t2 == 0x80000000000000000000000000000000
 
     // Incremental shifts
-    liu t0, 0xdeadbeefcafebabf0000000000000000
-    liu t1, 0xcafed00ddeaddead
+    liu(t0, 0xdeadbeefcafebabf0000000000000000
+    liu(t1, 0xcafed00ddeaddead)
     or t0, t0, t1
-    liu t1, 0
+    liu(t1, 0)
     sll t2, t0, t1
     //prgchk reg t2 == 0xdeadbeefcafebabfcafed00ddeaddead
-    liu t1, 1
+    liu(t1, 1)
     sll t2, t0, t1
     //prgchk reg t2 == 0xbd5b7ddf95fd757f95fda01bbd5bbd5a
-    liu t1, 2
+    liu(t1, 2)
     sll t2, t0, t1
     //prgchk reg t2 == 0x7ab6fbbf2bfaeaff2bfb40377ab77ab4
     li t1, 3
