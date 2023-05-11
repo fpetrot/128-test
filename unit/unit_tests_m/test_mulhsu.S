@@ -13,14 +13,14 @@
 .globl _start
 _start:
     // Test of multiplication of a few large constants.
-    lqg t0, big1
-    lqg t1, big2
+    lqg(t0, big1)
+    lqg(t1, big2)
 
     mulhsu t2, t0, t1
     //prgchk reg t2 == 0x29bd3b3f18443fa32129d92ab00f39f7
 
-    lqg t0, big4
-    lqg t1, big5
+    lqg(t0, big4)
+    lqg(t1, big5)
     mulhsu t2, t0, t1
     //prgchk reg t2 == 0x121fa000a3723a57
 
@@ -31,28 +31,28 @@ _start:
     //prgchk reg t2 == 0
 
     // Multiply large by small
-    lqg t0, big3
+    lqg(t0, big3)
 
     li t1, 358
     mulhsu t2, t0, t1
     //prgchk reg t2 == 0xffffffffffffffffffffffffffffffff
 
     // Max value squared
-    lqg t0, maxval
+    lqg(t0, maxval)
 
     mulhsu t1, t0, t0
     //prgchk reg t1 == 0xffffffffffffffffffffffffffffffff
 
     // Mul by zero absorption
-    lqg t0, big1
+    lqg(t0, big1)
     liu(t1, 0)
 
     mulhsu t2, t0, t1
     //prgchk reg t2 == 0
 
     // Big value by max value.
-    lqg t0, big1
-    lqg t1, maxval
+    lqg(t0, big1)
+    lqg(t1, maxval)
 
     mulhsu t2, t0, t1
     //prgchk reg t2 == 0x55fbabad285eb8bfde577df24a0c25b2
@@ -61,8 +61,8 @@ _start:
     //prgchk reg t2 == 0xffffffffffffffffffffffffffffffff
 
     // Negative * -1.
-    lqg t0, big3
-    lqg t1, maxval
+    lqg(t0, big3)
+    lqg(t1, maxval)
     mulhsu t2, t0, t1
     //prgchk reg t2 == 0xffffffffffff543210fedcba98765433
 

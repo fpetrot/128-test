@@ -13,14 +13,14 @@
 .global _start
 _start:
     // Test of multiplication of a few large constants.
-    lqg t0, big1
-    lqg t1, big2
+    lqg(t0, big1)
+    lqg(t1, big2)
 
     mulhu t2, t0, t1
     //prgchk reg t2 == 0x29bd3b3f18443fa32129d92ab00f39f7
 
-    lqg t0, big4
-    lqg t1, big5
+    lqg(t0, big4)
+    lqg(t1, big5)
     mulhu t2, t0, t1
     //prgchk reg t2 == 0x121fa000a3723a57
 
@@ -31,7 +31,7 @@ _start:
     //prgchk reg t2 == 0
 
     // Multiply large by small (with sign bit one : check unsigned mult).
-    lqg t0, big3
+    lqg(t0, big3)
 
     li t1, 358
     mulhu t2, t0, t1
@@ -47,22 +47,22 @@ _start:
     //prgchk reg t1 == 0x
 
     // Mul by zero absorption
-    lqg t0, big1
+    lqg(t0, big1)
     liu(t1, 0)
 
     mulhu t2, t0, t1
     //prgchk reg t2 == 0
 
     // Big value by max value.
-    lqg t0, big1
-    lqg t1, maxval
+    lqg(t0, big1)
+    lqg(t1, maxval)
 
     mulhu t2, t0, t1
     //prgchk reg t2 == 0x55fbabad285eb8bfde577df24a0c25b2
 
     // Negative * -1, but unsigned upper bits.
-    lqg t0, big3
-    lqg t1, maxval
+    lqg(t0, big3)
+    lqg(t1, maxval)
     mulhu t2, t0, t1
     //prgchk reg t2 == 0xffffffffffff543210fedcba98765432
     j exit
