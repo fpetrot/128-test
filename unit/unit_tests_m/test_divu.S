@@ -16,72 +16,92 @@
 .global _start
 _start:
     la t0, big1
-     lq t0, 0(t0)
+    lq(t0, 0, t0)
 
     la t1, big2
-     lq t1, 0(t1)
+    lq(t1, 0, t1)
 
     divu t2, t0, t1
     //prgchk reg t2 == 0x6d390bbaa4ce
- 
+    srli(t2, t2, 64)
+    //prgchk reg t2 == 0
+
     // Div by one.
     li t1, 1
     divu t2, t0, t1
-    //prgchk reg t2 == 0x7c4574e203312d7c2eccfc6e195e28ec
+    //prgchk reg t2 == 0x2eccfc6e195e28ec
+    srli(t2, t2, 64)
+    //prgchk reg t2 == 0x7c4574e203312d7c
 
     // Div by self.
     divu t2, t0, t0
     //prgchk reg t2 == 1
- 
+    srli(t2, t2, 64)
+    //prgchk reg t2 == 0
+
     // Divison > Dividend
     la t0, big3
-     lq t0, 0(t0)
+    lq(t0, 0, t0)
 
     la t1, big4
-     lq t1, 0(t1)
+    lq(t1, 0, t1)
 
     divu t2, t0, t1
     //prgchk reg t2 == 0
- 
+    srli(t2, t2, 64)
+    //prgchk reg t2 == 0
+
     // Simple small division (no remainder)
     liu(t0, 21)
     liu(t1, 3)
     divu t2, t0, t1
     //prgchk reg t2 == 7
- 
+    srli(t2, t2, 64)
+    //prgchk reg t2 == 0
+
     liu(t0, 37)
     liu(t1, 5)
     divu t2, t0, t1
     //prgchk reg t2 == 7
- 
+    srli(t2, t2, 64)
+    //prgchk reg t2 == 0
+
     // Chek different divisor sizes
     la t0, big4
-     lq t0, 0(t0)
+    lq(t0, 0, t0)
 
     la t1, div1
-     lq t1, 0(t1)
+    lq(t1, 0, t1)
     divu t2, t0, t1
-    //prgchk reg t2 == 0x134ce77156495d65af81253e6
+    //prgchk reg t2 == 0x6495d65af81253e6
     srli(t2, t2, 64)
-    //prgchk reg t2 == 0x
+    //prgchk reg t2 == 0x134ce7715
 
     la t1, div2
-     lq t1, 0(t1)
+    lq(t1, 0, t1)
     divu t2, t0, t1
     //prgchk reg t2 == 0xd02b2d3b9780c9d5
- 
+    srli(t2, t2, 64)
+    //prgchk reg t2 == 0
+
     la t1, div3
-    lq t1, 0(t1)
+    lq(t1, 0, t1)
     divu t2, t0, t1
     //prgchk reg t2 == 0xb625c7317
- 
+    srli(t2, t2, 64)
+    //prgchk reg t2 == 0
+
     la t1, div4
-    lq t1, 0(t1)
+    lq(t1, 0, t1)
     divu t2, t0, t1
     //prgchk reg t2 == 1
- 
+    srli(t2, t2, 64)
+    //prgchk reg t2 == 0
+
     // Check div by zero behavior
     liu(t1, 0)
     divu t2, t0, t1
-    //prgchk reg t2 == 0xffffffffffffffffffffffffffffffff
+    //prgchk reg t2 == 0xffffffffffffffff
+    srli(t2, t2, 64)
+    //prgchk reg t2 == 0xffffffffffffffff
     j exit

@@ -19,55 +19,65 @@ _start:
     li t1, 42
     slt t2, t0, t1
     //prgchk reg t2 == 1
+    srli(t2, t2, 64)
+    //prgchk reg t2 == 0
 
     la t0, bigtest1
-    lq t0, 0(t0)
+    lq(t0, 0, t0)
 
     la t1, bigtest2
-    lq t1, 0(t1)
+    lq(t1, 0, t1)
 
     slt t2, t0, t1
+    //prgchk reg t2 == 0
+    srli(t2, t2, 64)
     //prgchk reg t2 == 0
 
     slt t2, t1, t0
     //prgchk reg t2 == 1
+    srli(t2, t2, 64)
+    //prgchk reg t2 == 0
 
     // Compare with self
     la t1, bigtest1
-    lq t1, 0(t1)
+    lq(t1, 0, t1)
     //prgchk reg t2 == 0
-
+    srli(t2, t2, 64)
+    //prgchk reg t2 == 0
 
     // Check comparison is on 128 bits.
     la t0, halftest1
-    lq t0, 0(t0)
+    lq(t0, 0, t0)
 
     la t1, halftest2
-    lq t1, 0(t1)
+    lq(t1, 0, t1)
 
     slt t2, t0, t1
     //prgchk reg t2 == 0
-
+    srli(t2, t2, 64)
+    //prgchk reg t2 == 0
 
     // Test with subtraction overflow (negative - positive -> positive)
     la t0, oftest1
-    lq t0, 0(t0)
+    lq(t0, 0, t0)
 
     la t1, oftest2
-    lq t1, 0(t1)
+    lq(t1, 0, t1)
 
     slt t2, t0, t1
     //prgchk reg t2 == 1
-
+    srli(t2, t2, 64)
+    //prgchk reg t2 == 0
 
     // Test with subtraction overflow (positive - negative -> negative)
     la t0, oftest3
-    lq t0, 0(t0)
+    lq(t0, 0, t0)
 
     la t1, oftest4
-    lq t1, 0(t1)
+    lq(t1, 0, t1)
 
     slt t2, t0, t1
     //prgchk reg t2 == 0
-
+    srli(t2, t2, 64)
+    //prgchk reg t2 == 0
     j exit

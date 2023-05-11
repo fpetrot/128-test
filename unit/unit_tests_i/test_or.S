@@ -10,28 +10,36 @@
 .globl _start
 _start:
     la t0, test_quad
-    lq t0, 0(t0)
+    lq(t0, 0, t0)
 
     // or with -1 : set to -1
     li t1, -1
     or t1, t1, t0
-    //prgchk reg t1 == 0xffffffffffffffffffffffffffffffff
+    //prgchk reg t1 == 0xffffffffffffffff
+    srli(t1, t1, 64)
+    //prgchk reg t1 == 0xffffffffffffffff
 
     // or with zero = no-op
     li t1, 0
     or t1, t0, t1
-    //prgchk reg t1 == 0x75033785b9ca9eec0ec94d28201e1869
+    //prgchk reg t1 == 0x0ec94d28201e1869
+    srli(t1, t1, 64)
+    //prgchk reg t1 == 0x75033785b9ca9eec
     
     // try a few 128-bit patterns
     la t1, test_mask1
-    lq t1, 0(t1)
+    lq(t1, 0, t1)
 
     or t2, t1, t0
-    //prgchk reg t2 == 0x755777d5fddfdffd5fdd5d7d755f5d7d
+    //prgchk reg t2 == 0x5fdd5d7d755f5d7d
+    srli(t2, t2, 64)
+    //prgchk reg t2 == 0x755777d5fddfdffd
 
     la t1, test_mask2
-    lq t1, 0(t1)
+    lq(t1, 0, t1)
 
     or t2, t1, t0
-    //prgchk reg t2 == 0x773737b5bbcfbfed5ef95f78323effef
+    //prgchk reg t2 == 0x5ef95f78323effef
+    srli(t2, t2, 64)
+    //prgchk reg t2 == 0x773737b5bbcfbfed
     j exit

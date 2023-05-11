@@ -19,26 +19,26 @@ _start:
     bgez t0, all_err
 
     la t0, bigtest1
-    lq t0, 0(t0)
+    lq(t0, 0, t0)
 
     bgez t0, 1f
     //prgchk err
     nop
 1:
     la t0, halftest1
-    lq t0, 0(t0)
+    lq(t0, 0, t0)
 
     bgez t0, 1f
     //prgchk err
     nop
 1:
     la t0, halftest2
-    lq t0, 0(t0)
+    lq(t0, 0, t0)
 
     bgez t0, all_err
 
     la t0, oftest4
-    lq t0, 0(t0)
+    lq(t0, 0, t0)
 
     bgez t0, all_err
 

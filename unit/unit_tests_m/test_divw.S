@@ -17,42 +17,60 @@ _start:
     lw t0, w1
     lw t1, w2
     divw t2, t0, t1
-    //prgchk reg t2 == 0xfffffffffffffffffffffffffffffffa
+    //prgchk reg t2 == 0xfffffffffffffffa
+    srli(t2, t2, 64)
+    //prgchk reg t2 == 0xffffffffffffffff
 
     divw t2, t1, t0
+    //prgchk reg t2 == 0
+    srli(t2, t2, 64)
     //prgchk reg t2 == 0
 
     lw t1, w3
     divw t2, t0, t1
-    //prgchk reg t2 == 0xfffffffffffffffffffffffffe2c3371
+    //prgchk reg t2 == 0xfffffffffe2c3371
+    srli(t2, t2, 64)
+    //prgchk reg t2 == 0xffffffffffffffff
     
     // Divide by self.
     divw t2, t0, t0
     //prgchk reg t2 == 1
+    srli(t2, t2, 64)
+    //prgchk reg t2 == 0
 
     // Divide by -1
     lw t0, w1
     lw t1, w5
     divw t2, t0, t1
     //prgchk reg t2 == 0x789abcdf
+    srli(t2, t2, 64)
+    //prgchk reg t2 == 0
 
     lw t0, w4
     divw t2, t0, t1
-    //prgchk reg t2 == 0xffffffffffffffffffffffff87698baf
+    //prgchk reg t2 == 0xffffffff87698baf
+    srli(t2, t2, 64)
+    //prgchk reg t2 == 0xffffffffffffffff
 
     lw t0, w6
     divw t2, t0, t1
     //prgchk reg t2 == 42
+    srli(t2, t2, 64)
+    //prgchk reg t2 == 0
 
     // Check overflow behavior.
     lw t0, minsgn
     lw t1, w5
     divw t2, t0, t1
-    //prgchk reg t2 == 0xffffffffffffffffffffffff80000000
+    //prgchk reg t2 == 0xffffffff80000000
+    srli(t2, t2, 64)
+    //prgchk reg t2 == 0xffffffffffffffff
 
     // Check div by zero behavior
     lw t0, w1
     liu(t1, 0)
     divw t2, t0, t1
-    //prgchk reg t2 == 0xffffffffffffffffffffffffffffffff
+    //prgchk reg t2 == 0xffffffffffffffff
+    srli(t2, t2, 64)
+    //prgchk reg t2 == 0xffffffffffffffff
     j exit

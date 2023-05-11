@@ -6,7 +6,7 @@
 _start:
     // Check RV128 is running
     csrr t0, misa
-    srli t1, t0, 12
+    srli(t1, t0, 126)
     //prgchk reg t1 == 3
 
     csrrs t0, misa, zero

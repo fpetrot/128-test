@@ -14,25 +14,25 @@
 _start:
     // Is value non-zero (checking both 64-bit words) ?
     la t0, val1
-    lq t0, 0(t0)
+    lq(t0, 0, t0)
 
     beqz t0, all_err
 
     // Is value non-zero (checking upper 64-bit word) ?
     la t0, val3
-    lq t0, 0(t0)
+    lq(t0, 0, t0)
 
     beqz t0, all_err
 
     // Is value non-zero (checking lower 64-bit word) ?
     la t0, val5
-    lq t0, 0(t0)
+    lq(t0, 0, t0)
 
     beqz t0, all_err
 
     // Is value zero, finally ?
     la t0, val6
-    lq t0, 0(t0)
+    lq(t0, 0, t0)
     
     beqz t0, 1f
 

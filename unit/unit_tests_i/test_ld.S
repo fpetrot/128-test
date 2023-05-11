@@ -28,84 +28,109 @@ _start:
     // Test sign extension to 128 bits.
     la t0, tst1
     ld t0, 0(t0)
-    //prgchk reg t0 == 0xffffffffffffffffffffffffffffffff
+    //prgchk reg t0 == 0xffffffffffffffff
+    srli(t1, t0, 64)
+    //prgchk reg t1 == 0xffffffffffffffff
 
     la t1, tst2
     ld t1, 0(t1)
-    //prgchk reg t1 == 0xfffffffffffffffffedcba9876543210
-
+    //prgchk reg t1 == 0xfedcba9876543210
+    srli(t1, t1, 64)
+    //prgchk reg t1 == 0xffffffffffffffff
 
     la t1, tst3
     ld t1, 0(t1)
-    //prgchk reg t1 == 0x00000000000000001234567890abcdef
+    //prgchk reg t1 == 0x1234567890abcdef
+    srli(t1, t1, 64)
+    //prgchk reg t1 == 0
 
     // Loading with different offsets.
     la t0, tab_tst
     ld t1, 0(t0)
-    //prgchk reg t1 == 0x00000000000000000000000000000001
+    //prgchk reg t1 == 1
+    srli(t1, t1, 64)
+    //prgchk reg t1 == 0
 
     ld t1, 8(t0)
-    //prgchk reg t1 == 0x00000000000000000000000000000002
+    //prgchk reg t1 == 2
+    srli(t1, t1, 64)
+    //prgchk reg t1 == 0
 
     ld t1, 16(t0)
-    //prgchk reg t1 == 0x00000000000000000000000000000003
+    //prgchk reg t1 == 3
+    srli(t1, t1, 64)
+    //prgchk reg t1 == 0
     
     ld t1, 24(t0)
-    //prgchk reg t1 == 0x00000000000000000000000000000005
+    //prgchk reg t1 == 5
+    srli(t1, t1, 64)
+    //prgchk reg t1 == 0
 
     ld t1, 32(t0)
-    //prgchk reg t1 == 0x00000000000000000000000000000007
+    //prgchk reg t1 == 7
+    srli(t1, t1, 64)
+    //prgchk reg t1 == 0
 
     ld t1, 40(t0)
-    //prgchk reg t1 == 0x0000000000000000000000000000000b
-
+    //prgchk reg t1 == 11
+    srli(t1, t1, 64)
+    //prgchk reg t1 == 0
 
     ld t1, 48(t0)
-    //prgchk reg t1 == 0x0000000000000000000000000000000d
-
+    //prgchk reg t1 == 13
+    srli(t1, t1, 64)
+    //prgchk reg t1 == 0
 
     ld t1, 56(t0)
-    //prgchk reg t1 == 0x00000000000000000000000000000011
+    //prgchk reg t1 == 17
     srli(t1, t1, 64)
     //prgchk reg t1 == 0
 
     ld t1, 64(t0)
-    //prgchk reg t1 == 0x00000000000000000000000000000013
-
+    //prgchk reg t1 == 19
+    srli(t1, t1, 64)
+    //prgchk reg t1 == 0
 
     // Testing unaligned reads.
     la t0, unaligned1
     ld t1, 0(t0)
-    //prgchk reg t1 == 0xffffffffffffffffabcdef0123456789
-
+    //prgchk reg t1 == 0xabcdef0123456789
+    srli(t1, t1, 64)
+    //prgchk reg t1 == 0xffffffffffffffff
 
     la t0, unaligned2
     ld t1, 0(t0)
-    //prgchk reg t1 == 0xfffffffffffffffffedcba9876543210
-
+    //prgchk reg t1 == 0xfedcba9876543210
+    srli(t1, t1, 64)
+    //prgchk reg t1 == 0xffffffffffffffff
 
     la t0, unaligned3
     ld t1, 0(t0)
-    //prgchk reg t1 == 0xffffffffffffffffdeadbeefbeefdead
-
+    //prgchk reg t1 == 0xdeadbeefbeefdead
+    srli(t1, t1, 64)
+    //prgchk reg t1 == 0xffffffffffffffff
 
     la t0, unaligned4
     ld t1, 0(t0)
-    //prgchk reg t1 == 0xffffffffffffffffcafebabebabecafe
-
+    //prgchk reg t1 == 0xcafebabebabecafe
+    srli(t1, t1, 64)
+    //prgchk reg t1 == 0xffffffffffffffff
 
     la t0, unaligned5
     ld t1, 0(t0)
-    //prgchk reg t1 == 0xffffffffffffffffabadadddabcdabed
- 
+    //prgchk reg t1 == 0xabadadddabcdabed
+    srli(t1, t1, 64)
+    //prgchk reg t1 == 0xffffffffffffffff
 
     la t0, unaligned6
     ld t1, 0(t0)
-    //prgchk reg t1 == 0xffffffffffffffffeeffeeffeeffeeff
-
+    //prgchk reg t1 == 0xeeffeeffeeffeeff
+    srli(t1, t1, 64)
+    //prgchk reg t1 == 0xffffffffffffffff
 
     la t0, unaligned7
     ld t1, 0(t0)
-    //prgchk reg t1 == 0x00000000000000005879545963448eee
-
+    //prgchk reg t1 == 0x5879545963448eee
+    srli(t1, t1, 64)
+    //prgchk reg t1 == 0
     j exit

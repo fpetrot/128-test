@@ -27,72 +27,110 @@
 _start:
     // Test (non) sign extension to 128 bits.
     la t0, tst1
-    ldu t0, 0(t0)
-    //prgchk reg t0 == 0x0000000000000000ffffffffffffffff
+    ldu(t0, 0, t0)
+    //prgchk reg t0 == 0xffffffffffffffff
+    srli(t1, t0, 64)
+    //prgchk reg t1 == 0
 
     la t1, tst2
-    ldu t1, 0(t1)
-    //prgchk reg t1 == 0x0000000000000000fedcba9876543210
+    ldu(t1, 0, t1)
+    //prgchk reg t1 == 0xfedcba9876543210
+    srli(t1, t1, 64)
+    //prgchk reg t1 == 0
 
     la t1, tst3
-    ldu t1, 0(t1)
-    //prgchk reg t1 == 0x00000000000000001234567890abcdef
+    ldu(t1, 0, t1)
+    //prgchk reg t1 == 0x1234567890abcdef
+    srli(t1, t1, 64)
+    //prgchk reg t1 == 0
 
     // Loading with different offsets.
     la t0, tab_tst
-    ldu t1, 0(t0)
-    //prgchk reg t1 == 0x00000000000000000000000000000001
+    ldu(t1, 0, t0)
+    //prgchk reg t1 == 1
+    srli(t1, t1, 64)
+    //prgchk reg t1 == 0
 
-    ldu t1, 8(t0)
-    //prgchk reg t1 == 0x00000000000000000000000000000002
+    ldu(t1, 8, t0)
+    //prgchk reg t1 == 2
+    srli(t1, t1, 64)
+    //prgchk reg t1 == 0
 
-    ldu t1, 16(t0)
-    //prgchk reg t1 == 0x00000000000000000000000000000003
+    ldu(t1, 16, t0)
+    //prgchk reg t1 == 3
+    srli(t1, t1, 64)
+    //prgchk reg t1 == 0
     
-    ldu t1, 24(t0)
-    //prgchk reg t1 == 0x00000000000000000000000000000005
+    ldu(t1, 24, t0)
+    //prgchk reg t1 == 5
+    srli(t1, t1, 64)
+    //prgchk reg t1 == 0
 
-    ldu t1, 32(t0)
-    //prgchk reg t1 == 0x00000000000000000000000000000007
+    ldu(t1, 32, t0)
+    //prgchk reg t1 == 7
+    srli(t1, t1, 64)
+    //prgchk reg t1 == 0
 
-    ldu t1, 40(t0)
-    //prgchk reg t1 == 0x0000000000000000000000000000000b
+    ldu(t1, 40, t0)
+    //prgchk reg t1 == 11
+    srli(t1, t1, 64)
+    //prgchk reg t1 == 0
 
-    ldu t1, 48(t0) 
-    //prgchk reg t1 == 0x0000000000000000000000000000000d
+    ldu(t1, 48, t0)
+    //prgchk reg t1 == 13
+    srli(t1, t1, 64)
+    //prgchk reg t1 == 0
 
-    ldu t1, 56(t0) 
-    //prgchk reg t1 == 0x00000000000000000000000000000011
+    ldu(t1, 56, t0)
+    //prgchk reg t1 == 17
+    srli(t1, t1, 64)
+    //prgchk reg t1 == 0
 
-    ldu t1, 64(t0) 
-    //prgchk reg t1 == 0x0000000000000000ffffffffffffffff
+    ldu(t1, 64, t0)
+    //prgchk reg t1 == 0xffffffffffffffff
+    srli(t1, t1, 64)
+    //prgchk reg t1 == 0
 
     // Testing unaligned reads.
     la t0, unaligned1
-    ldu t1, 0(t0) 
-    //prgchk reg t1 == 0x0000000000000000abcdef0123456789
+    ldu(t1, 0, t0)
+    //prgchk reg t1 == 0xabcdef0123456789
+    srli(t1, t1, 64)
+    //prgchk reg t1 == 0
 
     la t0, unaligned2
-    ldu t1, 0(t0)
-    //prgchk reg t1 == 0x0000000000000000fedcba9876543210
+    ldu(t1, 0, t0)
+    //prgchk reg t1 == 0xfedcba9876543210
+    srli(t1, t1, 64)
+    //prgchk reg t1 == 0
 
     la t0, unaligned3
-    ldu t1, 0(t0)
-    //prgchk reg t1 == 0x0000000000000000deadbeefbeefdead
+    ldu(t1, 0, t0)
+    //prgchk reg t1 == 0xdeadbeefbeefdead
+    srli(t1, t1, 64)
+    //prgchk reg t1 == 0
 
     la t0, unaligned4
-    ldu t1, 0(t0)
-    //prgchk reg t1 == 0x0000000000000000cafebabebabecafe
+    ldu(t1, 0, t0)
+    //prgchk reg t1 == 0xcafebabebabecafe
+    srli(t1, t1, 64)
+    //prgchk reg t1 == 0
 
     la t0, unaligned5
-    ldu t1, 0(t0)
-    //prgchk reg t1 == 0x0000000000000000abcdabcdabcdabcd
+    ldu(t1, 0, t0)
+    //prgchk reg t1 == 0xabcdabcdabcdabcd
+    srli(t1, t1, 64)
+    //prgchk reg t1 == 0
 
     la t0, unaligned6
-    ldu t1, 0(t0)
-    //prgchk reg t1 == 0x0000000000000000eeffeeffeeffeeff
+    ldu(t1, 0, t0)
+    //prgchk reg t1 == 0xeeffeeffeeffeeff
+    srli(t1, t1, 64)
+    //prgchk reg t1 == 0
 
     la t0, unaligned7
-    ldu t1, 0(t0)
-    //prgchk reg t1 == 0x00000000000000004242424242424242
+    ldu(t1, 0, t0)
+    //prgchk reg t1 == 0x4242424242424242
+    srli(t1, t1, 64)
+    //prgchk reg t1 == 0
     j exit

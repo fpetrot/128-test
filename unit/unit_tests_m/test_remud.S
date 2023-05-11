@@ -16,37 +16,53 @@ _start:
     // Various basic divisions
     ld t0, w1
     ld t1, w2
-    remud t2, t0, t1
+    remud(t2, t0, t1)
     //prgchk reg t2 == 0x123455ea2eabcdfe
+    srli(t2, t2, 64)
+    //prgchk reg t2 == 0
 
-    remud t2, t1, t0
+    remud(t2, t1, t0)
     //prgchk reg t2 == 0x1234567890abcdef
+    srli(t2, t2, 64)
+    //prgchk reg t2 == 0
 
     ld t1, w3
-    remud t2, t0, t1
+    remud(t2, t0, t1)
     //prgchk reg t2 == 3
+    srli(t2, t2, 64)
+    //prgchk reg t2 == 0
     
     // Divide by self.
-    remud t2, t0, t0
+    remud(t2, t0, t0)
+    //prgchk reg t2 == 0
+    srli(t2, t2, 64)
     //prgchk reg t2 == 0
 
     // Divide by -1
     ld t0, w1
     ld t1, w5
-    remud t2, t0, t1
-    //prgchk reg t2 == 0xfffffffffffffffffedcba0987654321
+    remud(t2, t0, t1)
+    //prgchk reg t2 == 0xfedcba0987654321
+    srli(t2, t2, 64)
+    //prgchk reg t2 == 0xffffffffffffffff
 
     ld t0, w4
-    remud t2, t0, t1
+    remud(t2, t0, t1)
     //prgchk reg t2 == 0x7896745188547411
+    srli(t2, t2, 64)
+    //prgchk reg t2 == 0
 
     ld t0, w6
-    remud t2, t0, t1
-    //prgchk reg t2 == 0xffffffffffffffffffffffffffffffd6
+    remud(t2, t0, t1)
+    //prgchk reg t2 == 0xffffffffffffffd6
+    srli(t2, t2, 64)
+    //prgchk reg t2 == 0xffffffffffffffff
 
     // Check div by zero behavior
     ld t0, w1
     liu(t1, 0)
-    remud t2, t0, t1
-    //prgchk reg t2 == 0xfffffffffffffffffedcba0987654321
+    remud(t2, t0, t1)
+    //prgchk reg t2 == 0xfedcba0987654321
+    srli(t2, t2, 64)
+    //prgchk reg t2 == 0xffffffffffffffff
     j exit

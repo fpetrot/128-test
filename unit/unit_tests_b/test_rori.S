@@ -8,8 +8,8 @@
 .globl _start
 _start:
     la t0, test_quad
-    lq t0, 0(t0)
+    lq(t0, 0, t0)
 
-    rori t1, t0, 1
+    rori(t1, t0, 1)
     //prgchk reg t1 == 0x3a819bc2dce54f760764a694100f0c34
     j exit

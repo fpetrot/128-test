@@ -6,6 +6,7 @@
 _start:
     // Check RV128 is running
     csrr t0, misa
+    srli(t1, t0, 126)
     //prgchk reg t1 == 3
 
     // Minimal pmp settings
@@ -37,9 +38,12 @@ _start:
 1:
     // Check UXL is set to RV128
     csrr t0, sstatus
+    srli(t1, t0, 32)
     andi t1, t1, 0x3
+    //prgchk reg t1 == 0x3
     // Make sure SD is zero
-    //prgchk reg t1 == 0x00000000000000003000000000000000
+    srli(t1, t0, 127)
+    //prgchk reg t1 == 0
 
     // Mark FPU dirty to check for SD
     .equiv   MSTATUS_FS, 0x00006000
@@ -50,11 +54,13 @@ _start:
     fmax.s   f0, f1, f2
     // Check SD has changed where expected
     csrr t0, sstatus
+    srli(t1, t0, 127)
     //prgchk reg t1 == 1
     // Mark FPU clean (2 in FS place)
     li  t0, ~0x00004000
     csrc     sstatus, t0
     csrr t0, sstatus
+    srli(t1, t0, 127)
     //prgchk reg t1 == 0
 
     // Let's go back to machine mode to exit

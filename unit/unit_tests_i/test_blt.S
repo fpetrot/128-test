@@ -24,10 +24,10 @@ _start:
 after_tst1:
 
     la t0, bigtest1
-    lq t0, 0(t0)
+    lq(t0, 0, t0)
 
     la t1, bigtest2
-    lq t1, 0(t1)
+    lq(t1, 0, t1)
 
     blt t0, t1, all_err
 
@@ -38,24 +38,24 @@ after_tst2:
 
     // Compare with self
     la t1, bigtest1
-    lq t1, 0(t1)
+    lq(t1, 0, t1)
     blt t0, t1, all_err
 
     // Check comparison is on 128 bits.
     la t0, halftest1
-    lq t0, 0(t0)
+    lq(t0, 0, t0)
 
     la t1, halftest2
-    lq t1, 0(t1)
+    lq(t1, 0, t1)
 
     blt t0, t1, all_err
 
     // Test with subtraction overflow (negative - positive -> positive)
     la t0, oftest1
-    lq t0, 0(t0)
+    lq(t0, 0, t0)
 
     la t1, oftest2
-    lq t1, 0(t1)
+    lq(t1, 0, t1)
 
     blt t0, t1, after_tst3
 
@@ -65,22 +65,22 @@ after_tst3:
 
     // Test with subtraction overflow (positive - negative -> negative)
     la t0, oftest3
-    lq t0, 0(t0)
+    lq(t0, 0, t0)
 
     la t1, oftest4
-    lq t1, 0(t1)
+    lq(t1, 0, t1)
 
     blt t0, t1, all_err
 
     // Comparison with zero, to check the optimized path in tcg generation
     la t1, halftest2
-    lq t1, 0(t1)
+    lq(t1, 0, t1)
 
     bltz t1, 1f
     //prgchk err
     nop
 1:  la t1, halftest1
-    lq t1, 0(t1)
+    lq(t1, 0, t1)
     bltz t1, all_err
 
     j exit
