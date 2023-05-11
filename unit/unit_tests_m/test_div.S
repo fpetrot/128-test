@@ -51,7 +51,7 @@ _start:
     //prgchk reg t2 == 0xffffffffffffffff
 
 
-    // Check various big divisioffffffffffffffffns.
+    // Check various big divisions.
     la t0, bigneg
     lq t0, 0(t0)
 
