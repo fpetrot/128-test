@@ -11,15 +11,7 @@ import argparse
 from dataclasses import dataclass, field
 from typing import List
 
-from prgchk import TestStatus, run_test
-
-color_available = False
-try:
-    import colorama
-    from colorama import Fore, Style
-    color_available = True
-except ImportError:
-    pass
+from prgchk import TestStatus, run_test, print_status
 
 DEFAULT_TEST_PATH="unit_tests_i"
 DEFAULT_OUTPUT_DIR="out"
@@ -64,8 +56,6 @@ def clean_output() -> int:
     return cnt
 
 if __name__ == "__main__":
-    if color_available:
-        colorama.init()
     opts = parse_args()
     if opts is None:
         exit(1)
@@ -90,16 +80,8 @@ if __name__ == "__main__":
         
         status = run_test(test_filename, silent = not opts.verbose)
 
-        if color_available:
-            if status == TestStatus.SUCCESS:
-                print(Fore.GREEN, end="")
-            elif status == TestStatus.CHECK_FAILURE:
-                print(Fore.RED, end="")
-            else:
-                print(Fore.YELLOW, end="")
-        print(status.name)
-        if color_available:
-            print(Fore.RESET, end="")
+        print_status(status)
+
         if status == TestStatus.SUCCESS:
             successes += 1
         elif opts.failOnError:

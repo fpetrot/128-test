@@ -41,6 +41,12 @@ op_opposite = {
     '>=': '<'
 }
 
+class colors:
+    GOOD = '\033[96m'
+    WHAT = '\033[33m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+
 class CheckParseArgs(NamedTuple):
     lineno: int
     srcfile: str
@@ -140,8 +146,6 @@ def parse_check(line: str, lineno: int, base_filename: str) -> Optional[str]:
 def generate_gdb_script(src_filename: str) -> TestStatus:
     src_file = open(src_filename, "r")
     base_filename = os.path.basename(src_filename)
-    if not os.path.exists("out"):
-        os.makedirs("out")
     gdb_script_file = open(f"out/{base_filename}.gdb", "w")
 
     gdb_script_file.write("set logging enable off\ntarget remote :1144\n")
@@ -174,19 +178,21 @@ def run_test(test_filename: str, silent: bool = True) -> TestStatus:
     os.environ['CPP'] = CPP
     os.environ['CROSS_AS'] = CROSS_AS
     os.environ['CROSS_LD'] = CROSS_LD
-    retval = os.system(f"./make_test.sh {test_filename} {'&> /dev/null' if silent else ''}")
-    if retval != 0:
+    make = subprocess.run(['./make_test.sh', f'{test_filename}'], stdout=(open("/dev/null") if silent else sys.stdout))
+    if make.returncode != 0:
+        print(make, end=" ")
         return TestStatus.COMPILE_ERROR
 
     gdbgen_status = generate_gdb_script(test_filename)
     if not gdbgen_status:
         return gdbgen_status
 
-    qemuproc = subprocess.Popen([QEMU_EXEC, '-machine', 'virt', '-cpu', 'x-rv128', '-accel', 'tcg,thread=single', '-bios', 'none', '-machine', 'virt', '-nographic',
+    qemu = subprocess.Popen([QEMU_EXEC, '-machine', 'virt', '-cpu', 'x-rv128', '-accel', 'tcg,thread=single', '-bios', 'none', '-machine', 'virt', '-nographic',
         '-kernel', f'out/{test_name}', '-S', '-gdb', 'tcp::1144'], stdout=(open("/dev/null") if silent else sys.stdout))
-    test_retval = os.system(f"{CROSS_GDB} -q out/{test_name} < out/{os.path.basename(test_filename)}.gdb {' &> /dev/null' if silent else ''}")
+    gdb = subprocess.run(f"{CROSS_GDB} -q out/{test_name} < out/{os.path.basename(test_filename)}.gdb", shell=True, stdout=(open("/dev/null") if silent else sys.stdout), stderr=(open("/dev/null") if silent else sys.stderr))
+    test_retval = gdb.returncode
 
-    qemu_retval = qemuproc.wait()
+    qemu_retval = qemu.wait()
 
     if qemu_retval != 0:
         return TestStatus.EMULATION_ERROR
@@ -196,16 +202,33 @@ def run_test(test_filename: str, silent: bool = True) -> TestStatus:
 
     return TestStatus.SUCCESS
 
+def print_status(status: TestStatus):
+    if status == TestStatus.SUCCESS:
+        print(colors.GOOD, status.name, colors.ENDC)
+    elif status == TestStatus.CHECK_FAILURE:
+        print(colors.FAIL, status.name, colors.ENDC)
+    else:
+        print(colors.WHAT, status.name, colors.ENDC)
+
 if __name__ == "__main__":
-    if len(sys.argv) == 1:
-        print(f"Usage : {sys.argv[0]} <test_file>")
+    if len(sys.argv) == 1 or len(sys.argv) > 3:
+        print(f"Usage : {sys.argv[0]} [-q] <test_file>")
         exit(0)
 
-    test_filename = sys.argv[1]
+    if sys.argv[1] == "-q":
+        silent = True
+        test_filename = sys.argv[2]
+    else:
+        silent = False
+        test_filename = sys.argv[1]
+
+    # Make sure the output directory is create before going further
+    if not os.path.exists("out"):
+        os.makedirs("out")
 
     print(f"Test {os.path.splitext(os.path.basename(test_filename))[0]} : ", end="")
-    status = run_test(test_filename, silent=False)
+    status = run_test(test_filename, silent=silent)
 
-    print(status.name)
+    print_status(status)
 
     exit(0 if status else 1)

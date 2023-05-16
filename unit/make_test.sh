@@ -30,7 +30,25 @@ else
     exit 1
 fi
 
+mkdir -p ./out
+# For some weird reason in some cases python subprocess;run closes stdout before
+# we got a chance to write something, so check that before echoing
 if [ $1 -nt out/$baseName.o ]; then
+    if [ -t 1 ]; then
+        echo "${CPP} -I./common/include $1 | ${CROSS_AS} -g -o out/$baseName.o -"
+    fi
     ${CPP} -I./common/include $1 | ${CROSS_AS} -g -o out/$baseName.o -
+    if [ $? -ne 0 ]; then
+        exit 1
+    fi
+    if [ -t 1 ]; then
+        echo "${CROSS_LD} -g -T common/link.ld out/$baseName.o -o out/$baseName"
+    fi
     ${CROSS_LD} -g -T common/link.ld out/$baseName.o -o out/$baseName
+    if [ $? -ne 0 ]; then
+        exit 1
+    fi
 fi
+
+# Make sure we return a correct status
+exit 0
