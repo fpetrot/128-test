@@ -140,7 +140,8 @@ def parse_check(line: str, lineno: int, base_filename: str) -> Optional[str]:
 def generate_gdb_script(src_filename: str) -> TestStatus:
     src_file = open(src_filename, "r")
     base_filename = os.path.basename(src_filename)
-
+    if not os.path.exists("out"):
+        os.makedirs("out")
     gdb_script_file = open(f"out/{base_filename}.gdb", "w")
 
     gdb_script_file.write("set logging enable off\ntarget remote :1144\n")

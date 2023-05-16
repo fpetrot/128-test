@@ -1,5 +1,4 @@
-#include "insns.S" 
-#include "utils.S"
+#include "exit.S"
 
 .section .data
     val1: .octa 0x26bf5f56d85c76ce7141e1c7d71b77d0
@@ -12,19 +11,19 @@
 .section .text.init,"ax",@progbits
 .globl _start
 _start:
-    // Is value non-zero (checking both 64-bit words) ?
+    // Is value non-zero
     la t0, val1
     lq t0, 0(t0)
 
     beqz t0, all_err
 
-    // Is value non-zero (checking upper 64-bit word) ?
+    // Is value non-zero
     la t0, val3
     lq t0, 0(t0)
 
     beqz t0, all_err
 
-    // Is value non-zero (checking lower 64-bit word) ?
+    // Is value non-zero
     la t0, val5
     lq t0, 0(t0)
 

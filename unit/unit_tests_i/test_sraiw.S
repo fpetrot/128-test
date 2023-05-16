@@ -1,21 +1,20 @@
-#include "insns.S" 
-#include "utils.S"
+#include "exit.S"
 
 .section .text.init,"ax",@progbits
 .globl _start
 _start:
     // Check sign extensions.
-    liu(t0, 0x80000000)
+    li t0, 0x8badf00d
     sraiw t1, t0, 0
-    //prgchk reg t1 == 0xffffffffffffffffffffffff80000000
+    //prgchk reg t1 == 0xffffffffffffffffffffffff8badf00d
 
-    liu(t0, 0x7fedfedf)
+    li t0, 0x2badbabe
     sraiw t1, t0, 0
-    //prgchk reg t1 == 0x7fedfedf
+    //prgchk reg t1 == 0x2badbabe
 
 
-    liu(t0, 0x1234567800000000)
-    srliw t1, t0, 12
+    li t0, 0xf0000000d
+    sraiw t1, t0, 12
     //prgchk reg t1 == 0
 
     // Incremental shifts from 0 to 31.

@@ -1,21 +1,20 @@
-#include "insns.S" 
-#include "utils.S"
+#include "exit.S"
 
 
 .section .text.init,"ax",@progbits
 .globl _start
 _start:
-    li t0, 0xffffffffffffffff
-    srli t2, t0, 64
-    //prgchk reg t2 == 0xffffffffffffffff
+    li t0, -1
+    //prgchk reg t0 == 0xffffffffffffffffffffffffffffffff
 
     li t1, 32
     srl t2, t0, t1
     //prgchk reg t2 == 0x00000000ffffffffffffffffffffffff
 
-    liu(t0, 0xffffffffffffffff)
+    li t0, 0xffffffffffffffff
     //prgchk reg t0 == 0xffffffffffffffff
-    srli t2, t0, 64
+    li t1, 64
+    srl t2, t0, t1
     //prgchk reg t2 == 0x0000000000000000
 
     li t1, 32
@@ -27,16 +26,13 @@ _start:
     //prgchk reg t2 == 0xffffffffffffffff
 
     // Check non-carry of sign bit (logical shift)
-    li t0, 0x8000000000000000
-    slli t1, t0, 64
+    li t0, 0x80000000000000000000000000000000
     li t6, 127
-    srl t2, t1, t6
+    srl t2, t0, t6
     //prgchk reg t2 == 1
 
     // Incremental shifts
-    liu(t0, 0xdeadbeefcafebabf)
-    liu(t1, 0xcafed00ddeaddead)
-    or t0, t0, t1
+    li t0, 0xdeadbeefcafebabfcafed00ddeaddead
     li t1, 0
     srl t2, t0, t1
     //prgchk reg t2 == 0xdeadbeefcafebabfcafed00ddeaddead

@@ -1,5 +1,4 @@
-#include "insns.S" 
-#include "utils.S"
+#include "exit.S"
 
 .section .data
     bigtest1:  .octa 0x53dadaf536d33cd841e0ce648ce00cfe

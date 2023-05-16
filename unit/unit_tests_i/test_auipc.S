@@ -1,5 +1,4 @@
-#include "insns.S" 
-#include "utils.S"
+#include "exit.S"
 
 .section .text.init,"ax",@progbits
 .globl _start
@@ -13,21 +12,21 @@ addr1:
 addr2:
     auipc t0, 1
     la t1, addr2
-    li t2, 0b1000000000000
+    li t2, 0x1000
     add t1, t1, t2
     //prgchk gdb $t0 == $t1
 
 addr3:
     auipc t0, 0xfffff
     la t1, addr3
-    li t2, 0xfffffffffffff000
+    li t2, 0xfffffffffffffffffffffffffffff000
     add t1, t1, t2
     //prgchk gdb $t0 == $t1
 
 addr4:
     auipc t0, 0x80000
     la t1, addr4
-    li t2, 0xffffffff80000000
+    li t2, 0xffffffffffffffffffffffff80000000
     add t1, t1, t2
     //prgchk gdb $t0 == $t1
 
@@ -41,7 +40,7 @@ addr5:
 addr6:
     auipc t0, 0xdeadb
     la t1, addr6
-    li t2, 0xffffffffdeadb000
+    li t2, 0xffffffffffffffffffffffffdeadb000
     add t1, t1, t2
     //prgchk gdb $t0 == $t1
 

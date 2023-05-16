@@ -1,5 +1,4 @@
-#include "insns.S" 
-#include "utils.S"
+#include "exit.S"
 
 .section .data
     tst1_1:  .octa 0xfedcba0987654321fedcba0987654321
@@ -31,7 +30,7 @@ _start:
     bltu t0, t1, all_err
 
     la t0, tst2_1
-    lq(t0, 0, t0)
+    lq t0, 0(t0)
     la t1, tst2_2
     lq t1, 0(t1)
     

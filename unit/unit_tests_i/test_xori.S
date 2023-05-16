@@ -1,5 +1,4 @@
-#include "insns.S" 
-#include "utils.S"
+#include "exit.S"
 
 .section .data
     test_quad: .octa 0x75033785b9ca9eec0ec94d28201e1869
@@ -32,11 +31,9 @@ _start:
     // xori with zero dest : no-op
     xori zero, t0, 42
     //prgchk reg zero == 0
-    liu(t1, zero)
-    //prgchk reg t1 == 0
 
     // xori with self : mov zero
-    liu(t1, 1789)
+    li t1, 1789
     xori t2, t1, 1789
     //prgchk reg t2 == 0
     j exit

@@ -1,5 +1,4 @@
-#include "insns.S" 
-#include "utils.S"
+#include "exit.S"
 
 .section .data
     tst1_1:  .octa 0xfedcba0987654321fedcba0987654321

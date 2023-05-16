@@ -1,5 +1,4 @@
-#include "insns.S" 
-#include "utils.S"
+#include "exit.S"
 
 .section .text.init,"ax",@progbits
 .globl _start
@@ -126,7 +125,7 @@ _start:
     //prgchk reg t2 == 0xffffffffffffffffffffffffffbd5b7d
 
     sraid t2, t0, 40
-    //prgchk reg t2 == 0xffffffffffdeadbe
+    //prgchk reg t2 == 0xffffffffffffffffffffffffffdeadbe
 
     sraid t2, t0, 41
     //prgchk reg t2 == 0xffffffffffffffffffffffffffef56df
@@ -196,5 +195,10 @@ _start:
 
     sraid t2, t0, 63
     //prgchk reg t2 == 0xffffffffffffffffffffffffffffffff
+
+    // Last check to make sure zero is extended too
+    li t0, 0x2badbabedeadc0de
+    sraid t2, t0, 32
+    //prgchk reg t2 == 0x0x2badbabe
 
     j exit

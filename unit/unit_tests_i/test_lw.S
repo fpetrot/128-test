@@ -1,5 +1,4 @@
-#include "insns.S" 
-#include "utils.S"
+#include "exit.S"
 
 .section .data
     tst0: .word 0x80386387
@@ -25,7 +24,7 @@ _start:
 
     la t0, tst1
     lw t0, 0(t0)
-    //prgchk reg t0 == 0x00000000000000000000000042434445
+    //prgchk reg t0 == 0x42434445
 
     la t0, tst2
     lw t0, 0(t0)
@@ -42,7 +41,7 @@ _start:
 
     la t1, unaligned_2
     lw t1, 0(t1)
-    //prgchk reg t1 == 0x00000000000000000000000012345678
+    //prgchk reg t1 == 0x12345678
 
     la t1, unaligned_3
     lw t1, 0(t1)

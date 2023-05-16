@@ -1,5 +1,4 @@
-#include "insns.S" 
-#include "utils.S"
+#include "exit.S"
 
 .section .data
 oftest1:   .octa 0x80000000000000000000000000000000
@@ -49,14 +48,14 @@ _start:
 
     // Test with subtraction overflow (negative - positive -> posituve)
     la t0, oftest1
-    lq t0, 0,(t0)
+    lq t0, 0(t0)
     slti t1, t0, 1
     //prgchk reg t1 == 1
 
 
     // Test with subtraction overflow (positive - negative -> negative)
     la t0, oftest2
-    lq t0, 0,(t0)
+    lq t0, 0(t0)
     slti t1, t0, -1
     //prgchk reg t1 == 0
 

@@ -1,5 +1,4 @@
-#include "insns.S" 
-#include "utils.S"
+#include "exit.S"
 
 .section .data
     bigtest: .octa 0xb3ac109c8a412d90ef2a3664165c497a
@@ -78,7 +77,7 @@ _start:
 
 
     // rs1_hi < imm_hi && rs1_lo >= imm_lo
-    liu(t0, 0xffffffffffffffff)
+    li t0, 0xffffffffffffffff
     sltiu t1, t0, -2000
     //prgchk reg t1 == 1
 

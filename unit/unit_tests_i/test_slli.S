@@ -1,150 +1,274 @@
-#include "insns.S" 
-#include "utils.S"
+#include "exit.S"
 
 .section .text.init,"ax",@progbits
 .globl _start
 _start:
     // Shifting all bits out through the left.
     li t0, 0xffffffffffffffff
-    slli t0, t0, 128
+    slli t0, t0, 127
     //prgck reg t0 == 0
-    srli t0, t0, 128
+    srli t0, t0, 127
     //prgck reg t0 == 0
 
     // Max shift amount (7 bits => 127 max shift)
-    li t0, 0xffffffffffffffff
+    li t0, 0xffffffffffffffffffffffffffffffff
     slli t0, t0, 127
     //prgchk reg t0 == 0x80000000000000000000000000000000
 
     // Check left shifts from 0 to 64 on lower 64 bits.
     li t0, 0xfedcba9876543210
-    //prgcheck reg t0 == 0xfedcba9876543210
     slli t1, t0, 0
-    //prgcheck reg t1 == 0xfedcba9876543210
+    //prgchk reg t1 == 0x0000000000000000fedcba9876543210
     slli t1, t0, 1
-    //prgcheck reg t1 == 0xfdb97530eca86420
+    //prgchk reg t1 == 0x0000000000000001fdb97530eca86420
     slli t1, t0, 2
-    //prgcheck reg t1 == 0xfb72ea61d950c840
+    //prgchk reg t1 == 0x0000000000000003fb72ea61d950c840
     slli t1, t0, 3
-    //prgcheck reg t1 == 0xf6e5d4c3b2a19080
+    //prgchk reg t1 == 0x0000000000000007f6e5d4c3b2a19080
     slli t1, t0, 4
-    //prgcheck reg t1 == 0xedcba98765432100
+    //prgchk reg t1 == 0x000000000000000fedcba98765432100
     slli t1, t0, 5
-    //prgcheck reg t1 == 0xdb97530eca864200
+    //prgchk reg t1 == 0x000000000000001fdb97530eca864200
     slli t1, t0, 6
-    //prgcheck reg t1 == 0xb72ea61d950c8400
+    //prgchk reg t1 == 0x000000000000003fb72ea61d950c8400
     slli t1, t0, 7
-    //prgcheck reg t1 == 0x6e5d4c3b2a190800
+    //prgchk reg t1 == 0x000000000000007f6e5d4c3b2a190800
     slli t1, t0, 8
-    //prgcheck reg t1 == 0xdcba987654321000
+    //prgchk reg t1 == 0x00000000000000fedcba987654321000
     slli t1, t0, 9
-    //prgcheck reg t1 == 0xb97530eca8642000
+    //prgchk reg t1 == 0x00000000000001fdb97530eca8642000
     slli t1, t0, 10
-    //prgcheck reg t1 == 0x72ea61d950c84000
+    //prgchk reg t1 == 0x00000000000003fb72ea61d950c84000
     slli t1, t0, 11
-    //prgcheck reg t1 == 0xe5d4c3b2a1908000
+    //prgchk reg t1 == 0x00000000000007f6e5d4c3b2a1908000
     slli t1, t0, 12
-    //prgcheck reg t1 == 0xcba9876543210000
+    //prgchk reg t1 == 0x0000000000000fedcba9876543210000
     slli t1, t0, 13
-    //prgcheck reg t1 == 0x97530eca86420000
+    //prgchk reg t1 == 0x0000000000001fdb97530eca86420000
     slli t1, t0, 14
-    //prgcheck reg t1 == 0x2ea61d950c840000
+    //prgchk reg t1 == 0x0000000000003fb72ea61d950c840000
     slli t1, t0, 15
-    //prgcheck reg t1 == 0x5d4c3b2a19080000
+    //prgchk reg t1 == 0x0000000000007f6e5d4c3b2a19080000
     slli t1, t0, 16
-    //prgcheck reg t1 == 0xba98765432100000
+    //prgchk reg t1 == 0x000000000000fedcba98765432100000
     slli t1, t0, 17
-    //prgcheck reg t1 == 0x7530eca864200000
+    //prgchk reg t1 == 0x000000000001fdb97530eca864200000
     slli t1, t0, 18
-    //prgcheck reg t1 == 0xea61d950c8400000
+    //prgchk reg t1 == 0x000000000003fb72ea61d950c8400000
     slli t1, t0, 19
-    //prgcheck reg t1 == 0xd4c3b2a190800000
+    //prgchk reg t1 == 0x000000000007f6e5d4c3b2a190800000
     slli t1, t0, 20
-    //prgcheck reg t1 == 0xa987654321000000
+    //prgchk reg t1 == 0x00000000000fedcba987654321000000
     slli t1, t0, 21
-    //prgcheck reg t1 == 0x530eca8642000000
+    //prgchk reg t1 == 0x00000000001fdb97530eca8642000000
     slli t1, t0, 22
-    //prgcheck reg t1 == 0xa61d950c84000000
+    //prgchk reg t1 == 0x00000000003fb72ea61d950c84000000
     slli t1, t0, 23
-    //prgcheck reg t1 == 0x4c3b2a1908000000
+    //prgchk reg t1 == 0x00000000007f6e5d4c3b2a1908000000
     slli t1, t0, 24
-    //prgcheck reg t1 == 0x9876543210000000
+    //prgchk reg t1 == 0x0000000000fedcba9876543210000000
     slli t1, t0, 25
-    //prgcheck reg t1 == 0x30eca86420000000
+    //prgchk reg t1 == 0x0000000001fdb97530eca86420000000
     slli t1, t0, 26
-    //prgcheck reg t1 == 0x61d950c840000000
+    //prgchk reg t1 == 0x0000000003fb72ea61d950c840000000
     slli t1, t0, 27
-    //prgcheck reg t1 == 0xc3b2a19080000000
+    //prgchk reg t1 == 0x0000000007f6e5d4c3b2a19080000000
     slli t1, t0, 28
-    //prgcheck reg t1 == 0x8765432100000000
+    //prgchk reg t1 == 0x000000000fedcba98765432100000000
     slli t1, t0, 29
-    //prgcheck reg t1 == 0xeca864200000000
+    //prgchk reg t1 == 0x000000001fdb97530eca864200000000
     slli t1, t0, 30
-    //prgcheck reg t1 == 0x1d950c8400000000
+    //prgchk reg t1 == 0x000000003fb72ea61d950c8400000000
     slli t1, t0, 31
-    //prgcheck reg t1 == 0x3b2a190800000000
+    //prgchk reg t1 == 0x000000007f6e5d4c3b2a190800000000
     slli t1, t0, 32
-    //prgcheck reg t1 == 0x7654321000000000
+    //prgchk reg t1 == 0x00000000fedcba987654321000000000
     slli t1, t0, 33
-    //prgcheck reg t1 == 0xeca8642000000000
+    //prgchk reg t1 == 0x00000001fdb97530eca8642000000000
     slli t1, t0, 34
-    //prgcheck reg t1 == 0xd950c84000000000
+    //prgchk reg t1 == 0x00000003fb72ea61d950c84000000000
     slli t1, t0, 35
-    //prgcheck reg t1 == 0xb2a1908000000000
+    //prgchk reg t1 == 0x00000007f6e5d4c3b2a1908000000000
     slli t1, t0, 36
-    //prgcheck reg t1 == 0x6543210000000000
+    //prgchk reg t1 == 0x0000000fedcba9876543210000000000
     slli t1, t0, 37
-    //prgcheck reg t1 == 0xca86420000000000
+    //prgchk reg t1 == 0x0000001fdb97530eca86420000000000
     slli t1, t0, 38
-    //prgcheck reg t1 == 0x950c840000000000
+    //prgchk reg t1 == 0x0000003fb72ea61d950c840000000000
     slli t1, t0, 39
-    //prgcheck reg t1 == 0x2a19080000000000
+    //prgchk reg t1 == 0x0000007f6e5d4c3b2a19080000000000
     slli t1, t0, 40
-    //prgcheck reg t1 == 0x5432100000000000
+    //prgchk reg t1 == 0x000000fedcba98765432100000000000
     slli t1, t0, 41
-    //prgcheck reg t1 == 0xa864200000000000
+    //prgchk reg t1 == 0x000001fdb97530eca864200000000000
     slli t1, t0, 42
-    //prgcheck reg t1 == 0x50c8400000000000
+    //prgchk reg t1 == 0x000003fb72ea61d950c8400000000000
     slli t1, t0, 43
-    //prgcheck reg t1 == 0xa190800000000000
+    //prgchk reg t1 == 0x000007f6e5d4c3b2a190800000000000
     slli t1, t0, 44
-    //prgcheck reg t1 == 0x4321000000000000
+    //prgchk reg t1 == 0x00000fedcba987654321000000000000
     slli t1, t0, 45
-    //prgcheck reg t1 == 0x8642000000000000
+    //prgchk reg t1 == 0x00001fdb97530eca8642000000000000
     slli t1, t0, 46
-    //prgcheck reg t1 == 0xc84000000000000
+    //prgchk reg t1 == 0x00003fb72ea61d950c84000000000000
     slli t1, t0, 47
-    //prgcheck reg t1 == 0x1908000000000000
+    //prgchk reg t1 == 0x00007f6e5d4c3b2a1908000000000000
     slli t1, t0, 48
-    //prgcheck reg t1 == 0x3210000000000000
+    //prgchk reg t1 == 0x0000fedcba9876543210000000000000
     slli t1, t0, 49
-    //prgcheck reg t1 == 0x6420000000000000
+    //prgchk reg t1 == 0x0001fdb97530eca86420000000000000
     slli t1, t0, 50
-    //prgcheck reg t1 == 0xc840000000000000
+    //prgchk reg t1 == 0x0003fb72ea61d950c840000000000000
     slli t1, t0, 51
-    //prgcheck reg t1 == 0x9080000000000000
+    //prgchk reg t1 == 0x0007f6e5d4c3b2a19080000000000000
     slli t1, t0, 52
-    //prgcheck reg t1 == 0x2100000000000000
+    //prgchk reg t1 == 0x000fedcba98765432100000000000000
     slli t1, t0, 53
-    //prgcheck reg t1 == 0x4200000000000000
+    //prgchk reg t1 == 0x001fdb97530eca864200000000000000
     slli t1, t0, 54
-    //prgcheck reg t1 == 0x8400000000000000
+    //prgchk reg t1 == 0x003fb72ea61d950c8400000000000000
     slli t1, t0, 55
-    //prgcheck reg t1 == 0x800000000000000
+    //prgchk reg t1 == 0x007f6e5d4c3b2a190800000000000000
     slli t1, t0, 56
-    //prgcheck reg t1 == 0x1000000000000000
+    //prgchk reg t1 == 0x00fedcba987654321000000000000000
     slli t1, t0, 57
-    //prgcheck reg t1 == 0x2000000000000000
+    //prgchk reg t1 == 0x01fdb97530eca8642000000000000000
     slli t1, t0, 58
-    //prgcheck reg t1 == 0x4000000000000000
+    //prgchk reg t1 == 0x03fb72ea61d950c84000000000000000
     slli t1, t0, 59
-    //prgcheck reg t1 == 0x8000000000000000
+    //prgchk reg t1 == 0x07f6e5d4c3b2a1908000000000000000
     slli t1, t0, 60
-    //prgcheck reg t1 == 0x0
+    //prgchk reg t1 == 0x0fedcba9876543210000000000000000
     slli t1, t0, 61
-    //prgcheck reg t1 == 0x0
+    //prgchk reg t1 == 0x1fdb97530eca86420000000000000000
     slli t1, t0, 62
-    //prgcheck reg t1 == 0x0
+    //prgchk reg t1 == 0x3fb72ea61d950c840000000000000000
     slli t1, t0, 63
-    //prgcheck reg t1 == 0x0
+    //prgchk reg t1 == 0x7f6e5d4c3b2a19080000000000000000
+    slli t1, t0, 64
+    //prgchk reg t1 == 0xfedcba98765432100000000000000000
+    slli t1, t0, 65
+    //prgchk reg t1 == 0xfdb97530eca864200000000000000000
+    slli t1, t0, 66
+    //prgchk reg t1 == 0xfb72ea61d950c8400000000000000000
+    slli t1, t0, 67
+    //prgchk reg t1 == 0xf6e5d4c3b2a190800000000000000000
+    slli t1, t0, 68
+    //prgchk reg t1 == 0xedcba987654321000000000000000000
+    slli t1, t0, 69
+    //prgchk reg t1 == 0xdb97530eca8642000000000000000000
+    slli t1, t0, 70
+    //prgchk reg t1 == 0xb72ea61d950c84000000000000000000
+    slli t1, t0, 71
+    //prgchk reg t1 == 0x6e5d4c3b2a1908000000000000000000
+    slli t1, t0, 72
+    //prgchk reg t1 == 0xdcba9876543210000000000000000000
+    slli t1, t0, 73
+    //prgchk reg t1 == 0xb97530eca86420000000000000000000
+    slli t1, t0, 74
+    //prgchk reg t1 == 0x72ea61d950c840000000000000000000
+    slli t1, t0, 75
+    //prgchk reg t1 == 0xe5d4c3b2a19080000000000000000000
+    slli t1, t0, 76
+    //prgchk reg t1 == 0xcba98765432100000000000000000000
+    slli t1, t0, 77
+    //prgchk reg t1 == 0x97530eca864200000000000000000000
+    slli t1, t0, 78
+    //prgchk reg t1 == 0x2ea61d950c8400000000000000000000
+    slli t1, t0, 79
+    //prgchk reg t1 == 0x5d4c3b2a190800000000000000000000
+    slli t1, t0, 80
+    //prgchk reg t1 == 0xba987654321000000000000000000000
+    slli t1, t0, 81
+    //prgchk reg t1 == 0x7530eca8642000000000000000000000
+    slli t1, t0, 82
+    //prgchk reg t1 == 0xea61d950c84000000000000000000000
+    slli t1, t0, 83
+    //prgchk reg t1 == 0xd4c3b2a1908000000000000000000000
+    slli t1, t0, 84
+    //prgchk reg t1 == 0xa9876543210000000000000000000000
+    slli t1, t0, 85
+    //prgchk reg t1 == 0x530eca86420000000000000000000000
+    slli t1, t0, 86
+    //prgchk reg t1 == 0xa61d950c840000000000000000000000
+    slli t1, t0, 87
+    //prgchk reg t1 == 0x4c3b2a19080000000000000000000000
+    slli t1, t0, 88
+    //prgchk reg t1 == 0x98765432100000000000000000000000
+    slli t1, t0, 89
+    //prgchk reg t1 == 0x30eca864200000000000000000000000
+    slli t1, t0, 90
+    //prgchk reg t1 == 0x61d950c8400000000000000000000000
+    slli t1, t0, 91
+    //prgchk reg t1 == 0xc3b2a190800000000000000000000000
+    slli t1, t0, 92
+    //prgchk reg t1 == 0x87654321000000000000000000000000
+    slli t1, t0, 93
+    //prgchk reg t1 == 0x0eca8642000000000000000000000000
+    slli t1, t0, 94
+    //prgchk reg t1 == 0x1d950c84000000000000000000000000
+    slli t1, t0, 95
+    //prgchk reg t1 == 0x3b2a1908000000000000000000000000
+    slli t1, t0, 96
+    //prgchk reg t1 == 0x76543210000000000000000000000000
+    slli t1, t0, 97
+    //prgchk reg t1 == 0xeca86420000000000000000000000000
+    slli t1, t0, 98
+    //prgchk reg t1 == 0xd950c840000000000000000000000000
+    slli t1, t0, 99
+    //prgchk reg t1 == 0xb2a19080000000000000000000000000
+    slli t1, t0, 100
+    //prgchk reg t1 == 0x65432100000000000000000000000000
+    slli t1, t0, 101
+    //prgchk reg t1 == 0xca864200000000000000000000000000
+    slli t1, t0, 102
+    //prgchk reg t1 == 0x950c8400000000000000000000000000
+    slli t1, t0, 103
+    //prgchk reg t1 == 0x2a190800000000000000000000000000
+    slli t1, t0, 104
+    //prgchk reg t1 == 0x54321000000000000000000000000000
+    slli t1, t0, 105
+    //prgchk reg t1 == 0xa8642000000000000000000000000000
+    slli t1, t0, 106
+    //prgchk reg t1 == 0x50c84000000000000000000000000000
+    slli t1, t0, 107
+    //prgchk reg t1 == 0xa1908000000000000000000000000000
+    slli t1, t0, 108
+    //prgchk reg t1 == 0x43210000000000000000000000000000
+    slli t1, t0, 109
+    //prgchk reg t1 == 0x86420000000000000000000000000000
+    slli t1, t0, 110
+    //prgchk reg t1 == 0x0c840000000000000000000000000000
+    slli t1, t0, 111
+    //prgchk reg t1 == 0x19080000000000000000000000000000
+    slli t1, t0, 112
+    //prgchk reg t1 == 0x32100000000000000000000000000000
+    slli t1, t0, 113
+    //prgchk reg t1 == 0x64200000000000000000000000000000
+    slli t1, t0, 114
+    //prgchk reg t1 == 0xc8400000000000000000000000000000
+    slli t1, t0, 115
+    //prgchk reg t1 == 0x90800000000000000000000000000000
+    slli t1, t0, 116
+    //prgchk reg t1 == 0x21000000000000000000000000000000
+    slli t1, t0, 117
+    //prgchk reg t1 == 0x42000000000000000000000000000000
+    slli t1, t0, 118
+    //prgchk reg t1 == 0x84000000000000000000000000000000
+    slli t1, t0, 119
+    //prgchk reg t1 == 0x08000000000000000000000000000000
+    slli t1, t0, 120
+    //prgchk reg t1 == 0x10000000000000000000000000000000
+    slli t1, t0, 121
+    //prgchk reg t1 == 0x20000000000000000000000000000000
+    slli t1, t0, 122
+    //prgchk reg t1 == 0x40000000000000000000000000000000
+    slli t1, t0, 123
+    //prgchk reg t1 == 0x80000000000000000000000000000000
+    slli t1, t0, 124
+    //prgchk reg t1 == 0x00000000000000000000000000000000
+    slli t1, t0, 125
+    //prgchk reg t1 == 0x00000000000000000000000000000000
+    slli t1, t0, 126
+    //prgchk reg t1 == 0x00000000000000000000000000000000
     j exit
