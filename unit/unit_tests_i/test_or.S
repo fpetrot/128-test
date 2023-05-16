@@ -1,5 +1,4 @@
-#include "insns.S" 
-#include "utils.S"
+#include "exit.S"
 
 .section .data
     test_quad:  .octa 0x75033785b9ca9eec0ec94d28201e1869

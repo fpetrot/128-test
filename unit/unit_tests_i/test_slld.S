@@ -1,5 +1,4 @@
-#include "insns.S" 
-#include "utils.S"
+#include "exit.S"
 
 .section .text.init,"ax",@progbits
 .globl _start
@@ -7,7 +6,7 @@ _start:
     // Check only first 6 bits are used for shift.
     li t0, 0xdeadbeefcafebabe
     li t1, 96 // will correspond to a shift of 32
-    slld(t2, t0, t1)
+    slld t2, t0, t1
     //prgchk reg t2 == 0xffffffffffffffffcafebabe00000000
 
     // Check incremental shifts from 0 to 63.

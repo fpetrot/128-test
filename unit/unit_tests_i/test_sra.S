@@ -1,28 +1,22 @@
-#include "insns.S" 
-#include "utils.S"
+#include "exit.S"
 
 .section .text.init,"ax",@progbits
 .globl _start
 _start:
-    liu(t0, 0x8000000000000000)
-    liu(t1, t0)
+    li t0, 0x80000000000000000000000000000000
 
     // Check carry of sign bit
     li t6, 127
-    sra t2, t1, t6
-    //prgchk reg t2 == 0xffffffffffffffff
+    sra t2, t0, t6
+    //prgchk reg t2 == 0xffffffffffffffffffffffffffffffff
 
     // Check carry of zero sign bit.
-    liu(t0, 0x7fffffffffffffff)
-    slli t1, t0, 64
-    sra t2, t1, t6
+    li t0, 0x7fffffffffffffffffffffffffffffff
+    sra t2, t0, t6
     //prgchk reg t2 == 0
 
     // Incremental shifts of known value.
-    liu(t0, 0xdeadbeefcafebabf)
-    slli t0, t0, 64
-    liu(t1, 0xcafed00ddeaddead)
-    or t0, t0, t1
+    li t0, 0xdeadbeefcafebabfcafed00ddeaddead
     li t1, 0
     sra t2, t0, t1
     //prgchk reg t2 == 0xdeadbeefcafebabfcafed00ddeaddead

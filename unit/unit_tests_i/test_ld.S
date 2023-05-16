@@ -1,5 +1,4 @@
-#include "insns.S" 
-#include "utils.S"
+#include "exit.S"
 
 .section .data
     tst1:          .dword 0xffffffffffffffff
@@ -34,7 +33,6 @@ _start:
     ld t1, 0(t1)
     //prgchk reg t1 == 0xfffffffffffffffffedcba9876543210
 
-
     la t1, tst3
     ld t1, 0(t1)
     //prgchk reg t1 == 0x00000000000000001234567890abcdef
@@ -42,67 +40,56 @@ _start:
     // Loading with different offsets.
     la t0, tab_tst
     ld t1, 0(t0)
-    //prgchk reg t1 == 0x00000000000000000000000000000001
+    //prgchk reg t1 == 1
 
     ld t1, 8(t0)
-    //prgchk reg t1 == 0x00000000000000000000000000000002
+    //prgchk reg t1 == 2
 
     ld t1, 16(t0)
-    //prgchk reg t1 == 0x00000000000000000000000000000003
+    //prgchk reg t1 == 3
     
     ld t1, 24(t0)
-    //prgchk reg t1 == 0x00000000000000000000000000000005
+    //prgchk reg t1 == 5
 
     ld t1, 32(t0)
-    //prgchk reg t1 == 0x00000000000000000000000000000007
+    //prgchk reg t1 == 7
 
     ld t1, 40(t0)
-    //prgchk reg t1 == 0x0000000000000000000000000000000b
-
+    //prgchk reg t1 == 11
 
     ld t1, 48(t0)
-    //prgchk reg t1 == 0x0000000000000000000000000000000d
-
+    //prgchk reg t1 == 13
 
     ld t1, 56(t0)
-    //prgchk reg t1 == 0x00000000000000000000000000000011
-    srli(t1, t1, 64)
-    //prgchk reg t1 == 0
+    //prgchk reg t1 == 17
 
     ld t1, 64(t0)
-    //prgchk reg t1 == 0x00000000000000000000000000000013
-
+    //prgchk reg t1 == 19
 
     // Testing unaligned reads.
     la t0, unaligned1
     ld t1, 0(t0)
     //prgchk reg t1 == 0xffffffffffffffffabcdef0123456789
 
-
     la t0, unaligned2
     ld t1, 0(t0)
     //prgchk reg t1 == 0xfffffffffffffffffedcba9876543210
-
 
     la t0, unaligned3
     ld t1, 0(t0)
     //prgchk reg t1 == 0xffffffffffffffffdeadbeefbeefdead
 
-
     la t0, unaligned4
     ld t1, 0(t0)
     //prgchk reg t1 == 0xffffffffffffffffcafebabebabecafe
 
-
     la t0, unaligned5
     ld t1, 0(t0)
     //prgchk reg t1 == 0xffffffffffffffffabadadddabcdabed
- 
 
     la t0, unaligned6
     ld t1, 0(t0)
     //prgchk reg t1 == 0xffffffffffffffffeeffeeffeeffeeff
-
 
     la t0, unaligned7
     ld t1, 0(t0)

@@ -1,5 +1,4 @@
-#include "insns.S" 
-#include "utils.S"
+#include "exit.S"
 
 .section .data
     val1: .octa 0x26bf5f56d85c76ce7141e1c7d71b77d0

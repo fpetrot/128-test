@@ -1,5 +1,4 @@
-#include "insns.S" 
-#include "utils.S"
+#include "exit.S"
 
 .section .data
     tst0: .byte 0x80
@@ -31,29 +30,29 @@ _start:
     // Check loads with offsets
     la t0, tab_tst
     lb t1, 0(t0)
-    //prgchk reg t1 == 0X0000000000000000000000000000001
+    //prgchk reg t1 == 1
     
     lb t1, 1(t0)
-    //prgchk reg t1 == 0X0000000000000000000000000000002
+    //prgchk reg t1 == 2
 
     
     lb t1, 2(t0)
-    //prgchk reg t1 == 0X0000000000000000000000000000003
+    //prgchk reg t1 == 3
 
     lb t1, 3(t0)
-    //prgchk reg t1 == 0X0000000000000000000000000000005
+    //prgchk reg t1 == 5
 
     lb t1, 4(t0)
-    //prgchk reg t1 == 0X0000000000000000000000000000007
+    //prgchk reg t1 == 7
 
     lb t1, 5(t0)
-    //prgchk reg t1 == 0X000000000000000000000000000000b
+    //prgchk reg t1 == 11
 
     lb t1, 6(t0)
-    //prgchk reg t1 == 0X000000000000000000000000000000d
+    //prgchk reg t1 == 13
 
     lb t1, 7(t0)
-    //prgchk reg t1 == 0X0000000000000000000000000000011
+    //prgchk reg t1 == 17
 
     lb t1, 8(t0)
     //prgchk reg t1 == 0xffffffffffffffffffffffffffffffff

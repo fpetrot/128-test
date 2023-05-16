@@ -1,5 +1,4 @@
-#include "insns.S" 
-#include "utils.S"
+#include "exit.S"
 
 .section .data
     bigtest1:  .octa 0x53dadaf536d33cd841e0ce648ce00cfe
@@ -40,7 +39,7 @@ after_tst2:
     la t1, bigtest1
     lq t1, 0(t1)
     bge t0, t1, after_tst22
-    //prgchk err GEQ with self is not true
+    //prgchk err geq with self is not true
     nop
 after_tst22:
 
@@ -67,7 +66,7 @@ after_tst23:
 
     // Test with subtraction overflow (positive - negative -> negative)
     la t0, oftest3
-    lq t1, 0(t1)
+    lq t0, 0(t0)
 
     la t1, oftest4
     lq t1, 0(t1)

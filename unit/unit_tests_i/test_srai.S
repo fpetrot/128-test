@@ -1,16 +1,15 @@
-#include "insns.S" 
-#include "utils.S"
+#include "exit.S"
 
 .section .text.init,"ax",@progbits
 .globl _start
 _start:
-    liu(t0, 0xffffffffffffffff)
-    //prgchk reg t0 == 0xffffffffffffffff
-    liu  t1, t0
-    or t1, t1, t0
+    li t0, 0xffffffffffffffff
+    li t1, 0xffffffffffffffffffffffffffffffff
 
-    srai t2, t1, 128
-    //prgcheck reg t2 == 0xffffffffffffffff
+    srai t2, t1, 64
+    //prgchk reg t2 == 0xffffffffffffffffffffffffffffffff
+    srai t2, t2, 64
+    //prgchk reg t2 == 0xffffffffffffffffffffffffffffffff
 
     // Check that a shift with 64-bit sign bit doesn't carry it (not a 64 bit srai).
     srai t2, t0, 32
@@ -22,16 +21,13 @@ _start:
     //prgchk reg t2 == 0xffff
 
     // Check max shift value, and carry of sign bit.
-    //    Sign bit = 1
-    li t0, 0x8000000000000000
-    slli t1, t0, 64
+    // Sign bit = 1
+    li t0, 0x80000000000000000000000000000000
     srai t2, t1, 127
-    //prgchk reg t2 == 0xffffffffffffffff
+    //prgchk reg t2 == 0xffffffffffffffffffffffffffffffff
     
-    //    Sign bit = 0
-    srli t0, t0, 128
-    li t0, 0x7000000000000000
-    slli t1, t0, 64
+    // Sign bit = 0
+    li t0, 0x70000000000000000000000000000000
     srai t2, t1, 127
     //prgck reg t2 == 0
     j exit

@@ -1,5 +1,4 @@
-#include "insns.S" 
-#include "utils.S"
+#include "exit.S"
 
 .section .data
     tst1:     .octa 0xae36d53f51a671836aba36a5d5d76824
@@ -51,7 +50,6 @@ _start:
     la t0, tst1
     lq t0, 0(t0)
     //prgchk reg t0 == 0xae36d53f51a671836aba36a5d5d76824
-
 
     la t0, tst2
     lq t0, 0(t0)
@@ -137,21 +135,17 @@ _start:
     lq t1, 48(t0)
     //prgchk reg t1 == 5
 
-
     lq t1, 64(t0)
     //prgchk reg t1 == 7
 
-
     lq t1, 80(t0)
     //prgchk reg t1 == 11
-
 
     lq t1, 96(t0)
     //prgchk reg t1 == 0
 
     lq t1, 112(t0)
     //prgchk reg t1 == 0xffffffffffffffffffffffffffffffff
-
 
     lq t1, 128(t0)
     //prgchk reg t1 == 0xd4faa2a0516c5c5539f7a734a652847a

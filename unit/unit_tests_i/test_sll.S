@@ -1,44 +1,43 @@
-#include "insns.S" 
-#include "utils.S"
+#include "exit.S"
 
 .section .text.init,"ax",@progbits
 .globl _start
 _start:
-    liu(t0, 0xffffffffffffffff)
+    li t0, 0xffffffffffffffff
     //prgchk reg t0 == 0xffffffffffffffff
-    liu(t1, 32
+    li t1, 32
     //prgchk reg t1 == 32
 
-    liu(t2, 0xffffffffffffffff)
-    //prgchk reg t2 == 0xffffffffffffffff)
+    li t2, 0xffffffffffffffff
+    //prgchk reg t2 == 0xffffffffffffffff
     sll t2, t0, t1
     //prgchk reg t2 == 0x00000000ffffffffffffffff00000000
 
     // Shift by zero
     lui t0, 0
     //progchk reg t0 == 0
-    liu(t1, 0xdeadbeefcafebabf)
+    li t1, 0xdeadbeefcafebabf
     //prgchk reg t1 == 0xdeadbeefcafebabf
     sll t2, t1, t0
     //prgchk reg t2 == 0xdeadbeefcafebabf
 
     // Shift by max shift
-    liu(t0, 127)
+    li t0, 127
     //prgchk reg t0 == 127
     sll t2, t1, t0
     //prgchk reg t2 == 0x80000000000000000000000000000000
 
     // Incremental shifts
-    liu(t0, 0xdeadbeefcafebabf0000000000000000
-    liu(t1, 0xcafed00ddeaddead)
+    li t0, 0xdeadbeefcafebabf0000000000000000
+    li t1, 0xcafed00ddeaddead
     or t0, t0, t1
-    liu(t1, 0)
+    li t1, 0
     sll t2, t0, t1
     //prgchk reg t2 == 0xdeadbeefcafebabfcafed00ddeaddead
-    liu(t1, 1)
+    li t1, 1
     sll t2, t0, t1
     //prgchk reg t2 == 0xbd5b7ddf95fd757f95fda01bbd5bbd5a
-    liu(t1, 2)
+    li t1, 2
     sll t2, t0, t1
     //prgchk reg t2 == 0x7ab6fbbf2bfaeaff2bfb40377ab77ab4
     li t1, 3
@@ -94,19 +93,19 @@ _start:
     //prgchk reg t2 == 0xf77e57f5d5fe57f6806ef56ef5680000
     li t1, 20
     sll t2, t0, t1
-    //prgchk reg t2 == 0xeefcafebabfcafedddeaddead00000
+    //prgchk reg t2 == 0xeefcafebabfcafed00ddeaddead00000
     li t1, 21
     sll t2, t0, t1
-    //prgchk reg t2 == 0xddf95fd757f95fda1bbd5bbd5a00000
+    //prgchk reg t2 == 0xddf95fd757f95fda01bbd5bbd5a00000
     li t1, 22
     sll t2, t0, t1
-    //prgchk reg t2 == 0xbbf2bfaeaff2bfb4377ab77ab400000
+    //prgchk reg t2 == 0xbbf2bfaeaff2bfb40377ab77ab400000
     li t1, 23
     sll t2, t0, t1
-    //prgchk reg t2 == 0x77e57f5d5fe57f686ef56ef56800000
+    //prgchk reg t2 == 0x77e57f5d5fe57f6806ef56ef56800000
     li t1, 24
     sll t2, t0, t1
-    //prgchk reg t2 == 0xefcafebabfcafed0ddeaddead000000
+    //prgchk reg t2 == 0xefcafebabfcafed00ddeaddead000000
     li t1, 25
     sll t2, t0, t1
     //prgchk reg t2 == 0xdf95fd757f95fda01bbd5bbd5a000000
@@ -217,7 +216,7 @@ _start:
     //prgchk reg t2 == 0xfcafed00ddeaddead000000000000000
     li t1, 61
     sll t2, t0, t1
-    //prgchk reg t2 == 0f95fda01bbd5bbd5xa000000000000000
+    //prgchk reg t2 == 0xf95fda01bbd5bbd5a000000000000000
     li t1, 62
     sll t2, t0, t1
     //prgchk reg t2 == 0xf2bfb40377ab77ab4000000000000000

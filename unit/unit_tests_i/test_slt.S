@@ -1,5 +1,4 @@
-#include "insns.S" 
-#include "utils.S"
+#include "exit.S"
 
 .section .data
     bigtest1:  .octa 0x53dadaf536d33cd841e0ce648ce00cfe
@@ -35,6 +34,7 @@ _start:
     // Compare with self
     la t1, bigtest1
     lq t1, 0(t1)
+    slt t2, t1, t1
     //prgchk reg t2 == 0
 
 

@@ -1,5 +1,4 @@
-#include "insns.S" 
-#include "utils.S"
+#include "exit.S"
 
 .section .text.init,"ax",@progbits
 .globl _start
@@ -32,8 +31,6 @@ _start:
 
 
     sllid t1, t0, 63
-    //prgchk reg t1 == 0
-    srli(t1, t1, 64)
     //prgchk reg t1 == 0
 
     li t0, 1

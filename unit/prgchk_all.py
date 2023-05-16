@@ -21,7 +21,7 @@ try:
 except ImportError:
     pass
 
-DEFAULT_TEST_PATH="unit_tests"
+DEFAULT_TEST_PATH="unit_tests_i"
 DEFAULT_OUTPUT_DIR="out"
 
 @dataclass

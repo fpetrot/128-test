@@ -1,5 +1,4 @@
-#include "insns.S" 
-#include "utils.S"
+#include "exit.S"
 
 .section .data
     tst0: .word 0x80386387
@@ -21,11 +20,11 @@ _start:
     // Arbitrary value loading (checks sign ext to 128 bits)
     la t0, tst0
     lwu t0, 0(t0)
-    //prgchk reg t0 == 0x00000000000000000000000080386387
+    //prgchk reg t0 == 0x80386387
 
     la t0, tst1
     lwu t0, 0(t0)
-    //prgchk reg t0 == 0x00000000000000000000000042434445
+    //prgchk reg t0 == 0x42434445
 
     la t0, tst2
     lwu t0, 0(t0)
@@ -33,20 +32,20 @@ _start:
 
     la t0, tst3
     lwu t0, 0(t0)
-    //prgchk reg t0 == 0x000000000000000000000000ffffffff
+    //prgchk reg t0 == 0xffffffff
 
     // Unaligned reads.
     la t1, unaligned_1
     lwu t1, 0(t1)
-    //prgchk reg t1 == 0x000000000000000000000000cafebabe
+    //prgchk reg t1 == 0xcafebabe
 
     la t1, unaligned_2
     lwu t1, 0(t1)
-    //prgchk reg t1 == 0x00000000000000000000000012345678
+    //prgchk reg t1 == 0x12345678
 
     la t1, unaligned_3
     lwu t1, 0(t1)
-    //prgchk reg t1 == 0x00000000000000000000000087654321
+    //prgchk reg t1 == 0x87654321
 
     // Check loads with offsets.
     la t0, tab_tst
@@ -75,5 +74,5 @@ _start:
     //prgchk reg t1 == 17
 
     lwu t1, 32(t0)
-    //prgchk reg t1 == 0x000000000000000000000000ffffffff
+    //prgchk reg t1 == 0xffffffff
     j exit

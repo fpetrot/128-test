@@ -1,5 +1,4 @@
-#include "insns.S" 
-#include "utils.S"
+#include "exit.S"
 
 .section .data
     tst1_1:  .octa 0xfedcba0987654321fedcba0987654321
@@ -26,9 +25,9 @@ _start:
 
     // Test all five orderings of the words.
     la t0, tst1_1
-  lq t0, 0(t0)
+    lq t0, 0(t0)
     la t1, tst1_2
-  lq t1, 0(t1)
+    lq t1, 0(t1)
     
     sltu t2, t0, t1
     //prgchk reg t2 == 0
@@ -36,9 +35,9 @@ _start:
 
 
     la t0, tst2_1
-  lq t0, 0(t0)
+    lq t0, 0(t0)
     la t1, tst2_2
-  lq t1, 0(t1)
+    lq t1, 0(t1)
     
     sltu t2, t0, t1
     //prgchk reg t2 == 1
@@ -46,27 +45,27 @@ _start:
 
 
     la t0, tst3_1
-  lq t0, 0(t0)
+    lq t0, 0(t0)
     la t1, tst3_2
-  lq t1, 0(t1)
+    lq t1, 0(t1)
     
     sltu t2, t0, t1
     //prgchk reg t2 == 1
 
 
     la t0, tst4_1
-  lq t0, 0(t0)
+    lq t0, 0(t0)
     la t1, tst4_2
-  lq t1, 0(t1)
+    lq t1, 0(t1)
     
     sltu t2, t0, t1
     //prgchk reg t2 == 1
 
 
     la t0, tst5_1
-  lq t0, 0(t0)
+    lq t0, 0(t0)
     la t1, tst5_2
-  lq t1, 0(t1)
+    lq t1, 0(t1)
     
     sltu t2, t0, t1
     //prgchk reg t2 == 0

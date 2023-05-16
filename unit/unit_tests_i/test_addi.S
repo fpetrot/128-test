@@ -1,5 +1,4 @@
-#include "insns.S" 
-#include "utils.S"
+#include "exit.S"
 
 .section .data
     test_quad: .octa 0x75033785b9ca9eec0ec94d28201e1869
@@ -31,6 +30,6 @@ _start:
     //prgchk reg zero == 0
 
     // Test overflow into upper 64 bits.
-    liu(t1, 0x10000000000000000)
+    li t1, 0x10000000000000000
     //prgchk reg t1 == 0x10000000000000000
     j exit
