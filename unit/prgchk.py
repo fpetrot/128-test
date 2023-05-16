@@ -52,17 +52,16 @@ def parse_regchk(a: CheckParseArgs) -> str:
     reg = a.chkargs[0]
     op = a.chkargs[1]
     val = smart_int_cast(a.chkargs[2])
-    return f"""
+    return f'''
 break {a.srcfile}:{a.lineno} if ${reg} {op_opposite[op]} {val}
 commands
 silent
-    info line
-    print "Register check condition broken, expected {reg} {op} {val} (= {hex(val)}), got :"
-    print /x ${reg}
+    output "Register check failed line {a.lineno}, expected {reg} {op} {val} (= {hex(val)}), got :"
+    output/x ${reg}
     kill
     quit 1
 end
-        """
+'''
 
 def parse_varchk(a: CheckParseArgs) -> str:
     if len(a.chkargs) != 3:
@@ -70,55 +69,51 @@ def parse_varchk(a: CheckParseArgs) -> str:
     varname = a.chkargs[0]
     op = a.chkargs[1]
     val = smart_int_cast(a.chkargs[2])
-    return f"""
-break {a.srcfile}:{a.lineno} if ((unsigned long) {varname}) {op_opposite[op]} {val}
+    return f'''
+break {a.srcfile}:{a.lineno} if ((unsigned long){varname}) {op_opposite[op]} {val}
 commands
 silent
-    info line
-    print "Variable value check condition broken, expected {varname} {op} {val}, got :"
-    print /x (unsigned long) {varname}
+    output "Variable value check condition broken line {a.lineno}, expected {varname} {op} {val}, got :"
+    print /x (unsigned long){varname}
     kill
     quit 1
 end
-        """
+'''
 
 def parse_gdbchk(a: CheckParseArgs) -> str:
     expr = " ".join(a.chkargs)
-    return f"""
+    return f'''
 break {a.srcfile}:{a.lineno} if !({expr})
 commands
 silent
-    info line
-    print "GDB check condition broken, expected {expr} true, but was false"
+    print "GDB check condition broken line {a.lineno}, expected {expr} true, but was false"
     kill
     quit 1
 end
-    """
+'''
 
 def parse_errchk(a: CheckParseArgs) -> str:
     msg = "\"" + " ".join(a.chkargs) + "\""
-    return f"""   
+    return f'''
 break {a.srcfile}:{a.lineno}
 commands
 silent
-    info line
-    print {msg}
+    print "Error line {a.lineno}: {msg}"
     kill
     quit 1
 end
-    """
-    
+'''
+
 def parse_msgchk(a: CheckParseArgs) -> str:
     msg = " ".join(a.chkargs)
-    return f"""   
+    return f'''
 break {a.srcfile}:{a.lineno}
 commands
 silent
-    info line
-    print {msg}
+    print "Info line {a.lineno}: {msg}"
     continue
 end
-    """
+'''
 
 chk_parsers: Dict[str, Callable[[CheckParseArgs], Optional[str]]] = {
     'reg': parse_regchk,
@@ -134,7 +129,7 @@ def parse_check(line: str, lineno: int, base_filename: str) -> Optional[str]:
     if len(parts) < 2:
         return None
     cmd = parts[1]
-        
+
     if cmd in chk_parsers:
         parser = chk_parsers[cmd]
         genchk = parser(CheckParseArgs(lineno, base_filename, parts[2:]))
@@ -146,7 +141,7 @@ def generate_gdb_script(src_filename: str) -> TestStatus:
     src_file = open(src_filename, "r")
     base_filename = os.path.basename(src_filename)
 
-    gdb_script_file = open(f"out/{base_filename}.gdbcmd", "w")
+    gdb_script_file = open(f"out/{base_filename}.gdb", "w")
 
     gdb_script_file.write("set logging enable off\ntarget remote :1144\n")
 
@@ -160,8 +155,11 @@ def generate_gdb_script(src_filename: str) -> TestStatus:
 
             gdb_script_file.write(gdbline)
 
-    gdb_script_file.write("continue\nquit 0")
-    
+    # GDB will disconnect from QEMU, so we cannot execute anything
+    # after continue
+    # On disconnection, return value is 0, on bp test failure 1, lucky us
+    gdb_script_file.write("\ncontinue\n")
+
     gdb_script_file.close()
     src_file.close()
 
@@ -185,7 +183,7 @@ def run_test(test_filename: str, silent: bool = True) -> TestStatus:
 
     qemuproc = subprocess.Popen([QEMU_EXEC, '-machine', 'virt', '-cpu', 'x-rv128', '-accel', 'tcg,thread=single', '-bios', 'none', '-machine', 'virt', '-nographic',
         '-kernel', f'out/{test_name}', '-S', '-gdb', 'tcp::1144'], stdout=(open("/dev/null") if silent else sys.stdout))
-    test_retval = os.system(f"{CROSS_GDB} -q out/{test_name} < out/{os.path.basename(test_filename)}.gdbcmd {' &> /dev/null' if silent else ''}")
+    test_retval = os.system(f"{CROSS_GDB} -q out/{test_name} < out/{os.path.basename(test_filename)}.gdb {' &> /dev/null' if silent else ''}")
 
     qemu_retval = qemuproc.wait()
 
@@ -201,9 +199,9 @@ if __name__ == "__main__":
     if len(sys.argv) == 1:
         print(f"Usage : {sys.argv[0]} <test_file>")
         exit(0)
-    
+
     test_filename = sys.argv[1]
-    
+
     print(f"Test {os.path.splitext(os.path.basename(test_filename))[0]} : ", end="")
     status = run_test(test_filename, silent=False)
 
