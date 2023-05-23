@@ -9,7 +9,7 @@ elif [ -z $CROSS_AS ]; then
     echo "CROSS_AS env var not set, cannot compile test"
     exit 1
 elif [ -z $CROSS_LD ]; then
-    echo "CROSS_GCC env var not set, cannot compile test"
+    echo "CROSS_LD env var not set, cannot compile test"
     exit 1
 fi
 
