@@ -4,8 +4,9 @@ AR                 = $(CROSS_COMPILE)ar
 
 CFLAGS             = -mcmodel=medany -ffunction-sections -fdata-sections -ffast-math -ffreestanding -nostdinc
 
-LDFLAGS            = -nostartfiles -static -lgcc -Wl,--nmagic -Wl,--gc-sections -nostdlib
-INCLUDES           = -I../env/common -I../libfemto/include
+LDFLAGS            = -nostartfiles -nostdlib -static -lgcc examples/polybench/polybench-code/utilities/polybench.o \
+                     -Wl,--nmagic -Wl,--gc-sections
+INCLUDES           = -I../env/common -I../libfemto/include -Iexamples/polybench/polybench-code/utilities
 
 #
 # Compiler configurations and target environment definitions
@@ -98,7 +99,7 @@ $(foreach cfg,$(targets),$(eval $(call rule,$(1),$(call \
   config_arch,$(cfg)),$(call config_env,$(cfg)))))
 endef
 
-$(foreach d,$(sub_dirs),$(foreach t,$($(call module_name,$(d))_bin),$(eval $(call module,$(t),$(call module_name,$(d))))))
+$(foreach d,$(sub_dirs),$(foreach t,$($(call module_name,$(d))_bin),$(eval $(call module,$(t),$(d)))))
 
 global-tests: $(program_names)
 	mkdir -p ../build/exp/global-tests

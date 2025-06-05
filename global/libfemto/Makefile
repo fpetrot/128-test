@@ -2,10 +2,10 @@ CROSS_COMPILE      ?= riscv128-unknown-elf-
 
 AR                 = $(CROSS_COMPILE)ar
 
-CFLAGS             = -mcmodel=medany -ffunction-sections -fdata-sections -ffast-math -ffreestanding -nostdinc
+CFLAGS             = -mcmodel=medany -ffunction-sections -fdata-sections -ffast-math -ffreestanding #-nostdinc
 
-LDFLAGS            = -nostartfiles -static -lgcc -Wl,--nmagic -Wl,--gc-sections -nostdlib
-INCLUDES           = -I../env/common -Iinclude
+LDFLAGS            = -nostartfiles -static -lgcc -Wl,--nmagic -Wl,--gc-sections -nostdlib ../global_tests/examples/polybench/polybench-code/utilities/polybench.o
+INCLUDES           = -I../env/common -Iinclude -I../global_tests/examples/polybench/polybench-code/utilities
 
 libfemto_dirs      = std drivers arch/riscv
 libfemto_src       = $(sort $(foreach d,$(libfemto_dirs),$(wildcard $(d)/*.c)))
@@ -29,13 +29,17 @@ targets            = rv128:virt
 # make rules
 #
 
-all: libfemto 
+all: libfemto ../global-tests/examples/polybench/polybench-code/utilities/polybench.o
 
 libfemto: ../build/lib/libfemto.a
-     
+
+../global-tests/examples/polybench/polybench-code/utilities/polybench.o: ../global-tests/examples/polybench/polybench-code/utilities/polybench.c
+	$(CC_rv128) $(CFLAGS) $(CFLAGS_rv128) -c $< -o $@
+
 clean:
 	rm -fr ../build/lib 
 	rm -fr ../build/obj/lib
+	rm -fr ../global-tests/examples/polybench/polybench-code/utilities/polybench.o
 
 #
 # To view commands use: make V=1
