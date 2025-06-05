@@ -25,6 +25,9 @@ LDFLAGS_rv128      = -L$(CXPATH)/lib/$(MARCH)/$(MABI) -lm
 
 targets            = rv128:virt
 
+#to change the execution time for check
+EXEC_TIME=3
+
 #
 # make rules
 #
@@ -38,7 +41,7 @@ clean:
 	rm -fr ../build/exp/global-tests
 
 check: global-tests
-	./execute_tests.sh
+	./execute_tests.sh $(EXEC_TIME)
 
 #
 # To view commands use: make V=1
