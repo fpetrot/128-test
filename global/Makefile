@@ -9,6 +9,9 @@ MARCH              ?= rv128imafdc
 MABI               ?= llp128d
 QEMU               ?= qemu-system-riscv64
 
+#to change the execution time for check
+EXEC_TIME ?= 3
+
 .PHONY: all
 all: 
 	$(MAKE) libfemto	
@@ -16,7 +19,7 @@ all:
 
 .PHONY: check
 check:
-	$(MAKE) check-global-tests
+	$(MAKE) check-global-tests 
 
 .PHONY: clean
 clean:

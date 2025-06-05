@@ -19,27 +19,46 @@ cd ../build/bin/global-tests/virt || exit 1
 TESTS_COUNT=$(ls | wc -l)
 TESTS_FAIL=0
 
+EXEC_TIME="$1"
+
 echo -e "\n${BLUE}BEGINNING OF GLOBAL TESTS${NC}\n"
+echo -e "execution time: ${EXEC_TIME}"
 
 for i in *
 do
 	echo -e "${BLUE}TEST: ${NC}$i"
-	RES=$(timeout --foreground 3 $QEMU_CMD $i)
+	RES=$(timeout --foreground "$EXEC_TIME" $QEMU_CMD $i)
 	if [ $? -ne 0 ]
 	then
 		echo -e "${RED}-> ERROR: EXECUTION HAS FAILED${NC}"
 		TESTS_FAIL=$(($TESTS_FAIL+1))
 	else
-		DIFF=$(diff <(echo "$RES") "../../../exp/global-tests/$i.exp")
-		if [ "$DIFF" != "" ]
-		then
-			echo -e "${RED}-> ERROR: WRONG OUTPUT (expected is below)${NC}"
-      			echo -e "${YELLOW}$DIFF${NC}"
-			TESTS_FAIL=$(($TESTS_FAIL+1))
-        	RESULT=0
-    		else
-     			echo -e "${GREEN}-> OK${NC}"
-   		fi
+		FILE=../../../exp/global-tests/$i.exp
+		#check if the answer file exister to do a diff
+		if test -f "$FILE"; then
+			DIFF=$(diff <(echo "$RES") "$FILE")
+			if [ "$DIFF" != "" ]
+			then
+				echo -e "${RED}-> ERROR: WRONG OUTPUT (expected is below)${NC}"
+				#not to print all diff
+				#if too long do a vimdiff between the two files (name.exp and name_err.exp)
+				#in build/exp/global-tests/
+				if [ $(echo "$DIFF" | wc -l) -lt 5 ]
+				then
+					echo -e "${YELLOW}$DIFF${NC}"
+				else
+					echo -e "${YELLOW}$(echo "$DIFF" | head -n 5) ...${NC}"
+				fi
+				echo "$RES" > ${FILE%.*}_err.exp
+				TESTS_FAIL=$(($TESTS_FAIL+1))
+        		RESULT=0
+    			else
+     				echo -e "${GREEN}-> OK${NC}"
+   			fi
+		else
+			echo "$RES" > ${FILE%.*}_temp.exp
+			echo -e "${YELLOW}-> PASSED (without execution failure)${NC}"	
+		fi
 	fi
 done
 
