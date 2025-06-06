@@ -2,11 +2,11 @@ CROSS_COMPILE      ?= riscv128-unknown-elf-
 
 AR                 = $(CROSS_COMPILE)ar
 
-CFLAGS             = -mcmodel=medany -ffunction-sections -fdata-sections -ffast-math -ffreestanding #-nostdinc
+CFLAGS             = -mcmodel=medany -ffunction-sections -fdata-sections -ffast-math -ffreestanding -nostdinc
 
 LDFLAGS            = -nostartfiles -nostdlib -static -lgcc examples/polybench/polybench-code/utilities/polybench.o \
                      -Wl,--nmagic -Wl,--gc-sections
-INCLUDES           = -I../env/common -I../libfemto/include -Iexamples/polybench/polybench-code/utilities/
+INCLUDES           = -I../env/common -I../libfemto/include -Iexamples/polybench/polybench-code/utilities
 
 #
 # Compiler configurations and target environment definitions
