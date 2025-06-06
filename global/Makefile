@@ -16,7 +16,7 @@ all:
 
 .PHONY: check
 check:
-	$(MAKE) check-global-tests
+	$(MAKE) check-global-tests EXEC_TIME=1
 
 .PHONY: clean
 clean:
