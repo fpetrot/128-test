@@ -47,7 +47,7 @@ do
      				echo -e "${GREEN}-> OK${NC}"
    			fi
 		else
-			echo "$RES" > "$FILE".ex
+			echo "$RES" > ${FILE%.*}_temp.exp
 			echo -e "${YELLOW}-> PASSED (without execution failure)${NC}"	
 		fi
 	fi
