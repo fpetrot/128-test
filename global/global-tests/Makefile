@@ -16,10 +16,10 @@ subdirs            = global
 
 libs               = libfemto
 
-MARCH              ?= rv128imac
-MABI               ?= llp128
+MARCH              ?= rv128fdimac
+MABI               ?= llp128d
 CC_rv128           = $(CROSS_COMPILE)gcc
-CFLAGS_rv128       = -g -march="$(MARCH)" -mabi="$(MABI)"  -I../env/common/rv128
+CFLAGS_rv128       = -g -O0 -march="$(MARCH)" -mabi="$(MABI)"  -I../env/common/rv128 -DWAYS=2 -DHR=10 #used for lru-matrix
 CXPATH              := $(shell command -v $(CC_rv128) | sed -e 's/bin.*//')/$(CROSS_COMPILE:-=)
 LDFLAGS_rv128      = -L$(CXPATH)/lib/$(MARCH)/$(MABI) -lm
 
