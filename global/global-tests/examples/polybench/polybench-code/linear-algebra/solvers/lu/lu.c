@@ -6,6 +6,7 @@ typedef unsigned int wint_t;
 #include <unistd.h>
 #include <string.h>
 #include <math.h>
+#include <stdnew.h>
 
 /* Include polybench common header. */
 #include <polybench.h>
@@ -13,27 +14,26 @@ typedef unsigned int wint_t;
 /* Include benchmark-specific header. */
 #include "lu.h"
 
-
 /* Array initialization. */
-static
-void init_array (int n,
-		 DATA_TYPE POLYBENCH_2D(A,N,N,n,n))
+static void init_array(int n,
+                       DATA_TYPE POLYBENCH_2D(A, N, N, n, n))
 {
   int i, j;
 
   for (i = 0; i < n; i++)
+  {
+    for (j = 0; j <= i; j++)
+      A[i][j] = (DATA_TYPE)(-j % n) / n + 1;
+    for (j = i + 1; j < n; j++)
     {
-      for (j = 0; j <= i; j++)
-	A[i][j] = (DATA_TYPE)(-j % n) / n + 1;
-      for (j = i+1; j < n; j++) {
-	A[i][j] = 0;
-      }
-      A[i][i] = 1;
+      A[i][j] = 0;
     }
+    A[i][i] = 1;
+  }
 
   /* Make the matrix positive semi-definite. */
   /* not necessary for LU, but using same code as cholesky */
-  int r,s,t;
+  int r, s, t;
   POLYBENCH_2D_ARRAY_DECL(B, DATA_TYPE, N, N, n, n);
   for (r = 0; r < n; ++r)
     for (s = 0; s < n; ++s)
@@ -41,63 +41,63 @@ void init_array (int n,
   for (t = 0; t < n; ++t)
     for (r = 0; r < n; ++r)
       for (s = 0; s < n; ++s)
-	(POLYBENCH_ARRAY(B))[r][s] += A[r][t] * A[s][t];
-    for (r = 0; r < n; ++r)
-      for (s = 0; s < n; ++s)
-	A[r][s] = (POLYBENCH_ARRAY(B))[r][s];
+        (POLYBENCH_ARRAY(B))[r][s] += A[r][t] * A[s][t];
+  for (r = 0; r < n; ++r)
+    for (s = 0; s < n; ++s)
+      A[r][s] = (POLYBENCH_ARRAY(B))[r][s];
   POLYBENCH_FREE_ARRAY(B);
-
 }
-
 
 /* DCE code. Must scan the entire live-out data.
    Can be used also to check the correctness of the output. */
-static
-void print_array(int n,
-		 DATA_TYPE POLYBENCH_2D(A,N,N,n,n))
+static void print_array(int n,
+                        DATA_TYPE POLYBENCH_2D(A, N, N, n, n))
 
 {
   int i, j;
 
-  POLYBENCH_DUMP_START;
-  POLYBENCH_DUMP_BEGIN("A");
   for (i = 0; i < n; i++)
-    for (j = 0; j < n; j++) {
-      if ((i * n + j) % 20 == 0) fprintf (POLYBENCH_DUMP_TARGET, "\n");
-      fprintf (POLYBENCH_DUMP_TARGET, DATA_PRINTF_MODIFIER, A[i][j]);
+  {
+    for (j = 0; j < n; j++)
+    {
+      print_uart_double(A[i][j]);
+      print_uart(" ");
     }
-  POLYBENCH_DUMP_END("A");
-  POLYBENCH_DUMP_FINISH;
+    print_uart("\n");
+  }
+  print_uart("\n");
 }
-
 
 /* Main computational kernel. The whole function will be timed,
    including the call and return. */
-static
-void kernel_lu(int n,
-	       DATA_TYPE POLYBENCH_2D(A,N,N,n,n))
+static void kernel_lu(int n,
+                      DATA_TYPE POLYBENCH_2D(A, N, N, n, n))
 {
   int i, j, k;
 
 #pragma scop
-  for (i = 0; i < _PB_N; i++) {
-    for (j = 0; j <i; j++) {
-       for (k = 0; k < j; k++) {
-          A[i][j] -= A[i][k] * A[k][j];
-       }
-        A[i][j] /= A[j][j];
+  for (i = 0; i < _PB_N; i++)
+  {
+    for (j = 0; j < i; j++)
+    {
+      for (k = 0; k < j; k++)
+      {
+        A[i][j] -= A[i][k] * A[k][j];
+      }
+      A[i][j] /= A[j][j];
     }
-   for (j = i; j < _PB_N; j++) {
-       for (k = 0; k < i; k++) {
-          A[i][j] -= A[i][k] * A[k][j];
-       }
+    for (j = i; j < _PB_N; j++)
+    {
+      for (k = 0; k < i; k++)
+      {
+        A[i][j] -= A[i][k] * A[k][j];
+      }
     }
   }
 #pragma endscop
 }
 
-
-int main(int argc, char** argv)
+int main(int argc, char **argv)
 {
   /* Retrieve problem size. */
   int n = N;
@@ -106,13 +106,15 @@ int main(int argc, char** argv)
   POLYBENCH_2D_ARRAY_DECL(A, DATA_TYPE, N, N, n, n);
 
   /* Initialize array(s). */
-  init_array (n, POLYBENCH_ARRAY(A));
+  init_array(n, POLYBENCH_ARRAY(A));
 
   /* Start timer. */
   polybench_start_instruments;
 
+  #ifdef ARRAY_CALC
   /* Run kernel. */
-  kernel_lu (n, POLYBENCH_ARRAY(A));
+  kernel_lu(n, POLYBENCH_ARRAY(A));
+  #endif /* ARRAY_CALC */
 
   /* Stop and print timer. */
   polybench_stop_instruments;
@@ -120,7 +122,7 @@ int main(int argc, char** argv)
 
   /* Prevent dead-code elimination. All live-out data must be printed
      by the function call in argument. */
-  polybench_prevent_dce(print_array(n, POLYBENCH_ARRAY(A)));
+  print_array(n, POLYBENCH_ARRAY(A));
 
   /* Be clean. */
   POLYBENCH_FREE_ARRAY(A);

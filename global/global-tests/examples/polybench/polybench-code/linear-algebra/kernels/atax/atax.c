@@ -6,6 +6,7 @@ typedef unsigned int wint_t;
 #include <unistd.h>
 #include <string.h>
 #include <math.h>
+#include <stdnew.h>
 
 /* Include polybench common header. */
 #include <polybench.h>
@@ -40,15 +41,11 @@ void print_array(int n,
 
 {
   int i;
-
-  POLYBENCH_DUMP_START;
-  POLYBENCH_DUMP_BEGIN("y");
   for (i = 0; i < n; i++) {
-    if (i % 20 == 0) fprintf (POLYBENCH_DUMP_TARGET, "\n");
-    fprintf (POLYBENCH_DUMP_TARGET, DATA_PRINTF_MODIFIER, y[i]);
+    print_uart_double(y[i]);
+    print_uart(" ");
   }
-  POLYBENCH_DUMP_END("y");
-  POLYBENCH_DUMP_FINISH;
+  print_uart("\n");
 }
 
 
@@ -97,6 +94,7 @@ int main(int argc, char** argv)
   /* Start timer. */
   polybench_start_instruments;
 
+  #ifdef ARRAY_CALC
   /* Run kernel. */
   kernel_atax (m, n,
 	       POLYBENCH_ARRAY(A),
@@ -107,10 +105,11 @@ int main(int argc, char** argv)
   /* Stop and print timer. */
   polybench_stop_instruments;
   polybench_print_instruments;
+  #endif
 
   /* Prevent dead-code elimination. All live-out data must be printed
      by the function call in argument. */
-  polybench_prevent_dce(print_array(n, POLYBENCH_ARRAY(y)));
+  print_array(n, POLYBENCH_ARRAY(y));
 
   /* Be clean. */
   POLYBENCH_FREE_ARRAY(A);

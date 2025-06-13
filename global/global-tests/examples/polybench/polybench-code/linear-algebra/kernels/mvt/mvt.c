@@ -6,6 +6,7 @@ typedef unsigned int wint_t;
 #include <unistd.h>
 #include <string.h>
 #include <math.h>
+#include <stdnew.h>
 
 /* Include polybench common header. */
 #include <polybench.h>
@@ -47,21 +48,19 @@ void print_array(int n,
 {
   int i;
 
-  POLYBENCH_DUMP_START;
-  POLYBENCH_DUMP_BEGIN("x1");
+  print_uart("x1");
   for (i = 0; i < n; i++) {
-    if (i % 20 == 0) fprintf (POLYBENCH_DUMP_TARGET, "\n");
-    fprintf (POLYBENCH_DUMP_TARGET, DATA_PRINTF_MODIFIER, x1[i]);
+    print_uart_double(x1[i]);
+    print_uart(" ");
   }
-  POLYBENCH_DUMP_END("x1");
+  print_uart("\n");
 
-  POLYBENCH_DUMP_BEGIN("x2");
+  print_uart("x2");
   for (i = 0; i < n; i++) {
-    if (i % 20 == 0) fprintf (POLYBENCH_DUMP_TARGET, "\n");
-    fprintf (POLYBENCH_DUMP_TARGET, DATA_PRINTF_MODIFIER, x2[i]);
+    print_uart_double(x2[i]);
+    print_uart(" ");
   }
-  POLYBENCH_DUMP_END("x2");
-  POLYBENCH_DUMP_FINISH;
+  print_uart("\n");
 }
 
 
@@ -113,6 +112,7 @@ int main(int argc, char** argv)
   /* Start timer. */
   polybench_start_instruments;
 
+  #ifdef ARRAY_CALC
   /* Run kernel. */
   kernel_mvt (n,
 	      POLYBENCH_ARRAY(x1),
@@ -120,6 +120,7 @@ int main(int argc, char** argv)
 	      POLYBENCH_ARRAY(y_1),
 	      POLYBENCH_ARRAY(y_2),
 	      POLYBENCH_ARRAY(A));
+  #endif /* ARRAY_CALC */
 
   /* Stop and print timer. */
   polybench_stop_instruments;
@@ -127,7 +128,7 @@ int main(int argc, char** argv)
 
   /* Prevent dead-code elimination. All live-out data must be printed
      by the function call in argument. */
-  polybench_prevent_dce(print_array(n, POLYBENCH_ARRAY(x1), POLYBENCH_ARRAY(x2)));
+  print_array(n, POLYBENCH_ARRAY(x1), POLYBENCH_ARRAY(x2));
 
   /* Be clean. */
   POLYBENCH_FREE_ARRAY(A);

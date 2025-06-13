@@ -6,6 +6,7 @@ typedef unsigned int wint_t;
 #include <unistd.h>
 #include <string.h>
 #include <math.h>
+#include <stdnew.h>
 
 /* Include polybench common header. */
 #include <polybench.h>
@@ -43,19 +44,18 @@ void init_array(int ni, int nj, int nk, int nl, int nm,
    Can be used also to check the correctness of the output. */
 static
 void print_array(int ni, int nl,
-		 DATA_TYPE POLYBENCH_2D(G,NI,NL,ni,nl))
+		 DATA_TYPE POLYBENCH_2D(M,NI,NL,ni,nl))
 {
   int i, j;
-
-  POLYBENCH_DUMP_START;
-  POLYBENCH_DUMP_BEGIN("G");
   for (i = 0; i < ni; i++)
-    for (j = 0; j < nl; j++) {
-	if ((i * ni + j) % 20 == 0) fprintf (POLYBENCH_DUMP_TARGET, "\n");
-	fprintf (POLYBENCH_DUMP_TARGET, DATA_PRINTF_MODIFIER, G[i][j]);
+  {
+    for (j = 0; j < nl; j++)
+    {
+      print_uart_double(M[i][j]);
+      print_uart(" ");
     }
-  POLYBENCH_DUMP_END("G");
-  POLYBENCH_DUMP_FINISH;
+    print_uart("\n");
+  }
 }
 
 
@@ -131,6 +131,7 @@ int main(int argc, char** argv)
   /* Start timer. */
   polybench_start_instruments;
 
+  #ifdef ARRAY_CALC
   /* Run kernel. */
   kernel_3mm (ni, nj, nk, nl, nm,
 	      POLYBENCH_ARRAY(E),
@@ -140,6 +141,7 @@ int main(int argc, char** argv)
 	      POLYBENCH_ARRAY(C),
 	      POLYBENCH_ARRAY(D),
 	      POLYBENCH_ARRAY(G));
+  #endif
 
   /* Stop and print timer. */
   polybench_stop_instruments;
@@ -147,7 +149,7 @@ int main(int argc, char** argv)
 
   /* Prevent dead-code elimination. All live-out data must be printed
      by the function call in argument. */
-  polybench_prevent_dce(print_array(ni, nl,  POLYBENCH_ARRAY(G)));
+  print_array(ni, nl,  POLYBENCH_ARRAY(G));
 
   /* Be clean. */
   POLYBENCH_FREE_ARRAY(E);

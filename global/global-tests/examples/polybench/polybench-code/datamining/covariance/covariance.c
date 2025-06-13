@@ -6,6 +6,7 @@ typedef unsigned int wint_t;
 #include <unistd.h>
 #include <string.h>
 #include <math.h>
+#include <stdnew.h>
 
 /* Include polybench common header. */
 #include <polybench.h>
@@ -39,15 +40,14 @@ void print_array(int m,
 {
   int i, j;
 
-  POLYBENCH_DUMP_START;
-  POLYBENCH_DUMP_BEGIN("cov");
-  for (i = 0; i < m; i++)
+  for (i = 0; i < m; i++){
     for (j = 0; j < m; j++) {
-      if ((i * m + j) % 20 == 0) fprintf (POLYBENCH_DUMP_TARGET, "\n");
-      fprintf (POLYBENCH_DUMP_TARGET, DATA_PRINTF_MODIFIER, cov[i][j]);
+      print_uart_double(cov[i][j]);
+      print_uart(" ");
     }
-  POLYBENCH_DUMP_END("cov");
-  POLYBENCH_DUMP_FINISH;
+  print_uart("\n");
+  }
+    
 }
 
 
@@ -108,11 +108,14 @@ int main(int argc, char** argv)
   /* Start timer. */
   polybench_start_instruments;
 
+  #ifdef ARRAY_CALC
   /* Run kernel. */
   kernel_covariance (m, n, float_n,
 		     POLYBENCH_ARRAY(data),
 		     POLYBENCH_ARRAY(cov),
 		     POLYBENCH_ARRAY(mean));
+
+  #endif
 
   /* Stop and print timer. */
   polybench_stop_instruments;
@@ -120,7 +123,7 @@ int main(int argc, char** argv)
 
   /* Prevent dead-code elimination. All live-out data must be printed
      by the function call in argument. */
-  polybench_prevent_dce(print_array(m, POLYBENCH_ARRAY(cov)));
+  print_array(m, POLYBENCH_ARRAY(cov));
 
   /* Be clean. */
   POLYBENCH_FREE_ARRAY(data);

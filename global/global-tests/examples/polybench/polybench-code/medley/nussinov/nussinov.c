@@ -6,6 +6,7 @@ typedef unsigned int wint_t;
 #include <unistd.h>
 #include <string.h>
 #include <math.h>
+#include <stdnew.h>
 
 /* Include polybench common header. */
 #include <polybench.h>
@@ -48,17 +49,14 @@ void print_array(int n,
   int i, j;
   int t = 0;
 
-  POLYBENCH_DUMP_START;
-  POLYBENCH_DUMP_BEGIN("table");
   for (i = 0; i < n; i++) {
     for (j = i; j < n; j++) {
-      if (t % 20 == 0) fprintf (POLYBENCH_DUMP_TARGET, "\n");
-      fprintf (POLYBENCH_DUMP_TARGET, DATA_PRINTF_MODIFIER, table[i][j]);
+      print_uart_int(table[i][j]);
+      print_uart(" ");
       t++;
     }
   }
-  POLYBENCH_DUMP_END("table");
-  POLYBENCH_DUMP_FINISH;
+  print_uart("\n");
 }
 
 
@@ -117,8 +115,10 @@ int main(int argc, char** argv)
   /* Start timer. */
   polybench_start_instruments;
 
+  #ifdef ARRAY_CALC
   /* Run kernel. */
   kernel_nussinov (n, POLYBENCH_ARRAY(seq), POLYBENCH_ARRAY(table));
+  #endif /* ARRAY_CALC */
 
   /* Stop and print timer. */
   polybench_stop_instruments;
@@ -126,7 +126,7 @@ int main(int argc, char** argv)
 
   /* Prevent dead-code elimination. All live-out data must be printed
      by the function call in argument. */
-  polybench_prevent_dce(print_array(n, POLYBENCH_ARRAY(table)));
+  print_array(n, POLYBENCH_ARRAY(table));
 
   /* Be clean. */
   POLYBENCH_FREE_ARRAY(seq);

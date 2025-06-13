@@ -6,6 +6,7 @@ typedef unsigned int wint_t;
 #include <unistd.h>
 #include <string.h>
 #include <math.h>
+#include <stdnew.h>
 
 /* Include polybench common header. */
 #include <polybench.h>
@@ -49,31 +50,31 @@ void print_array(int nx,
 {
   int i, j;
 
-  POLYBENCH_DUMP_START;
-  POLYBENCH_DUMP_BEGIN("ex");
-  for (i = 0; i < nx; i++)
+  print_uart("ex:\n");
+  for (i = 0; i < nx; i++){
     for (j = 0; j < ny; j++) {
-      if ((i * nx + j) % 20 == 0) fprintf(POLYBENCH_DUMP_TARGET, "\n");
-      fprintf(POLYBENCH_DUMP_TARGET, DATA_PRINTF_MODIFIER, ex[i][j]);
+      print_uart_double(ex[i][j]);
+      print_uart(" ");
     }
-  POLYBENCH_DUMP_END("ex");
-  POLYBENCH_DUMP_FINISH;
-
-  POLYBENCH_DUMP_BEGIN("ey");
-  for (i = 0; i < nx; i++)
+    print_uart("\n");
+  }
+    
+  print_uart("\ney:\n");
+  for (i = 0; i < nx; i++){
     for (j = 0; j < ny; j++) {
-      if ((i * nx + j) % 20 == 0) fprintf(POLYBENCH_DUMP_TARGET, "\n");
-      fprintf(POLYBENCH_DUMP_TARGET, DATA_PRINTF_MODIFIER, ey[i][j]);
+      print_uart_double(ey[i][j]);
+      print_uart(" ");
     }
-  POLYBENCH_DUMP_END("ey");
-
-  POLYBENCH_DUMP_BEGIN("hz");
-  for (i = 0; i < nx; i++)
+    print_uart("\n");
+  }
+  print_uart("\nhz:\n");
+  for (i = 0; i < nx; i++){
     for (j = 0; j < ny; j++) {
-      if ((i * nx + j) % 20 == 0) fprintf(POLYBENCH_DUMP_TARGET, "\n");
-      fprintf(POLYBENCH_DUMP_TARGET, DATA_PRINTF_MODIFIER, hz[i][j]);
+      print_uart_double(hz[i][j]);
+      print_uart(" ");
     }
-  POLYBENCH_DUMP_END("hz");
+  print_uart("\n");
+  }
 }
 
 
@@ -135,13 +136,14 @@ int main(int argc, char** argv)
   /* Start timer. */
   polybench_start_instruments;
 
+  #ifdef ARRAY_CALC
   /* Run kernel. */
   kernel_fdtd_2d (tmax, nx, ny,
 		  POLYBENCH_ARRAY(ex),
 		  POLYBENCH_ARRAY(ey),
 		  POLYBENCH_ARRAY(hz),
 		  POLYBENCH_ARRAY(_fict_));
-
+  #endif
 
   /* Stop and print timer. */
   polybench_stop_instruments;
@@ -149,9 +151,9 @@ int main(int argc, char** argv)
 
   /* Prevent dead-code elimination. All live-out data must be printed
      by the function call in argument. */
-  polybench_prevent_dce(print_array(nx, ny, POLYBENCH_ARRAY(ex),
+  print_array(nx, ny, POLYBENCH_ARRAY(ex),
 				    POLYBENCH_ARRAY(ey),
-				    POLYBENCH_ARRAY(hz)));
+				    POLYBENCH_ARRAY(hz));
 
   /* Be clean. */
   POLYBENCH_FREE_ARRAY(ex);
