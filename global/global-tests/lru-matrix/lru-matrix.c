@@ -68,7 +68,6 @@ static inline unsigned int z2(uint8_t x)
  */
 void d4m(uint16_t x)
 {
-    printf("d4m %04x\n", x);
     for (int i = 0; i < 4; i++) {
         for (int j = 0; j < 4; j++) {
             putchar('0' + ((x >> (4 * i + j)) & 1)); 
@@ -83,7 +82,6 @@ void d4m(uint16_t x)
  */
 static inline void lru4(uint16_t *m, unsigned int i)
 {
-    printf("lru4 %d\n", i);
     *m |= (0xf << (4 * i));
     *m &= ~(0x1111 << i);
 }
@@ -96,7 +94,6 @@ static inline void lru4(uint16_t *m, unsigned int i)
  */
 static inline unsigned int z4(uint16_t x)
 {
-    printf("z4 %04x\n", x);
     uint16_t y;
 
     y = (x - 0x1111) & ~x & 0x8888;
@@ -108,7 +105,6 @@ static inline unsigned int z4(uint16_t x)
  */
 void d8m(uint64_t x)
 {
-    printf("d8m %016lx\n", x);
     for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++) {
             putchar('0' + ((x >> (8 * i + j)) & 1)); 
@@ -123,7 +119,6 @@ void d8m(uint64_t x)
  */
 static inline void lru8(uint64_t *m, unsigned int i)
 {
-    printf("lru8 %d\n", i);
     *m |= (0xffll << (8 * i));
     *m &= ~(0x0101010101010101ll << i);
 }
@@ -133,7 +128,6 @@ static inline void lru8(uint64_t *m, unsigned int i)
  */
 static inline unsigned int z8(uint64_t x)
 {
-    printf("z8 %016lx\n", x);
     uint64_t y;
 
     y = (x - 0x0101010101010101) & ~x & 0x8080808080808080;
@@ -152,9 +146,6 @@ typedef struct uint256_t {
 
 void d16m(uint256_t x)
 {
-    printf("d16m %016lx%016lx %016lx%016lx\n", 
-           (unsigned long)(x.h >> 64), (unsigned long)(x.h & 0xffffffffffffffff),
-           (unsigned long)(x.l >> 64), (unsigned long)(x.l & 0xffffffffffffffff));
     for (int i = 0; i < 16; i++) {
         __uint128_t v = i < 8 ? x.l : x.h;
         int k = i < 8 ? i : i - 8;
@@ -171,7 +162,6 @@ void d16m(uint256_t x)
  */
 static inline void lru16(uint256_t *m, unsigned int i)
 {
-    printf("lru16 %d\n", i);
     __uint128_t c = ((__uint128_t)0x0001000100010001 << 64) | 0x0001000100010001;
     __uint128_t ffff = (__uint128_t)0xffff;
     if (i < 8) {
@@ -188,9 +178,6 @@ static inline void lru16(uint256_t *m, unsigned int i)
  */
 static inline unsigned int z16(uint256_t x)
 {
-    printf("z16 %016lx%016lx %016lx%016lx\n", 
-           (unsigned long)(x.h >> 64), (unsigned long)(x.h & 0xffffffffffffffff),
-           (unsigned long)(x.l >> 64), (unsigned long)(x.l & 0xffffffffffffffff));
     __uint128_t c = ((__uint128_t)0x0001000100010001 << 64) | 0x0001000100010001;
     __uint128_t d = ((__uint128_t)0x8000800080008000 << 64) | 0x8000800080008000;
     __uint128_t y;
@@ -255,6 +242,8 @@ static inline unsigned int PASTE(test, N)(void) \
     return r; \
 }
 
+//0x1ffffffff
+
 
 TESTD(WAYS)
 
@@ -262,8 +251,7 @@ TESTD(WAYS)
 
 int main(void)
 {
-    printf("in");
     int t = TESTC(WAYS);
-    printf("out %d\n", t);
+    printf("finish!");
     return t;
 }
