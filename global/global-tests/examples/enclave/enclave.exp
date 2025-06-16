@@ -1,0 +1,4 @@
+text: 0x80000000 - 0x80001fff
+data: 0x80002000 - 0x80003fff
+uart: 0x10000000 - 0x1000001f
+pmp-not-supported
