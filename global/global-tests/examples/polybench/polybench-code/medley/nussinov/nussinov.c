@@ -51,7 +51,7 @@ void print_array(int n,
 
   for (i = 0; i < n; i++) {
     for (j = i; j < n; j++) {
-      print_uart_double(table[i][j]);
+      print_uart_int(table[i][j]);
       print_uart(" ");
       t++;
     }
