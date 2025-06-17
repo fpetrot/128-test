@@ -50,6 +50,7 @@ void print_array(int n,
 
   print_uart("x1");
   for (i = 0; i < n; i++) {
+    if (i % 10 == 0) print_uart("\n");
     print_uart_double(x1[i]);
     print_uart(" ");
   }
@@ -57,6 +58,7 @@ void print_array(int n,
 
   print_uart("x2");
   for (i = 0; i < n; i++) {
+    if (i % 10 == 0) print_uart("\n");
     print_uart_double(x2[i]);
     print_uart(" ");
   }

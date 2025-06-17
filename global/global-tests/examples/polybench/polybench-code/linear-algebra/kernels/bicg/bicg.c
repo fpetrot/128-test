@@ -46,11 +46,13 @@ void print_array(int m, int n,
 
   print_uart("s:\n");
   for (i = 0; i < m; i++) {
+    if (i % 10 == 0) print_uart("\n");
     print_uart_double(s[i]);
     print_uart(" ");
   }
   print_uart("\nq:\n");
   for (i = 0; i < n; i++) {
+    if (i % 10 == 0) print_uart("\n");
     print_uart_double(q[i]);
     print_uart(" ");
   }
