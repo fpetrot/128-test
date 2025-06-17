@@ -135,3 +135,29 @@ void print_uart_double(double d)
 
   print_uart(buffer);
 }
+
+void print_uart_int(int i)
+{
+   char buffer[12]; 
+   int index = 0;
+   
+   if (i < 0) {
+      putchar_uart('-');
+      i = -i;
+   }
+   
+   if (i == 0) {
+      putchar_uart('0');
+      return;
+   }
+   
+   while (i > 0) {
+      buffer[index++] = (i % 10) + '0';
+      i /= 10;
+   }
+   
+   // Print the digits in reverse order
+   for (int j = index - 1; j >= 0; j--) {
+      putchar_uart(buffer[j]);
+   }
+}
