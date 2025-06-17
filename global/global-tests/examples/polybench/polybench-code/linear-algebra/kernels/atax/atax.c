@@ -94,6 +94,7 @@ int main(int argc, char** argv)
   /* Start timer. */
   polybench_start_instruments;
 
+  #ifdef ARRAY_CALC
   /* Run kernel. */
   kernel_atax (m, n,
 	       POLYBENCH_ARRAY(A),
@@ -104,6 +105,7 @@ int main(int argc, char** argv)
   /* Stop and print timer. */
   polybench_stop_instruments;
   polybench_print_instruments;
+  #endif
 
   /* Prevent dead-code elimination. All live-out data must be printed
      by the function call in argument. */

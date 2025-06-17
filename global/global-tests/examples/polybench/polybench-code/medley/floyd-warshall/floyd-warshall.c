@@ -86,8 +86,10 @@ int main(int argc, char** argv)
   /* Start timer. */
   polybench_start_instruments;
 
+  #ifdef ARRAY_CALC
   /* Run kernel. */
   kernel_floyd_warshall (n, POLYBENCH_ARRAY(path));
+  #endif /* ARRAY_CALC */
 
   /* Stop and print timer. */
   polybench_stop_instruments;

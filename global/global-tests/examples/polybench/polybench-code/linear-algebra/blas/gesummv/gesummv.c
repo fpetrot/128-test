@@ -110,7 +110,7 @@ int main(int argc, char** argv)
 
   /* Start timer. */
   polybench_start_instruments;
-
+  #ifdef ARRAY_CALC
   /* Run kernel. */
   kernel_gesummv (n, alpha, beta,
 		  POLYBENCH_ARRAY(A),
@@ -118,7 +118,7 @@ int main(int argc, char** argv)
 		  POLYBENCH_ARRAY(tmp),
 		  POLYBENCH_ARRAY(x),
 		  POLYBENCH_ARRAY(y));
-
+  #endif
   /* Stop and print timer. */
   polybench_stop_instruments;
   polybench_print_instruments;

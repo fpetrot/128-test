@@ -98,19 +98,23 @@ int main(int argc, char **argv)
   /* Start timer. */
   polybench_start_instruments;
 
+  #ifdef ARRAY_CALC
   /* Run kernel. */
   kernel_doitgen(nr, nq, np,
                  POLYBENCH_ARRAY(A),
                  POLYBENCH_ARRAY(C4),
                  POLYBENCH_ARRAY(sum));
+  #endif /* ARRAY_CALC */
 
   /* Stop and print timer. */
   polybench_stop_instruments;
   polybench_print_instruments;
 
+  #ifdef ARRAY_CALC
   /* Prevent dead-code elimination. All live-out data must be printed
      by the function call in argument. */
   print_array(nr, nq, np, POLYBENCH_ARRAY(A));
+  #endif
 
   /* Be clean. */
   POLYBENCH_FREE_ARRAY(A);

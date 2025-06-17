@@ -136,13 +136,14 @@ int main(int argc, char** argv)
   /* Start timer. */
   polybench_start_instruments;
 
+  #ifdef ARRAY_CALC
   /* Run kernel. */
   kernel_correlation (m, n, float_n,
 		      POLYBENCH_ARRAY(data),
 		      POLYBENCH_ARRAY(corr),
 		      POLYBENCH_ARRAY(mean),
 		      POLYBENCH_ARRAY(stddev));
-
+  #endif
   /* Stop and print timer. */
   polybench_stop_instruments;
   polybench_print_instruments;

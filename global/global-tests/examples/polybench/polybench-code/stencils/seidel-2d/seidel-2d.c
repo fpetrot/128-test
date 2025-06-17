@@ -40,6 +40,7 @@ void print_array(int n,
   for (i = 0; i < n; i++){
     for (j = 0; j < n; j++) {
       print_uart_double(A[i][j]);
+      print_uart(" ");
     }
     print_uart("\n");
   }
@@ -83,8 +84,10 @@ int main(int argc, char** argv)
   /* Start timer. */
   polybench_start_instruments;
 
+  #ifdef ARRAY_CALC
   /* Run kernel. */
   kernel_seidel_2d (tsteps, n, POLYBENCH_ARRAY(A));
+  #endif
 
   /* Stop and print timer. */
   polybench_stop_instruments;

@@ -109,6 +109,7 @@ int main(int argc, char** argv)
   /* Start timer. */
   polybench_start_instruments;
 
+  #ifdef ARRAY_CALC
   /* Run kernel. */
   kernel_bicg (m, n,
 	       POLYBENCH_ARRAY(A),
@@ -116,6 +117,7 @@ int main(int argc, char** argv)
 	       POLYBENCH_ARRAY(q),
 	       POLYBENCH_ARRAY(p),
 	       POLYBENCH_ARRAY(r));
+  #endif
 
   /* Stop and print timer. */
   polybench_stop_instruments;

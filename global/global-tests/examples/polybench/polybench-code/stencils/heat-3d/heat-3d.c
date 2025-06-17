@@ -44,6 +44,7 @@ void print_array(int n,
       for (k = 0; k < n; k++) {
          if ((i * n * n + j * n + k) % 20 == 0) print_uart("\n");
          print_uart_double(A[i][j][k]);
+         print_uart(" ");
       }
   print_uart("\n");
 }
@@ -104,9 +105,10 @@ int main(int argc, char** argv)
   /* Start timer. */
   polybench_start_instruments;
 
+  #ifdef ARRAY_CALC
   /* Run kernel. */
   kernel_heat_3d (tsteps, n, POLYBENCH_ARRAY(A), POLYBENCH_ARRAY(B));
-
+  #endif /* ARRAY_CALC */
   /* Stop and print timer. */
   polybench_stop_instruments;
   polybench_print_instruments;

@@ -108,11 +108,14 @@ int main(int argc, char** argv)
   /* Start timer. */
   polybench_start_instruments;
 
+  #ifdef ARRAY_CALC
   /* Run kernel. */
   kernel_covariance (m, n, float_n,
 		     POLYBENCH_ARRAY(data),
 		     POLYBENCH_ARRAY(cov),
 		     POLYBENCH_ARRAY(mean));
+
+  #endif
 
   /* Stop and print timer. */
   polybench_stop_instruments;

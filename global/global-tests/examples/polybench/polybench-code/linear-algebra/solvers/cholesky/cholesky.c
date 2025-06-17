@@ -111,8 +111,10 @@ int main(int argc, char** argv)
   /* Start timer. */
   polybench_start_instruments;
 
+  #ifdef ARRAY_CALC
   /* Run kernel. */
   kernel_cholesky (n, POLYBENCH_ARRAY(A));
+  #endif
 
   /* Stop and print timer. */
   polybench_stop_instruments;

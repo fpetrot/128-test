@@ -120,11 +120,13 @@ int main(int argc, char **argv)
   /* Start timer. */
   polybench_start_instruments;
 
+  #ifdef ARRAY_CALC
   /* Run kernel. */
   kernel_gramschmidt(m, n,
                      POLYBENCH_ARRAY(A),
                      POLYBENCH_ARRAY(R),
                      POLYBENCH_ARRAY(Q));
+  #endif /* ARRAY_CALC */
 
   /* Stop and print timer. */
   polybench_stop_instruments;

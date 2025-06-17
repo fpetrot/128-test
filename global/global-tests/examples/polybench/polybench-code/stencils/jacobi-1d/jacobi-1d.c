@@ -89,9 +89,10 @@ int main(int argc, char** argv)
   /* Start timer. */
   polybench_start_instruments;
 
+  #ifdef ARRAY_CALC
   /* Run kernel. */
   kernel_jacobi_1d(tsteps, n, POLYBENCH_ARRAY(A), POLYBENCH_ARRAY(B));
-
+  #endif /* ARRAY_CALC */
   /* Stop and print timer. */
   polybench_stop_instruments;
   polybench_print_instruments;

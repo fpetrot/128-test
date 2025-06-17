@@ -136,13 +136,14 @@ int main(int argc, char** argv)
   /* Start timer. */
   polybench_start_instruments;
 
+  #ifdef ARRAY_CALC
   /* Run kernel. */
   kernel_fdtd_2d (tmax, nx, ny,
 		  POLYBENCH_ARRAY(ex),
 		  POLYBENCH_ARRAY(ey),
 		  POLYBENCH_ARRAY(hz),
 		  POLYBENCH_ARRAY(_fict_));
-
+  #endif
 
   /* Stop and print timer. */
   polybench_stop_instruments;
