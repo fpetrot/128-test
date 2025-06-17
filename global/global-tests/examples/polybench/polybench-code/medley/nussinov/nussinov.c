@@ -51,6 +51,7 @@ void print_array(int n,
 
   for (i = 0; i < n; i++) {
     for (j = i; j < n; j++) {
+      if (j % 10 == 0) print_uart("\n");
       print_uart_int(table[i][j]);
       print_uart(" ");
       t++;

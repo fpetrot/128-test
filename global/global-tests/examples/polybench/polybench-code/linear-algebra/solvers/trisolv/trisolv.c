@@ -7,7 +7,6 @@ typedef unsigned int wint_t;
 #include <string.h>
 #include <math.h>
 #include <stdnew.h>
-
 /* Include polybench common header. */
 #include <polybench.h>
 
@@ -44,6 +43,7 @@ void print_array(int n,
   int i;
 
   for (i = 0; i < n; i++) {
+    if (i % 10 == 0) print_uart("\n");
     print_uart_double(x[i]);
     print_uart(" ");
   }
