@@ -47,8 +47,10 @@ static void ftoa_fixed(char *buffer, double value, int flen)
     * characters, so that's what we really expect as the buffer size.     
     */
 
+   // flen = number of decimal places after the decimal point
    int exponent = 0;
    int places = 0;
+   // to done round before put numbers in buffer
    int decimal_buffer[32];
    int decimal_index = 0;
 
@@ -72,22 +74,22 @@ static void ftoa_fixed(char *buffer, double value, int flen)
 
    while (exponent > 0) {
       int digit = value * 10;
-      *buffer++ = digit + '0';
+      decimal_buffer[decimal_index++] = digit;
       value = value * 10 - digit;
       ++places;
       --exponent;
    }
 
-   if (places == 0)
-      *buffer++ = '0';
-   
-   places = 0;
+   if (places == 0){
+      decimal_buffer[decimal_index++] = 0;
+   }
 
-   *buffer++ = '.';
+
+   decimal_buffer[decimal_index++] = -1; // add a '.' as a marker for the decimal point
+   places = 0;
 
    while (exponent < 0 && places < flen + 1) {
       decimal_buffer[decimal_index++] = 0;
-
       --exponent;
       ++places;
    }
@@ -95,20 +97,22 @@ static void ftoa_fixed(char *buffer, double value, int flen)
    while (places < flen + 1) {
       int digit = value * 10.0;
       decimal_buffer[decimal_index++] = digit;
-      //*buffer++ = digit + '0';
       value = value * 10.0 - digit;
       ++places;
    }
 
+   decimal_index--;
    // correct decimal_buffer by rounding the last digit
-
-   if (decimal_buffer[flen] >= 5) {
-      int i = 0;
-      while (i < flen) {
-         decimal_buffer[flen - (i+1)]++;
-         if (decimal_buffer[flen - (i+1)] == 10) {
-            decimal_buffer[flen - (i+1)] = 0;
-            decimal_buffer[flen - (i+2)]++;
+   if (decimal_buffer[decimal_index] >= 5) {
+      int i = 1;
+      while (i < decimal_index + 1) {
+         if (decimal_buffer[decimal_index - i] < 0) { // skip the decimal point
+            i++;
+            continue;
+         }
+         decimal_buffer[decimal_index - i]++;
+         if (decimal_buffer[decimal_index - i] == 10) { // to implement if the max digit is 9
+            decimal_buffer[decimal_index - i] = 0;
             i++;
          } else {
             break;
@@ -116,11 +120,15 @@ static void ftoa_fixed(char *buffer, double value, int flen)
       }
    }
 
-   // Now we have the digits in decimal_buffer, we need to round the last digit
-   // and write them to the buffer with rounding
-   for (int i = 0; i < flen; i++) {
+   for (int i = 0; i < decimal_index; i++)
+   {
+      if (decimal_buffer[i] < 0) {
+         *buffer++ = '.'; 
+         continue;
+      }
       *buffer++ = decimal_buffer[i] + '0';
    }
+
 
    *buffer = '\0';
 }

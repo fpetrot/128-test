@@ -7,4 +7,4 @@ void print_uart_int(int i);
 
 #define MINI_DATASET
 #define DATA_TYPE_IS_DOUBLE
-//#define ARRAY_CALC
+#define ARRAY_CALC
