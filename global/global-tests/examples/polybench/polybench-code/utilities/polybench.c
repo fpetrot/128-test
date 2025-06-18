@@ -400,12 +400,4 @@ void* polybench_alloc_data(unsigned long long int n, int elt_size)
   return ret;
 }
 
-/* Ok, let's do that */
-double
-sqrt (double x)
-{
-  asm ("fsqrt.s %0, %1" : "=f" (x) : "f" (x));
-  return x;
-}
-
 int __errno;
