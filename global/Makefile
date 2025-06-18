@@ -27,7 +27,8 @@ clean:
 
 .PHONY: mkres
 mkres:
-	./utils/compile.sh
+	cd utils/; \
+	./compile.sh
 #
 # To view commands use: make V=1
 #
