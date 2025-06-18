@@ -50,7 +50,7 @@ void print_array(int nx,
 {
   int i, j;
 
-  print_uart("ex:\n");
+  
   for (i = 0; i < nx; i++){
     for (j = 0; j < ny; j++) {
       print_uart_double(ex[i][j]);
@@ -59,7 +59,7 @@ void print_array(int nx,
     print_uart("\n");
   }
     
-  print_uart("\ney:\n");
+  
   for (i = 0; i < nx; i++){
     for (j = 0; j < ny; j++) {
       print_uart_double(ey[i][j]);
@@ -67,7 +67,7 @@ void print_array(int nx,
     }
     print_uart("\n");
   }
-  print_uart("\nhz:\n");
+  
   for (i = 0; i < nx; i++){
     for (j = 0; j < ny; j++) {
       print_uart_double(hz[i][j]);

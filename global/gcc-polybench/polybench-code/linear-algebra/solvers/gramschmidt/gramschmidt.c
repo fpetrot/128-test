@@ -38,7 +38,6 @@ static void print_array(int m, int n,
 {
   int i, j;
 
-  printf("R:\n");
   for (i = 0; i < n; i++)
   {
     for (j = 0; j < n; j++)
@@ -47,7 +46,6 @@ static void print_array(int m, int n,
     }
     printf("\n");
   }
-  printf("\nQ:\n");
 
   for (i = 0; i < m; i++)
   {

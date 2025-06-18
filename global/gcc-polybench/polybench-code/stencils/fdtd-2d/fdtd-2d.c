@@ -46,7 +46,7 @@ void print_array(int nx,
 {
   int i, j;
 
-  printf("ex:\n");
+  
   for (i = 0; i < nx; i++){
     for (j = 0; j < ny; j++) {
       printf("%0.2lf ", ex[i][j]);
@@ -54,14 +54,13 @@ void print_array(int nx,
     printf("\n");
   }
 
-  printf("ey:\n");
   for (i = 0; i < nx; i++){
     for (j = 0; j < ny; j++) {
       printf("%0.2lf ", ey[i][j]);
     }
     printf("\n");
   }
-  printf("hz:\n");
+
   for (i = 0; i < nx; i++){
     for (j = 0; j < ny; j++) {
       printf("%0.2lf ", hz[i][j]);

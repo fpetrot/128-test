@@ -44,14 +44,12 @@ void print_array(int n,
 {
   int i;
 
-  printf("x1");
   for (i = 0; i < n; i++) {
     if (i % 10 == 0) printf("\n");
     printf("%0.2lf ", x1[i]);
   }
   printf("\n");
 
-  printf("x2");
   for (i = 0; i < n; i++) {
     if (i % 10 == 0) printf("\n");
     printf("%0.2lf ", x2[i]);

@@ -42,7 +42,6 @@ static void print_array(int m, int n,
 {
   int i, j;
 
-  print_uart("A:\n");
   for (i = 0; i < n; i++)
   {
     for (j = 0; j < n; j++)
@@ -52,8 +51,7 @@ static void print_array(int m, int n,
     }
     print_uart("\n");
   }
-  print_uart("\nQ:\n");
-
+  
   for (i = 0; i < m; i++)
   {
     for (j = 0; j < n; j++)
