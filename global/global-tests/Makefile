@@ -103,9 +103,4 @@ $(foreach d,$(sub_dirs),$(foreach t,$($(call module_name,$(d))_bin),$(eval $(cal
 
 global-tests: $(program_names)
 	mkdir -p ../build/exp/global-tests
-	cp */*.exp ../build/exp/global-tests
-	cp */*/*/*/*/*/*.exp ../build/exp/global-tests
-	cp */*/*/*/*/*.exp ../build/exp/global-tests
-
-	
-
+	find . -type f -name "*.exp" -exec cp {} ../build/exp/global-tests/ \;
