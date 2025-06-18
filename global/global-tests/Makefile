@@ -25,8 +25,6 @@ LDFLAGS_rv128      = -L$(CXPATH)/lib/$(MARCH)/$(MABI) -lm
 
 targets            = rv128:virt
 
-#to change the execution time for check
-EXEC_TIME=3
 
 #
 # make rules
