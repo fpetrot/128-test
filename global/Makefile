@@ -16,12 +16,15 @@ all:
 
 .PHONY: check
 check:
-	$(MAKE) check-global-tests EXEC_TIME=1
+	$(MAKE) check-global-tests EXEC_TIME=5
 
 .PHONY: clean
 clean:
 	rm -fr build
 
+.PHONY: mkres
+mkres:
+	./utils/compile.sh
 #
 # To view commands use: make V=1
 #
