@@ -37,7 +37,7 @@ void print_array(int m,
 
   for (i = 0; i < m; i++){
     for (j = 0; j < m; j++) {
-      printf("%0.2lf ", cov[i][j]);
+      printf(PRINTF_MODIFIER, cov[i][j]);
     }
     printf("\n");
   }

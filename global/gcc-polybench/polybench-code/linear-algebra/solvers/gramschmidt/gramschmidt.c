@@ -42,7 +42,7 @@ static void print_array(int m, int n,
   {
     for (j = 0; j < n; j++)
     {
-      printf("%0.2lf ", R[i][j]);  
+      printf(PRINTF_MODIFIER, R[i][j]);  
     }
     printf("\n");
   }
@@ -51,7 +51,7 @@ static void print_array(int m, int n,
   {
     for (j = 0; j < n; j++)
     {
-      printf("%0.2lf ", Q[i][j]);
+      printf(PRINTF_MODIFIER, Q[i][j]);
     }
     printf("\n");
   }

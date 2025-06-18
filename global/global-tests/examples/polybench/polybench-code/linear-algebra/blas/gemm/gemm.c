@@ -50,7 +50,7 @@ void print_array(int ni, int nj,
 
   for (i = 0; i < ni; i++){
     for (j = 0; j < nj; j++) {
-	print_uart_double(C[i][j]);
+	print_uart_double(C[i][j], (int)DECIMAL_PLACES);
   print_uart(" ");
     }
     print_uart("\n");

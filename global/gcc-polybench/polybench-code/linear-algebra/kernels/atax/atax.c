@@ -39,7 +39,7 @@ void print_array(int n,
   int i;
   for (i = 0; i < n; i++) {
     if (i % 10 == 0) printf("\n");
-    printf("%0.2lf ", y[i]);
+    printf(PRINTF_MODIFIER, y[i]);
   }
   printf("\n");
 }

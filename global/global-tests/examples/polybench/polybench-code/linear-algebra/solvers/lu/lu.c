@@ -60,7 +60,7 @@ static void print_array(int n,
   {
     for (j = 0; j < n; j++)
     {
-      print_uart_double(A[i][j]);
+      print_uart_double(A[i][j], (int)DECIMAL_PLACES);
       print_uart(" ");
     }
     print_uart("\n");

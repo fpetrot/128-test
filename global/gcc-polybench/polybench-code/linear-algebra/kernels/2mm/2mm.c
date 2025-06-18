@@ -51,7 +51,7 @@ void print_array(int ni, int nl,
   {
     for (j = 0; j < nl; j++)
     {
-      printf("%0.2lf ", M[i][j]);
+      printf(PRINTF_MODIFIER, M[i][j]);
     }
     printf("\n");
   }

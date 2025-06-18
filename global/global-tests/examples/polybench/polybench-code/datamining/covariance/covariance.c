@@ -42,7 +42,7 @@ void print_array(int m,
 
   for (i = 0; i < m; i++){
     for (j = 0; j < m; j++) {
-      print_uart_double(cov[i][j]);
+      print_uart_double(cov[i][j], (int)DECIMAL_PLACES);
       print_uart(" ");
     }
   print_uart("\n");

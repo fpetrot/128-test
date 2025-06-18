@@ -40,7 +40,7 @@ void print_array(int m,
  
   for (i = 0; i < m; i++){
     for (j = 0; j < m; j++) {
-            printf("%0.2lf ", corr[i][j]);
+            printf(PRINTF_MODIFIER, corr[i][j]);
     }
     printf("\n");
   }

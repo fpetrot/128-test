@@ -39,8 +39,7 @@ void print_array(int n,
  
   for (i = 0; i < n; i++){
     for (j = 0; j < n; j++) {
-      printf("%d", path[i][j]);
-      printf(" ");
+      printf("%d ", path[i][j]);
     }
   printf("\n");}
 }

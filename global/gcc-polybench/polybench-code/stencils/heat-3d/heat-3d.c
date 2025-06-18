@@ -39,7 +39,7 @@ void print_array(int n,
     for (j = 0; j < n; j++)
       for (k = 0; k < n; k++) {
          if ((i * n * n + j * n + k) % 20 == 0) printf("\n");
-         printf("%0.2lf ", A[i][j][k]);
+         printf(PRINTF_MODIFIER, A[i][j][k]);
       }
   printf("\n");
 }

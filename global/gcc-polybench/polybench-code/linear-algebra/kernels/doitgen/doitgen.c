@@ -41,7 +41,7 @@ static void print_array(int nr, int nq, int np,
       {
         if ((i * nq * np + j * np + k) % 20 == 0)
           printf("\n");
-        printf("%0.2lf ", A[i][j][k]);
+        printf(PRINTF_MODIFIER, A[i][j][k]);
       }
     }
   }

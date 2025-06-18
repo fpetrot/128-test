@@ -43,12 +43,12 @@ void print_array(int m, int n,
   printf("s:\n");
   for (i = 0; i < m; i++) {
     if (i % 10 == 0) printf("\n");
-    printf("%0.2lf ", s[i]);
+    printf(PRINTF_MODIFIER, s[i]);
   }
   printf("\nq:\n");
   for (i = 0; i < n; i++) {
     if (i % 10 == 0) printf("\n");
-    printf("%0.2lf ", q[i]);
+    printf(PRINTF_MODIFIER, q[i]);
   }
   printf("\n");
 }

@@ -46,13 +46,13 @@ void print_array(int n,
 
   for (i = 0; i < n; i++) {
     if (i % 10 == 0) printf("\n");
-    printf("%0.2lf ", x1[i]);
+    printf(PRINTF_MODIFIER, x1[i]);
   }
   printf("\n");
 
   for (i = 0; i < n; i++) {
     if (i % 10 == 0) printf("\n");
-    printf("%0.2lf ", x2[i]);
+    printf(PRINTF_MODIFIER, x2[i]);
   }
   printf("\n");
 }

@@ -53,7 +53,7 @@ void print_array(int nx,
   
   for (i = 0; i < nx; i++){
     for (j = 0; j < ny; j++) {
-      print_uart_double(ex[i][j]);
+      print_uart_double(ex[i][j], (int)DECIMAL_PLACES);
       print_uart(" ");
     }
     print_uart("\n");
@@ -62,7 +62,7 @@ void print_array(int nx,
   
   for (i = 0; i < nx; i++){
     for (j = 0; j < ny; j++) {
-      print_uart_double(ey[i][j]);
+      print_uart_double(ey[i][j], (int)DECIMAL_PLACES);
       print_uart(" ");
     }
     print_uart("\n");
@@ -70,7 +70,7 @@ void print_array(int nx,
   
   for (i = 0; i < nx; i++){
     for (j = 0; j < ny; j++) {
-      print_uart_double(hz[i][j]);
+      print_uart_double(hz[i][j], (int)DECIMAL_PLACES);
       print_uart(" ");
     }
   print_uart("\n");

@@ -45,7 +45,7 @@ static void print_array(int nr, int nq, int np,
       {
         if ((i * nq * np + j * np + k) % 20 == 0)
           print_uart("\n");
-        print_uart_double(A[i][j][k]);
+        print_uart_double(A[i][j][k], (int)DECIMAL_PLACES);
         print_uart(" ");
       }
     }

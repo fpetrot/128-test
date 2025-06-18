@@ -43,7 +43,7 @@ void print_array(int n,
     for (j = 0; j < n; j++)
       for (k = 0; k < n; k++) {
          if ((i * n * n + j * n + k) % 20 == 0) print_uart("\n");
-         print_uart_double(A[i][j][k]);
+         print_uart_double(A[i][j][k], (int)DECIMAL_PLACES);
          print_uart(" ");
       }
   print_uart("\n");

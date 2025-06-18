@@ -54,7 +54,7 @@ void print_array(int ni, int nl,
   {
     for (j = 0; j < nl; j++)
     {
-      print_uart_double(M[i][j]);
+      print_uart_double(M[i][j], (int)DECIMAL_PLACES);
       print_uart(" ");
     }
     print_uart("\n");

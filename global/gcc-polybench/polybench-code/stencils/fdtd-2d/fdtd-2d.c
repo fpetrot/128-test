@@ -49,21 +49,21 @@ void print_array(int nx,
   
   for (i = 0; i < nx; i++){
     for (j = 0; j < ny; j++) {
-      printf("%0.2lf ", ex[i][j]);
+      printf(PRINTF_MODIFIER, ex[i][j]);
     }
     printf("\n");
   }
 
   for (i = 0; i < nx; i++){
     for (j = 0; j < ny; j++) {
-      printf("%0.2lf ", ey[i][j]);
+      printf(PRINTF_MODIFIER, ey[i][j]);
     }
     printf("\n");
   }
 
   for (i = 0; i < nx; i++){
     for (j = 0; j < ny; j++) {
-      printf("%0.2lf ", hz[i][j]);
+      printf(PRINTF_MODIFIER, hz[i][j]);
     }
     printf("\n");
   }

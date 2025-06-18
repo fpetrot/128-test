@@ -42,7 +42,7 @@ void print_array(int w, int h,
 
   for (i = 0; i < w; i++){
     for (j = 0; j < h; j++) {
-      print_uart_double(imgOut[i][j]);
+      print_uart_double(imgOut[i][j], (int)DECIMAL_PLACES);
       print_uart(" ");
     }
     print_uart("\n");

@@ -43,7 +43,7 @@ void print_array(int n,
   int i;
   for (i = 0; i < n; i++) {
     if (i % 10 == 0) print_uart("\n");
-    print_uart_double(y[i]);
+    print_uart_double(y[i], (int)DECIMAL_PLACES);
     print_uart(" ");
   }
   print_uart("\n");

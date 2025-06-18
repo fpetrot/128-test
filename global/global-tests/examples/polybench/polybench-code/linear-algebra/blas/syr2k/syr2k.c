@@ -49,7 +49,7 @@ void print_array(int n,
 
   for (i = 0; i < n; i++){
     for (j = 0; j < n; j++) {
-	    print_uart_double(C[i][j]);
+	    print_uart_double(C[i][j], (int)DECIMAL_PLACES);
       print_uart(" ");
     }
     print_uart("\n");
