@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <alloca.h>
 #include <string.h>
+#include <stdnew.h>
 
 int main(int argc, char **argv)
 {
@@ -12,6 +13,6 @@ int main(int argc, char **argv)
 		if (alloc[i] = alloca(elemsize)) {
 			memset(alloc[i], 0, elemsize);
 		}
-		printf("alloca[%d]=0x%x\n", i, alloc[i]);
+		print_uart(alloc[i]);
 	}
 }
