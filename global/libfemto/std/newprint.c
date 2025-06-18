@@ -90,7 +90,7 @@ static void ftoa_fixed(char *buffer, double value, int flen)
 
    while (exponent < 0 && places < flen + 1) {
       decimal_buffer[decimal_index++] = 0;
-      --exponent;
+      ++exponent;
       ++places;
    }
 
@@ -113,6 +113,9 @@ static void ftoa_fixed(char *buffer, double value, int flen)
          decimal_buffer[decimal_index - i]++;
          if (decimal_buffer[decimal_index - i] == 10) { // to implement if the max digit is 9
             decimal_buffer[decimal_index - i] = 0;
+            if (decimal_index - i == 0) { // if we are at the first digit, we need to add a new digit
+               *buffer++ = '1';
+            }
             i++;
          } else {
             break;
@@ -134,11 +137,10 @@ static void ftoa_fixed(char *buffer, double value, int flen)
 }
 
 
-void print_uart_double(double d)
+void print_uart_double(double d, int flen)
 {
-  int flen = 2;
   char buffer[32];
-  ftoa_fixed(buffer, d, 2);
+  ftoa_fixed(buffer, d, flen);
 
 
   print_uart(buffer);
