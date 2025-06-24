@@ -7,7 +7,7 @@ typedef unsigned int wint_t;
 #include <math.h>
 #include <stdlib.h>
 #include "3mm.h"
-#include "doKernel.h"
+#include "global_var.h"
 
 
 /* Array initialization. */

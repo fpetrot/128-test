@@ -7,7 +7,7 @@ typedef unsigned int wint_t;
 #include <math.h>
 #include <stdlib.h>
 #include "bicg.h"
-#include "doKernel.h"
+#include "global_var.h"
 
 
 

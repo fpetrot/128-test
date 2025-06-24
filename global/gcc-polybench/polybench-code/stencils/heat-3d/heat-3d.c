@@ -7,7 +7,7 @@ typedef unsigned int wint_t;
 #include <math.h>
 #include <stdlib.h>
 #include "heat-3d.h"
-#include "doKernel.h"
+#include "global_var.h"
 
 
 

@@ -1,6 +1,6 @@
 #!/bin/sh
 # Compile each .c file in subdirectories
-# and save res as a .exp file 
+# and execute it to save res as a .exp file 
 
 mkdir bin
 find ../gcc-polybench -type f -name "*.c" | while read -r file; do

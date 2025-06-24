@@ -7,7 +7,7 @@ typedef unsigned int wint_t;
 #include <math.h>
 #include <stdlib.h>
 #include "nussinov.h"
-#include "doKernel.h"
+#include "global_var.h"
 
 
 /* RNA bases represented as chars, range is [0,3] */
