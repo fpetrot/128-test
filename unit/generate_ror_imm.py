@@ -19,10 +19,7 @@ if __name__ == "__main__":
     datasize = 128
 
     data = open("unit_tests_b/test_ror_imm.S", "w+")
-    data.write('''
-#include "insns.S" 
-#include "utils.S"
-''')
+    data.write('#include "exit.S"\n')
     data.write(".section .data\n")
     data.write(f"tab_size: {_typedir[datasize]} {datacnt}\n")
     data.write("tab_start:\n")
@@ -48,11 +45,10 @@ _start:
             v1 = (values[_]<<(128 - shamt))&0xffffffffffffffffffffffffffffffff
             v = v1 | v0
             offset = int(_ * datasize/8)
-            data.write(f"lq(t1, {offset}, t0)\n")
-            data.write(f"rori(t2, t1, {__})\n")
-            data.write(f"//prgchk reg t2 == 0x{v&0xffffffffffffffff:016x}\n")
-            data.write(f"srli(t3, t2, 64)\n")
-            data.write(f"//prgchk reg t3 == 0x{(v>>64)&0xffffffffffffffff:016x}\n")
+            data.write(f"lq t1, {offset}(t0)\n")
+            data.write(f"rori t2, t1, {__}\n")
+            data.write(f"//prgchk reg t2 == 0x{v:032x}\n")
 
-    data.write('j exit')
+    data.write('j exit\n')
     data.close()
+

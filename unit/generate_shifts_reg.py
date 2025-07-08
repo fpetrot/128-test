@@ -19,10 +19,7 @@ if __name__ == "__main__":
     datasize = 128
 
     data = open("unit_tests_i/test_shifts_reg.S", "w")
-    data.write('''
-#include "insns.S" 
-#include "utils.S"
-''')
+    data.write('#include "exit.S"\n')
     data.write(".section .data\n")
     data.write(f"tab_size: {_typedir[datasize]} {datacnt}\n")
     data.write("tab_start:\n")
@@ -48,11 +45,9 @@ _start:
             v = (values[_]<<shamt)&0xffffffffffffffffffffffffffffffff
             data.write(f"li t2, {__}\n")
             offset = int(_ * datasize/8)
-            data.write(f"lq(t1, {offset}, t0)\n")
+            data.write(f"lq t1, {offset}(t0)\n")
             data.write(f"sll t2, t1, t2\n")
-            data.write(f"//prgchk reg t2 == 0x{v&0xffffffffffffffff:016x}\n")
-            data.write(f"srli(t3, t2, 64)\n")
-            data.write(f"//prgchk reg t3 == 0x{(v>>64)&0xffffffffffffffff:016x}\n")
+            data.write(f"//prgchk reg t2 == 0x{v:032x}\n")
 
     for _ in  range(datacnt):
         data.write(f"la t0, tab_start\n")
@@ -62,11 +57,9 @@ _start:
             v = (values[_]>>shamt)&0xffffffffffffffffffffffffffffffff
             data.write(f"li t2, {__}\n")
             offset = int(_ * datasize/8)
-            data.write(f"lq(t1, {offset}, t0)\n")
+            data.write(f"lq t1, {offset}(t0)\n")
             data.write(f"srl t2, t1, t2\n")
-            data.write(f"//prgchk reg t2 == 0x{v&0xffffffffffffffff:016x}\n")
-            data.write(f"srli(t3, t2, 64)\n")
-            data.write(f"//prgchk reg t3 == 0x{(v>>64)&0xffffffffffffffff:016x}\n")
+            data.write(f"//prgchk reg t2 == 0x{v:032x}\n")
 
     for _ in  range(datacnt):
         data.write(f"la t0, tab_start\n")
@@ -80,11 +73,10 @@ _start:
                     v |= (1 << (128 - ___))
             data.write(f"li t2, {__}\n")
             offset = int(_ * datasize/8)
-            data.write(f"lq(t1, {offset}, t0)\n")
+            data.write(f"lq t1, {offset}(t0)\n")
             data.write(f"sra t2, t1, t2\n")
-            data.write(f"//prgchk reg t2 == 0x{v&0xffffffffffffffff:016x}\n")
-            data.write(f"srli(t3, t2, 64)\n")
-            data.write(f"//prgchk reg t3 == 0x{(v>>64)&0xffffffffffffffff:016x}\n")
+            data.write(f"//prgchk reg t2 == 0x{v:032x}\n")
 
-    data.write('j exit')
+    data.write('j exit\n')
     data.close()
+
