@@ -3,12 +3,13 @@
 % !TeX spellcheck = en_US
 \documentclass[a4paper]{article}
 \usepackage[utf8x]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage{charter}
-\usepackage{helvet}
+\usepackage{fontspec}
+\setmainfont{XCharter}
+%\usepackage{charter}
+%\usepackage{helvet}
 \usepackage{graphicx}
 \usepackage{amsmath,amssymb}
-\usepackage[french]{babel}
+\usepackage[english]{babel}
 \usepackage{xspace}
 \usepackage[loose]{units}
 \usepackage{float}
@@ -149,6 +150,7 @@ The page table's depth is now 4.
 		\bitbox{10}{\texttt{VPN[1]}}
 		\bitbox{10}{\texttt{VPN[0]}}
 		\bitbox{14}{Page offset}\\
+		\bitbox[]{10}{10}
 		\bitbox[]{10}{10}
 		\bitbox[]{10}{10}
 		\bitbox[]{10}{10}
