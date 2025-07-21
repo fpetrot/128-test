@@ -6,7 +6,8 @@ CFLAGS             = -mcmodel=medany -ffunction-sections -fdata-sections -ffast-
 
 LDFLAGS            = -nostartfiles -nostdlib -static -lgcc examples/polybench/polybench-code/utilities/polybench.o \
                      -Wl,--nmagic -Wl,--gc-sections
-INCLUDES           = -I../env/common -I../libfemto/include -Iexamples/polybench/polybench-code/utilities
+INCLUDES           = -I../env/common -I../libfemto/include -Iexamples/polybench/polybench-code/utilities \
+		     -I../utils/headers
 
 #
 # Compiler configurations and target environment definitions
@@ -37,9 +38,13 @@ clean:
 	rm -fr ../build/obj/global-tests
 	rm -fr ../build/bin/global-tests
 	rm -fr ../build/exp/global-tests
+	./compile_newlib.sh 1
 
 check: global-tests
-	./execute_tests.sh $(EXEC_TIME)
+	echo "Tests for libfemto"
+	-./execute_tests.sh $(EXEC_TIME) virt #ignore errors to test also newlib
+	echo "Tests for newlib"
+	./execute_tests.sh $(EXEC_TIME) newlib 
 
 #
 # To view commands use: make V=1
@@ -104,3 +109,5 @@ $(foreach d,$(sub_dirs),$(foreach t,$($(call module_name,$(d))_bin),$(eval $(cal
 global-tests: $(program_names)
 	mkdir -p ../build/exp/global-tests
 	find . -type f -name "*.exp" -exec cp {} ../build/exp/global-tests/ \;
+	find . -type f -name "*_new.exp" -exec cp {} ../build/exp/global-tests/ \;
+	./compile_newlib.sh 0

@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdnew.h>
 
 int main(int argc, char **argv)
 {
@@ -13,7 +12,11 @@ int main(int argc, char **argv)
 		if (alloc[i] = malloc(elemsize)) {
 			memset(alloc[i], 0, elemsize);
 		}
+#ifdef LIBFEMTO
 		print_uart(alloc[i]);
+#else
+		printf("%c", alloc[i]);
+#endif
 	}
 
 	for (size_t i = 0; i < nelems; i++) {

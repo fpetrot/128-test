@@ -6,7 +6,7 @@ typedef unsigned int wint_t;
 #include <unistd.h>
 #include <string.h>
 #include <math.h>
-#include <stdnew.h>
+#include "global_var.h" 
 
 /* Include polybench common header. */
 #include <polybench.h>
@@ -14,21 +14,19 @@ typedef unsigned int wint_t;
 /* Include benchmark-specific header. */
 #include "gemver.h"
 
-
 /* Array initialization. */
-static
-void init_array (int n,
-		 DATA_TYPE *alpha,
-		 DATA_TYPE *beta,
-		 DATA_TYPE POLYBENCH_2D(A,N,N,n,n),
-		 DATA_TYPE POLYBENCH_1D(u1,N,n),
-		 DATA_TYPE POLYBENCH_1D(v1,N,n),
-		 DATA_TYPE POLYBENCH_1D(u2,N,n),
-		 DATA_TYPE POLYBENCH_1D(v2,N,n),
-		 DATA_TYPE POLYBENCH_1D(w,N,n),
-		 DATA_TYPE POLYBENCH_1D(x,N,n),
-		 DATA_TYPE POLYBENCH_1D(y,N,n),
-		 DATA_TYPE POLYBENCH_1D(z,N,n))
+static void init_array(int n,
+                       DATA_TYPE *alpha,
+                       DATA_TYPE *beta,
+                       DATA_TYPE POLYBENCH_2D(A, N, N, n, n),
+                       DATA_TYPE POLYBENCH_1D(u1, N, n),
+                       DATA_TYPE POLYBENCH_1D(v1, N, n),
+                       DATA_TYPE POLYBENCH_1D(u2, N, n),
+                       DATA_TYPE POLYBENCH_1D(v2, N, n),
+                       DATA_TYPE POLYBENCH_1D(w, N, n),
+                       DATA_TYPE POLYBENCH_1D(x, N, n),
+                       DATA_TYPE POLYBENCH_1D(y, N, n),
+                       DATA_TYPE POLYBENCH_1D(z, N, n))
 {
   int i, j;
 
@@ -38,53 +36,62 @@ void init_array (int n,
   DATA_TYPE fn = (DATA_TYPE)n;
 
   for (i = 0; i < n; i++)
-    {   
-      u1[i] = i;
-      u2[i] = ((i+1)/fn)/2.0;
-      v1[i] = ((i+1)/fn)/4.0;
-      v2[i] = ((i+1)/fn)/6.0;
-      y[i] = ((i+1)/fn)/8.0;
-      z[i] = ((i+1)/fn)/9.0;
-      x[i] = 0.0;
-      w[i] = 0.0;
-      for (j = 0; j < n; j++)
-        A[i][j] = (DATA_TYPE) (i*j % n) / n;
-    }   
+  {
+    u1[i] = i;
+    u2[i] = ((i + 1) / fn) / 2.0;
+    v1[i] = ((i + 1) / fn) / 4.0;
+    v2[i] = ((i + 1) / fn) / 6.0;
+    y[i] = ((i + 1) / fn) / 8.0;
+    z[i] = ((i + 1) / fn) / 9.0;
+    x[i] = 0.0;
+    w[i] = 0.0;
+    for (j = 0; j < n; j++)
+      A[i][j] = (DATA_TYPE)(i * j % n) / n;
+  }
 }
-
 
 /* DCE code. Must scan the entire live-out data.
    Can be used also to check the correctness of the output. */
-static
-void print_array(int n,
-		 DATA_TYPE POLYBENCH_1D(w,N,n))
+static void print_array(int n,
+                        DATA_TYPE POLYBENCH_1D(w, N, n))
 {
   int i;
 
-  for (i = 0; i < n; i++) {
-    if (i % 10 == 0) print_uart("\n");
-    print_uart_double(w[i]);
-    print_uart(" ");
+  for (i = 0; i < n; i++)
+  {
+    if (i % 10 == 0)
+#ifdef LIBFEMTO
+          print_uart("\n");
+#else
+    printf("\n");
+#endif
+#ifdef LIBFEMTO
+    print_uart_double(w[i], (int)DECIMAL_PLACES);
+#else
+    printf(PRINTF_MODIFIER, w[i]);
+#endif
   }
+#ifdef LIBFEMTO
   print_uart("\n");
+#else
+  printf("\n");
+#endif
 }
-
 
 /* Main computational kernel. The whole function will be timed,
    including the call and return. */
-static
-void kernel_gemver(int n,
-		   DATA_TYPE alpha,
-		   DATA_TYPE beta,
-		   DATA_TYPE POLYBENCH_2D(A,N,N,n,n),
-		   DATA_TYPE POLYBENCH_1D(u1,N,n),
-		   DATA_TYPE POLYBENCH_1D(v1,N,n),
-		   DATA_TYPE POLYBENCH_1D(u2,N,n),
-		   DATA_TYPE POLYBENCH_1D(v2,N,n),
-		   DATA_TYPE POLYBENCH_1D(w,N,n),
-		   DATA_TYPE POLYBENCH_1D(x,N,n),
-		   DATA_TYPE POLYBENCH_1D(y,N,n),
-		   DATA_TYPE POLYBENCH_1D(z,N,n))
+static void kernel_gemver(int n,
+                          DATA_TYPE alpha,
+                          DATA_TYPE beta,
+                          DATA_TYPE POLYBENCH_2D(A, N, N, n, n),
+                          DATA_TYPE POLYBENCH_1D(u1, N, n),
+                          DATA_TYPE POLYBENCH_1D(v1, N, n),
+                          DATA_TYPE POLYBENCH_1D(u2, N, n),
+                          DATA_TYPE POLYBENCH_1D(v2, N, n),
+                          DATA_TYPE POLYBENCH_1D(w, N, n),
+                          DATA_TYPE POLYBENCH_1D(x, N, n),
+                          DATA_TYPE POLYBENCH_1D(y, N, n),
+                          DATA_TYPE POLYBENCH_1D(z, N, n))
 {
   int i, j;
 
@@ -103,13 +110,12 @@ void kernel_gemver(int n,
 
   for (i = 0; i < _PB_N; i++)
     for (j = 0; j < _PB_N; j++)
-      w[i] = w[i] +  alpha * A[i][j] * x[j];
+      w[i] = w[i] + alpha * A[i][j] * x[j];
 
 #pragma endscop
 }
 
-
-int main(int argc, char** argv)
+int main(int argc, char **argv)
 {
   /* Retrieve problem size. */
   int n = N;
@@ -127,35 +133,34 @@ int main(int argc, char** argv)
   POLYBENCH_1D_ARRAY_DECL(y, DATA_TYPE, N, n);
   POLYBENCH_1D_ARRAY_DECL(z, DATA_TYPE, N, n);
 
-
   /* Initialize array(s). */
-  init_array (n, &alpha, &beta,
-	      POLYBENCH_ARRAY(A),
-	      POLYBENCH_ARRAY(u1),
-	      POLYBENCH_ARRAY(v1),
-	      POLYBENCH_ARRAY(u2),
-	      POLYBENCH_ARRAY(v2),
-	      POLYBENCH_ARRAY(w),
-	      POLYBENCH_ARRAY(x),
-	      POLYBENCH_ARRAY(y),
-	      POLYBENCH_ARRAY(z));
+  init_array(n, &alpha, &beta,
+             POLYBENCH_ARRAY(A),
+             POLYBENCH_ARRAY(u1),
+             POLYBENCH_ARRAY(v1),
+             POLYBENCH_ARRAY(u2),
+             POLYBENCH_ARRAY(v2),
+             POLYBENCH_ARRAY(w),
+             POLYBENCH_ARRAY(x),
+             POLYBENCH_ARRAY(y),
+             POLYBENCH_ARRAY(z));
 
   /* Start timer. */
   polybench_start_instruments;
 
-  #ifdef ARRAY_CALC
+#ifdef ARRAY_CALC
   /* Run kernel. */
-  kernel_gemver (n, alpha, beta,
-		 POLYBENCH_ARRAY(A),
-		 POLYBENCH_ARRAY(u1),
-		 POLYBENCH_ARRAY(v1),
-		 POLYBENCH_ARRAY(u2),
-		 POLYBENCH_ARRAY(v2),
-		 POLYBENCH_ARRAY(w),
-		 POLYBENCH_ARRAY(x),
-		 POLYBENCH_ARRAY(y),
-		 POLYBENCH_ARRAY(z));
-  #endif
+  kernel_gemver(n, alpha, beta,
+                POLYBENCH_ARRAY(A),
+                POLYBENCH_ARRAY(u1),
+                POLYBENCH_ARRAY(v1),
+                POLYBENCH_ARRAY(u2),
+                POLYBENCH_ARRAY(v2),
+                POLYBENCH_ARRAY(w),
+                POLYBENCH_ARRAY(x),
+                POLYBENCH_ARRAY(y),
+                POLYBENCH_ARRAY(z));
+#endif
 
   /* Stop and print timer. */
   polybench_stop_instruments;

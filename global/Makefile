@@ -24,6 +24,7 @@ check:
 .PHONY: clean
 clean:
 	rm -fr build
+	./global-tests/compile_newlib.sh 1
 
 #
 # To view commands use: make V=1

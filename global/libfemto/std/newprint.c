@@ -144,6 +144,7 @@ void print_uart_double(double d, int flen)
 
 
   print_uart(buffer);
+  print_uart(" ");
 }
 
 void print_uart_int(int i)
@@ -157,7 +158,7 @@ void print_uart_int(int i)
    }
    
    if (i == 0) {
-      putchar_uart('0');
+      print_uart("0 ");
       return;
    }
    
@@ -170,4 +171,5 @@ void print_uart_int(int i)
    for (int j = index - 1; j >= 0; j--) {
       putchar_uart(buffer[j]);
    }
+   print_uart(" ");
 }

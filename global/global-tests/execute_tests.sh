@@ -14,7 +14,7 @@ fi
 QEMU_ARGS=' -nographic -bios none -cpu x-rv128 -accel tcg,thread=single -machine virt -kernel'
 QEMU_CMD="$QEMU $QEMU_ARGS"
 
-cd ../build/bin/global-tests/virt || exit 1
+cd ../build/bin/global-tests/$2 || exit 1
 
 TESTS_COUNT=$(ls | wc -l)
 TESTS_FAIL=0
@@ -33,7 +33,14 @@ do
 		echo -e "${RED}-> ERROR: EXECUTION HAS FAILED${NC}"
 		TESTS_FAIL=$(($TESTS_FAIL+1))
 	else
+		if [ $2 == newlib ]; then 
+			i="${i%.x}_new"
+		fi		
 		FILE=../../../exp/global-tests/$i.exp
+		#if newlib version of result not exist
+		if [ ! -f "$FILE" ]; then
+			FILE="${FILE%_new.exp}.exp"
+		fi
 		#check if the answer file exister to do a diff
 		if test -f "$FILE"; then
 			DIFF=$(diff <(echo "$RES") "$FILE")

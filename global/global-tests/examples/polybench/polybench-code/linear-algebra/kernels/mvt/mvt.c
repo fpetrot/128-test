@@ -6,7 +6,7 @@ typedef unsigned int wint_t;
 #include <unistd.h>
 #include <string.h>
 #include <math.h>
-#include <stdnew.h>
+#include "global_var.h" 
 
 /* Include polybench common header. */
 #include <polybench.h>
@@ -14,65 +14,85 @@ typedef unsigned int wint_t;
 /* Include benchmark-specific header. */
 #include "mvt.h"
 
-
 /* Array initialization. */
-static
-void init_array(int n,
-		DATA_TYPE POLYBENCH_1D(x1,N,n),
-		DATA_TYPE POLYBENCH_1D(x2,N,n),
-		DATA_TYPE POLYBENCH_1D(y_1,N,n),
-		DATA_TYPE POLYBENCH_1D(y_2,N,n),
-		DATA_TYPE POLYBENCH_2D(A,N,N,n,n))
+static void init_array(int n,
+                       DATA_TYPE POLYBENCH_1D(x1, N, n),
+                       DATA_TYPE POLYBENCH_1D(x2, N, n),
+                       DATA_TYPE POLYBENCH_1D(y_1, N, n),
+                       DATA_TYPE POLYBENCH_1D(y_2, N, n),
+                       DATA_TYPE POLYBENCH_2D(A, N, N, n, n))
 {
   int i, j;
 
   for (i = 0; i < n; i++)
-    {
-      x1[i] = (DATA_TYPE) (i % n) / n;
-      x2[i] = (DATA_TYPE) ((i + 1) % n) / n;
-      y_1[i] = (DATA_TYPE) ((i + 3) % n) / n;
-      y_2[i] = (DATA_TYPE) ((i + 4) % n) / n;
-      for (j = 0; j < n; j++)
-	A[i][j] = (DATA_TYPE) (i*j % n) / n;
-    }
+  {
+    x1[i] = (DATA_TYPE)(i % n) / n;
+    x2[i] = (DATA_TYPE)((i + 1) % n) / n;
+    y_1[i] = (DATA_TYPE)((i + 3) % n) / n;
+    y_2[i] = (DATA_TYPE)((i + 4) % n) / n;
+    for (j = 0; j < n; j++)
+      A[i][j] = (DATA_TYPE)(i * j % n) / n;
+  }
 }
-
 
 /* DCE code. Must scan the entire live-out data.
    Can be used also to check the correctness of the output. */
-static
-void print_array(int n,
-		 DATA_TYPE POLYBENCH_1D(x1,N,n),
-		 DATA_TYPE POLYBENCH_1D(x2,N,n))
+static void print_array(int n,
+                        DATA_TYPE POLYBENCH_1D(x1, N, n),
+                        DATA_TYPE POLYBENCH_1D(x2, N, n))
 
 {
   int i;
 
-    for (i = 0; i < n; i++) {
-    if (i % 10 == 0) print_uart("\n");
-    print_uart_double(x1[i]);
-    print_uart(" ");
+  for (i = 0; i < n; i++)
+  {
+    if (i % 10 == 0)
+#ifdef LIBFEMTO
+          print_uart("\n");
+#else
+    printf("\n");
+#endif
+#ifdef LIBFEMTO
+    print_uart_double(x1[i], (int)DECIMAL_PLACES);
+#else
+    printf(PRINTF_MODIFIER, x1[i]);
+#endif
   }
+#ifdef LIBFEMTO
   print_uart("\n");
+#else
+  printf("\n");
+#endif
 
-  for (i = 0; i < n; i++) {
-    if (i % 10 == 0) print_uart("\n");
-    print_uart_double(x2[i]);
-    print_uart(" ");
+  for (i = 0; i < n; i++)
+  {
+    if (i % 10 == 0)
+#ifdef LIBFEMTO
+          print_uart("\n");
+#else
+    printf("\n");
+#endif
+#ifdef LIBFEMTO
+    print_uart_double(x2[i], (int)DECIMAL_PLACES);
+#else
+    printf(PRINTF_MODIFIER, x2[i]);
+#endif
   }
+#ifdef LIBFEMTO
   print_uart("\n");
+#else
+  printf("\n");
+#endif
 }
-
 
 /* Main computational kernel. The whole function will be timed,
    including the call and return. */
-static
-void kernel_mvt(int n,
-		DATA_TYPE POLYBENCH_1D(x1,N,n),
-		DATA_TYPE POLYBENCH_1D(x2,N,n),
-		DATA_TYPE POLYBENCH_1D(y_1,N,n),
-		DATA_TYPE POLYBENCH_1D(y_2,N,n),
-		DATA_TYPE POLYBENCH_2D(A,N,N,n,n))
+static void kernel_mvt(int n,
+                       DATA_TYPE POLYBENCH_1D(x1, N, n),
+                       DATA_TYPE POLYBENCH_1D(x2, N, n),
+                       DATA_TYPE POLYBENCH_1D(y_1, N, n),
+                       DATA_TYPE POLYBENCH_1D(y_2, N, n),
+                       DATA_TYPE POLYBENCH_2D(A, N, N, n, n))
 {
   int i, j;
 
@@ -84,11 +104,9 @@ void kernel_mvt(int n,
     for (j = 0; j < _PB_N; j++)
       x2[i] = x2[i] + A[j][i] * y_2[j];
 #pragma endscop
-
 }
 
-
-int main(int argc, char** argv)
+int main(int argc, char **argv)
 {
   /* Retrieve problem size. */
   int n = N;
@@ -100,27 +118,26 @@ int main(int argc, char** argv)
   POLYBENCH_1D_ARRAY_DECL(y_1, DATA_TYPE, N, n);
   POLYBENCH_1D_ARRAY_DECL(y_2, DATA_TYPE, N, n);
 
-
   /* Initialize array(s). */
-  init_array (n,
-	      POLYBENCH_ARRAY(x1),
-	      POLYBENCH_ARRAY(x2),
-	      POLYBENCH_ARRAY(y_1),
-	      POLYBENCH_ARRAY(y_2),
-	      POLYBENCH_ARRAY(A));
+  init_array(n,
+             POLYBENCH_ARRAY(x1),
+             POLYBENCH_ARRAY(x2),
+             POLYBENCH_ARRAY(y_1),
+             POLYBENCH_ARRAY(y_2),
+             POLYBENCH_ARRAY(A));
 
   /* Start timer. */
   polybench_start_instruments;
 
-  #ifdef ARRAY_CALC
+#ifdef ARRAY_CALC
   /* Run kernel. */
-  kernel_mvt (n,
-	      POLYBENCH_ARRAY(x1),
-	      POLYBENCH_ARRAY(x2),
-	      POLYBENCH_ARRAY(y_1),
-	      POLYBENCH_ARRAY(y_2),
-	      POLYBENCH_ARRAY(A));
-  #endif /* ARRAY_CALC */
+  kernel_mvt(n,
+             POLYBENCH_ARRAY(x1),
+             POLYBENCH_ARRAY(x2),
+             POLYBENCH_ARRAY(y_1),
+             POLYBENCH_ARRAY(y_2),
+             POLYBENCH_ARRAY(A));
+#endif /* ARRAY_CALC */
 
   /* Stop and print timer. */
   polybench_stop_instruments;

@@ -6,7 +6,7 @@ typedef unsigned int wint_t;
 #include <unistd.h>
 #include <string.h>
 #include <math.h>
-#include <stdnew.h>
+#include "global_var.h" 
 
 /* Include polybench common header. */
 #include <polybench.h>
@@ -39,11 +39,24 @@ void print_array(int n,
   int i;
 
   for (i = 0; i < n; i++) {
-    if (i % 10 == 0) print_uart("\n");
-    print_uart_double(y[i]);
-    print_uart(" ");
+    if (i % 10 == 0)
+    #ifdef LIBFEMTO
+print_uart("\n");
+#else
+printf("\n");
+#endif
+    #ifdef LIBFEMTO
+print_uart_double(y[i], (int)DECIMAL_PLACES);
+#else
+printf(PRINTF_MODIFIER, y[i]);
+#endif
+    
   }
-  print_uart("\n");
+  #ifdef LIBFEMTO
+print_uart("\n");
+#else
+printf("\n");
+#endif
 }
 
 

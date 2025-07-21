@@ -6,7 +6,7 @@ typedef unsigned int wint_t;
 #include <unistd.h>
 #include <string.h>
 #include <math.h>
-#include <stdnew.h>
+#include "global_var.h" 
 
 /* Include polybench common header. */
 #include <polybench.h>
@@ -46,22 +46,42 @@ static void print_array(int m, int n,
   {
     for (j = 0; j < n; j++)
     {
-      print_uart_double(R[i][j]);
-      print_uart(" ");
+      #ifdef LIBFEMTO
+print_uart_double(R[i][j], (int)DECIMAL_PLACES);
+#else
+printf(PRINTF_MODIFIER, R[i][j]);
+#endif
+      
     }
-    print_uart("\n");
+    #ifdef LIBFEMTO
+print_uart("\n");
+#else
+printf("\n");
+#endif
   }
   
   for (i = 0; i < m; i++)
   {
     for (j = 0; j < n; j++)
     {
-      print_uart_double(Q[i][j]);
-      print_uart(" ");
+      #ifdef LIBFEMTO
+print_uart_double(Q[i][j], (int)DECIMAL_PLACES);
+#else
+printf(PRINTF_MODIFIER, Q[i][j]);
+#endif
+      
     }
-    print_uart("\n");
+    #ifdef LIBFEMTO
+print_uart("\n");
+#else
+printf("\n");
+#endif
   }
-  print_uart("\n");
+  #ifdef LIBFEMTO
+print_uart("\n");
+#else
+printf("\n");
+#endif
 }
 
 /* Main computational kernel. The whole function will be timed,
