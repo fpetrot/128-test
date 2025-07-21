@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <alloca.h>
 #include <string.h>
-#include <stdnew.h>
 
 int main(int argc, char **argv)
 {
@@ -13,6 +12,10 @@ int main(int argc, char **argv)
 		if (alloc[i] = alloca(elemsize)) {
 			memset(alloc[i], 0, elemsize);
 		}
+#ifdef LIBFEMTO
 		print_uart(alloc[i]);
+#else
+		printf("%c", alloc[i]);
+#endif
 	}
 }
