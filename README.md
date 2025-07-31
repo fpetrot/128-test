@@ -3,12 +3,18 @@ Some unit and functional tests for 128-bit (and 64 and 32) riscv
 
 Note that now the 128-bit version of the software needs to be cross-compiled with our 128-bit version of the gnu toolchain and executed with our 128-bit version of QEMU.
 
-‘unit’ contains test generators for various instructions, in particular 128-bit shifts
+## TESTS
+- ‘unit’ contains test generators for various instructions, in particular 128-bit shifts
 
-'int128' contains random tests to check the 128-bit implementation of div[su]/rem[su]
+- 'int128' contains random tests to check the 128-bit implementation of div[su]/rem[su]
 
-'perf' contains some functional tests that might be used to check the performance behavior of the various riscv flavors
+- 'perf' contains some functional tests that might be used to check the performance behavior of the various riscv flavors
 
-'kernel' contains an extremely basic operating system kernel for rv128 (works on https://github.com/fpetrot/qemu-riscv128/tree/rv128+satp)
+- 'kernel' contains an extremely basic operating system kernel for rv128 (works on https://github.com/fpetrot/qemu-riscv128/tree/rv128+satp)
+
+- 'global' contains some unit tests write in C and also risv-probe (https://github.com/fpetrot/riscv-probe.git) tests.
+
+## MAKE
+You can run kernel, unit, global (libfemto and newlib) tests with 'make check'.
 
 The pathes to the qemu executables are hard coded depending on which machine I perform the test, which is bad, but this is no production software, ...

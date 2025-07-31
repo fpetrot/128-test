@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#file to compile all tests with newlib instead of libfemto
+#compile all tests with newlib instead of libfemto
 #tests hava to have a Makefile in their dirs
 GREEN='\033[0;32m'
 NC='\033[0m'

@@ -25,7 +25,9 @@ check:
 clean:
 	rm -fr build
 	./global-tests/compile_newlib.sh 1
-
+.PHONY: bin
+bin:
+	./utils/make_binary.sh
 #
 # To view commands use: make V=1
 #
