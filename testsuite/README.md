@@ -1,8 +1,10 @@
 # Dejagnu testsuite
 
-Réalisé par Paul Vernin, Emmanuel Fezeu Youmbi, Wiam Karmouni
+Done by Paul Vernin, Emmanuel Fezeu Youmbi and Wiam Karmouni
 Date : 2023
 
-`make test` va lancer la commande `runtest riscv.exp` de Dejagnu. Le script va tester tous les fichiers `*.s` des sous dossiers de testsuite.
+The original tests, by Frédéric Pétrot and Fabien Portas, where using python hacks on gdb generated messages.
+ 
+`make test` will execute Dejagnu `runtest riscv.exp`. The script will test all asm files (`*.s`) of the subdirectory `testsuite`.
 
 `make clean` pour delete les fichiers compilés et les fichiers générés par objdump.
