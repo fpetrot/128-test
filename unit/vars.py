@@ -1,5 +1,5 @@
-CROSS="riscv128-unknown-elf"
-CROSS_GDB=CROSS+"-gdb"
+CROSS="riscv64-unknown-elf"
+CROSS_GDB="gdb-multiarch"
 CROSS_GCC=CROSS+"-gcc"
 CROSS_LD=CROSS+"-ld"
 CROSS_AS=CROSS+"-as"

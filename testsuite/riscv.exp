@@ -1,9 +1,9 @@
 # Déclaration de la fonction de test
 proc loop_through_files {dir} {
 
-    set as_cmd "riscv128-unknown-elf-as"
+  set as_cmd "riscv128-unknown-elf-as"
   set objdump_cmd "riscv128-unknown-elf-objdump"
-  
+
   if {[catch {exec which $as_cmd} output] == 1} {
     fail "La commande $as_cmd est introuvable"
     exit 1
