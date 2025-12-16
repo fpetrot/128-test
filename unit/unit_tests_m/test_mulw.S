@@ -1,4 +1,4 @@
-#include "insns.S" 
+#include "exit.S"
 #include "utils.S"
 
 .section .rodata
@@ -36,7 +36,7 @@ _start:
     lw t0, w4
     liu(t1, 2)
     mulw t2, t0, t1
-    //prgchk reg t2 == 0xffffffffe0000000
+    //prgchk reg t2 == 0xffffffffffffffffffffffffe0000000
     mulw t2, t1, t0
     //prgchk reg t2 == 0xffffffffffffffffffffffffe0000000
     j exit

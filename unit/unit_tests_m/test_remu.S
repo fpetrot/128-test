@@ -1,4 +1,4 @@
-#include "insns.S" 
+#include "exit.S"
 #include "utils.S"
 
 .section .data

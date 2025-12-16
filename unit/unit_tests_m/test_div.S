@@ -1,4 +1,4 @@
-#include "insns.S" 
+#include "exit.S"
 #include "utils.S"
 
 .section .data
@@ -44,11 +44,11 @@ _start:
     //prgchk reg t2 == 0x80000000000000000000000000000000
 
 
-    // Check div by zero behavior
+    // Check div by zero behavior, should return -1
     liu(t1, 0)
-    
+
     div t2, t0, t1
-    //prgchk reg t2 == 0xffffffffffffffff
+    //prgchk reg t2 == 0xffffffffffffffffffffffffffffffff
 
 
     // Check various big divisions.
@@ -63,17 +63,17 @@ _start:
 
 
     // Check various divisor sizes.
-    lqg(t0, big1)
-    lqg(t1, big2)
+    lq  t0, big1
+    lq  t1, big2
     div t2, t0, t1
     //prgchk reg t2 == 0x25bae629
- 
 
-    lqg(t1, big3)
+
+    lq t1, big3
     div t2, t0, t1
 
 
-    lqg(t1, big4)
+    lq t1, big4
     div t2, t0, t1
     //prgchk reg t2 == 0x2ff60f26e1ccda1e0ae1e9dc
 

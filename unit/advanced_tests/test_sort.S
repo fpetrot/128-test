@@ -1,4 +1,4 @@
-#include "insns.S" 
+#include "exit.S" 
 #include "utils.S"
 #include "lib128.S"
 
@@ -1020,7 +1020,7 @@ j main
 // uint128_t i <=> t1
 sort:
     addi sp, sp, -16
-    sq(ra, 0, sp)
+    sq ra, 0(sp)
     
 do_while_body:
     li t0, 0
@@ -1030,16 +1030,16 @@ for_body:
     // t2 <- &tab[i], t3 <- tab[i]
     slli t2, t1, 4
     add t2, t2, a0
-    lq(t3, 0, t2)
+    lq t3, 0(t2)
 
     // t4 <- &tab[i + 1], t5 <- tab[i + 1]
     addi t4, t2, 16
-    lq(t5, 0, t4)
+    lq t5, 0(t4)
 
     ble t3, t5, if_switch_false
     // Switch the values
-    sq(t3, 0, t4)
-    sq(t5, 0, t2)
+    sq t3, 0(t4)
+    sq t5, 0(t2)
 
     addi t0, t0, 1
 
@@ -1053,7 +1053,7 @@ for_condchk:
     // do-while condition check
     bnez t0, do_while_body
 
-    lq(ra, 0, sp)
+    lq ra, 0(sp)
     addi sp, sp, 16
 
     ret
@@ -1061,7 +1061,7 @@ for_condchk:
 // bool check_order(uint128_t* tab, int128_t tab_size)
 chktab:
     addi sp, sp, -16
-    sq(ra, 0, sp)
+    sq ra, 0(sp)
 
     liu(t0, 0)
     //prgchk reg t0 == 0
@@ -1070,13 +1070,13 @@ chktab_forbdy:
     // t1 <- tab[i]
     slli t1, t0, 4
     add t1, t1, a0
-    lq(t1, 0, t1)
+    lq t1, 0(t1)
 
     // t2 <- tab[i + 1]
     addi t2, t0, 1
     slli t2, t2, 4
     add t2, t2, a0
-    lq(t2, 0, t2)
+    lq t2, 0(t2)
 
     blt t1, t2, chktab_if_ok
     li a0, 0
@@ -1091,26 +1091,26 @@ chktab_forchk:
 
     li a0, 1
 chktab_ret:
-    lq(ra, 0, sp)
+    lq ra, 0(sp)
     addi sp, sp, 16
 
     ret
 
 main:
     addi sp, sp, -16
-    sq(ra, 0, sp)
+    sq ra, 0(sp)
 
     la a0, tab
     la a1, tab_size
-    lq(a1, 0, a1)
+    lq a1, 0(a1)
     jal sort
 
     la a0, tab
     la a1, tab_size
-    lq(a1, 0, a1)
+    lq a1, 0(a1)
     jal chktab
     //prgchk reg a0 == 1
 
-    lq(ra, 0, sp)
+    lq ra, 0(sp)
     addi sp, sp, 16
 j exit

@@ -1,4 +1,4 @@
-#include "insns.S" 
+#include "exit.S"
 #include "utils.S"
 
 .section .rodata
@@ -25,7 +25,7 @@ _start:
     lw t1, w3
     divuw t2, t0, t1
     //prgchk reg t2 == 0x20d2baf
-    
+
     // Divide by self.
     divuw t2, t0, t0
     //prgchk reg t2 == 1
@@ -46,7 +46,7 @@ _start:
 
     // Check div by zero behavior
     lw t0, w1
-    liu(t1, 0
+    liu(t1, 0)
     divuw t2, t0, t1
     //prgchk reg t2 == 0xffffffffffffffffffffffffffffffff
     j exit

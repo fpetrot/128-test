@@ -1,4 +1,4 @@
-#include "insns.S" 
+#include "exit.S"
 #include "utils.S"
 
 .section .data
@@ -10,12 +10,10 @@
 .section .text.init,"ax",@progbits
 .global _start
 _start:
-    // Small, positive result 
+    // Small, positive result
     li t0, 3
     li t1, 7
     mulh t2, t0, t1
-    //prgchk reg t2 == 0
-    srli(t2, t2, 64)
     //prgchk reg t2 == 0
 
     // Small, negative result
@@ -52,6 +50,4 @@ _start:
 
     mulh t1, t0, t0
     //prgchk reg t1 == 0
-    srli(t1, t1, 64)
-    //prgchk reg t1 == 0x
     j exit

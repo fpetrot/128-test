@@ -35,9 +35,9 @@ mkdir -p ./out
 # we got a chance to write something, so check that before echoing
 if [ $1 -nt out/$baseName.o ]; then
     if [ -t 1 ]; then
-        echo "${CPP} -I./common/include $1 | ${CROSS_AS} -g -o out/$baseName.o -"
+    	echo "${CPP} -I./common/include $1 | ${CROSS_AS} -march=rv128imc_zicsr -g -o out/$baseName.o -"
     fi
-    ${CPP} -I./common/include $1 | ${CROSS_AS} -g -o out/$baseName.o -
+    ${CPP} -I./common/include $1 | ${CROSS_AS} -march=rv128imcf -g -o out/$baseName.o -
     if [ $? -ne 0 ]; then
         exit 1
     fi

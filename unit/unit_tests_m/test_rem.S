@@ -1,4 +1,4 @@
-#include "insns.S" 
+#include "exit.S"
 #include "utils.S"
 
 .section .data
@@ -40,21 +40,21 @@ _start:
     //prgchk reg t2 == 0
 
     // Check different divisor sizes
-    lqg(t0, big4)
+    lq t0, big4
 
-    lqg(t1, div1)
+    lq t1, div1
     rem t2, t0, t1
     //prgchk reg t2 == 0xffffffffffffffffffffffff9fb7bfc2
 
-    lqg(t1, div2)
+    lq t1, div2
     rem t2, t0, t1
     //prgchk reg t2 == 0xffffffffffffffff0241c351efac54ae
 
-    lqg(t1, div3)
+    lq t1, div3
     rem t2, t0, t1
     //prgchk reg t2 == 0xfffffffffcb69b69bf6056b034ce3f72
 
-    lqg(t1, div4)
+    lq t1, div4
     rem t2, t0, t1
     //prgchk reg t2 == 0xcf3e53431e02fa946034e4b6c81ebfcc
 
@@ -64,8 +64,8 @@ _start:
     //prgchk reg t2 == 0xcf3e53431e02fa946034e4b6c81ebfcc
 
     // Check overflow behavior.
-    lqg(t0, minsgn)
-    lqg(t1, minone)
+    lq t0, minsgn
+    lq t1, minone
     rem t2, t0, t1
     //prgchk reg t2 == 0
     j exit

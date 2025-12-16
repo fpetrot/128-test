@@ -1,4 +1,4 @@
-#include "insns.S" 
+#include "exit.S"
 #include "utils.S"
 
 .section .text.init,"ax",@progbits
@@ -6,6 +6,7 @@
 _start:
     // Check RV128 is running
     csrr t0, misa
+    srli t1, t0, 126   // Let us not make as if we were not expecting rv128
     //prgchk reg t1 == 3
 
     // Check UXL and SXL are set to RV128 too

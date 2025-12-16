@@ -1,12 +1,16 @@
-#include "insns.S" 
+#include "exit.S"
 #include "utils.S"
 
 .section .text.init,"ax",@progbits
 .globl _start
 _start:
-    // Check RV128 is running
+    // Check RV128 is running, see section 3.11 of the unpriviledge spec
     csrr t0, misa
-    srli t1, t0, 12
+    bgtz t0, 1f       // Leave as this is rv32
+    slli t0, t0, 1    
+    bgtz t0, 1f       // Leave as this is rv64
+    csrr t0, misa
+    srli t1, t0, 126  // Now we have the right to shift that much
     //prgchk reg t1 == 3
 
     csrrs t0, misa, zero
@@ -89,4 +93,5 @@ _start:
     slli t1, t1, 25
     and t2, t0, t1
     //prgchk reg t2 == 0
+1:
     j exit

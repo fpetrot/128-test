@@ -1,4 +1,4 @@
-#include "insns.S" 
+#include "exit.S"
 #include "utils.S"
 
 .section .text.init,"ax",@progbits
@@ -9,14 +9,15 @@ _start:
     // have the behavior we expect
     li   t0, 0xdeadbeef // The non animal right activist constant
     li   t1, 0xcafebabe // The non politically correct constant
-    slli t0, t0, 96
-    or    t2, t1, t0
+    slli t4, t0, 96
+    or    t2, t1, t4
     // first check read and write
     csrw mscratch, t2
     csrr t3, mscratch
     //prgchk reg t3 == 0xdeadbeef0000000000000000cafebabe
     // check swap
     slli t5, t1, 32
+    slli t4, t0, 64
     or    t2, t5, t4
     csrrw t4, mscratch, t2
     //prgchk reg t4 == 0xdeadbeef0000000000000000cafebabe

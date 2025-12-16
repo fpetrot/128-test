@@ -1,4 +1,4 @@
-#include "insns.S" 
+#include "exit.S"
 #include "utils.S"
 
 .section .data
@@ -27,12 +27,10 @@ _start:
     mul t2, t0, t1
     //prgchk reg t2 == 0x9594d996781404338780bdfc7bd0b904
 
-
     // Check mul by zero
-    mov t1, zero
+    move t1, zero
     mul t2, t0, t1
     //prgchk reg t2 == 0
-
 
     // -1 squared
     li t0, -1
@@ -40,21 +38,18 @@ _start:
     mul t2, t0, t1
     //prgchk reg t2 == 1
 
-
     // -1 times a number
     li t0, -1
     li t1, 42
     mul t2, t0, t1
     //prgchk reg t2 == 0xffffffffffffffffffffffffffffffd6
 
-    
     la t0, big3
     lq t0, 0(t0)
-    
+
     li t1, -1
     mul t2, t0, t1
     //prgchk reg t2 == 0xffffffffff543210fedcba9876543211
-
 
     la t0, big1
     lq t0, 0(t0)
@@ -64,7 +59,6 @@ _start:
 
     mul t2, t0, t1
     //prgchk reg t2 == 0x740c53144fa1da317a92392cadf9aba3
-
 
     // Max value squared (or -1^2 if signed).
     la t0, maxval

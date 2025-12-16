@@ -1,4 +1,4 @@
-#include "insns.S" 
+#include "exit.S"
 #include "utils.S"
 
 .section .rodata
@@ -31,7 +31,7 @@ _start:
     lw t1, w3
     remw t2, t0, t1
     //prgchk reg t2 == 0xffffffffffffffffffffffffffffffff
-    
+
     // Divide by self.
     remw t2, t0, t0
     //prgchk reg t2 == 0

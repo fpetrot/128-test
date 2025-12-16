@@ -9,4 +9,4 @@ exit:
     li  t1, 0xde003333
     sw  t1, 0(t0)
     wfi
-j       exit
+    j   exit
