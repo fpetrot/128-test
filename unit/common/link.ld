@@ -17,7 +17,7 @@ SECTIONS
 {
   PROVIDE(_start = ORIGIN(ram));
   .text : {
-    PROVIDE(_text_start = .);
+    PROVIDE(_text.init = .);
     *(.text.init) *(.text .text.*)
     PROVIDE(_text_end = .);
   } >ram AT>ram :text
