@@ -7,11 +7,11 @@ OBJCOPY=riscv128-unknown-elf-objcopy
 INPUT_EXT=".x"
 
 # Dossier o� se trouve les binaires
-DIR=$HOME/128-test/global/build/bin/global-tests/newlib/
+DIR=../build/bin/global-tests/newlib/
 
 # Dossier de output
 OUT=cva6/
-mkdir -p $HOME/128-test/global/build/bin/global-tests/$OUT
+mkdir -p ../build/bin/global-tests/$OUT
 
 # Vérifie si objcopy est installé
 if ! command -v $OBJCOPY &> /dev/null; then

@@ -1,4 +1,4 @@
 TARGET = 3mm
-OBJS = 3mm.o /home/fred/128-test/global/global-tests/examples/polybench/polybench-code/utilities/polybench.o
-EXTRA_INCLUDES=-I/home/fred/128-test/global/global-tests/examples/polybench/polybench-code/utilities -I/home/fred/128-test/global/global-tests/../utils/headers/
+OBJS = 3mm.o ../../../utilities/polybench.o
+EXTRA_INCLUDES=-I../../../utilities -I../../../../../../../utils/headers/
 include $(RVB_BUILD)/makefile.include
