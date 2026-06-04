@@ -12,9 +12,9 @@ Note that now the 128-bit version of the software needs to be cross-compiled wit
 
 - 'kernel' contains an extremely basic operating system kernel for rv128 (works on https://github.com/fpetrot/qemu-riscv128/tree/rv128+satp)
 
-- 'global' contains some unit tests write in C and also risv-probe (https://github.com/fpetrot/riscv-probe.git) tests.
+- 'global' contains some unit tests written in C.
 
 ## MAKE
-You can run kernel, unit, global (libfemto and newlib) tests with 'make check'.
+You can run kernel, unit, global tests with 'make check'.
 
 The pathes to the qemu executables are hard coded depending on which machine I perform the test, which is bad, but this is no production software, ...
