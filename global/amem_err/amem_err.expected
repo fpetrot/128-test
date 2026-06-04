@@ -1,0 +1,7 @@
+PANIC ! SPURIOUS LOAD ACCESS FAULT!
+
+
+mcause = 0x5
+mstatus = 0xf00005800
+mepc = 0x80000044
+mtval = 0xffffffffffffffff

@@ -1,51 +1,28 @@
-#
-# make rules
-#
+.PHONY: all clean check
 
-.EXPORT_ALL_VARIABLES:
+BLUE = \033[0;36m
+NC = \033[0m
 
-CROSS_COMPILE      ?= riscv128-unknown-elf-
-MARCH              ?= rv128imafdc
-MABI               ?= llp128d
-QEMU               ?= qemu-system-riscv64
+BUILD_DIR := $(shell pwd)/build
+RV_ARIANE := /work/rv128_ariane_testharness
 
-#to change the execution time for check
-EXEC_TIME ?= 3
+# Get every subdirectory containing a Makefile and generate a binary for each of these subdirectories
+SUBDIRS := $(dir $(shell find */ -name Makefile))
 
-.PHONY: all
-all: 
-	$(MAKE) libfemto	
-	$(MAKE) global-tests	
+all: $(SUBDIRS)
 
-.PHONY: check
-check:
-	$(MAKE) check-global-tests 
+$(BUILD_DIR):
+	mkdir -p $(BUILD_DIR)
 
-.PHONY: clean
 clean:
-	rm -fr build
-	./global-tests/compile_newlib.sh 1
-.PHONY: bin
-bin:
-	./utils/make_binary.sh
-#
-# To view commands use: make V=1
-#
+	rm -fr $(BUILD_DIR)
+	$(MAKE) -C polybench clean
 
-ifdef V
-cmd = @mkdir -p $2 ; echo "$3"; $3
-else
-cmd = @echo "$1"; mkdir -p $2 ; $3
-endif
+check: $(SUBDIRS)
+	pytest -n auto
 
-.PHONY: libfemto
-libfemto:
-	$(MAKE) -C libfemto
+.PHONY: $(SUBDIRS) 
+$(SUBDIRS): $(BUILD_DIR) 
+	@echo "\n$(BLUE)Compiling $@$(NC)\n"
+	$(MAKE) -C $@ BSP_FPU=1 O=$(BUILD_DIR) RV_ARIANE=$(RV_ARIANE)
 
-.PHONY: global-tests
-global-tests: libfemto
-	$(MAKE) -C global-tests
-
-.PHONY: check-global-tests
-check-global-tests: global-tests
-	$(MAKE) -C global-tests check

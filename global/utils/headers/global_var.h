@@ -1,5 +1,0 @@
-#define ARRAY_CALC
-#define PRINTF_MODIFIER "%0.9lf "
-#define DECIMAL_PLACES 9
-#define DATA_TYPE_IS_DOUBLE
-#define MINI_DATASET
