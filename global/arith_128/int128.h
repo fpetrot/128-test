@@ -4,9 +4,6 @@
 #include <stdint.h>
 #include <assert.h>
 
-typedef char bool;
-#define false 0
-#define true 1
 typedef __int128_t Int128;
 
 static inline Int128 int128_make64(uint64_t a)
