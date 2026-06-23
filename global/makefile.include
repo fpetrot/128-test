@@ -4,7 +4,7 @@ HOST_CC := $(CC)
 
 all: $(target) $(if $(HOST),$(O)/$(TARGET)-host.x,$(O)/$(TARGET).expected)
 
-$(O)/%-host.x: $(wildcard *.c)
+$(O)/%-host.x: $(patsubst %.o,%.c,$(OBJS))
 	$(HOST_CC) $^ -o $@ $(EXTRA_CFLAGS) $(EXTRA_LIBS)
 
 $(O)/%.expected: %.expected

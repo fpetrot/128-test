@@ -4,7 +4,7 @@ BLUE = \033[0;36m
 NC = \033[0m
 
 BUILD_DIR := $(shell pwd)/build
-RV_ARIANE := /work/rv128_ariane_testharness
+RV_ARIANE := $(shell pwd)/../../rv128_ariane_testharness
 
 # Get every subdirectory containing a Makefile and generate a binary for each of these subdirectories
 SUBDIRS := $(dir $(shell find */ -name Makefile))

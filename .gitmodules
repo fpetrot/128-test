@@ -1,0 +1,3 @@
+[submodule "global/aes-bench/tiny-AES-c"]
+	path = global/aes-bench/tiny-AES-c
+	url = https://github.com/kokke/tiny-AES-c.git
