@@ -1,4 +1,4 @@
-TARGET=ycbcr_to_rgb
+TARGET=swar
 OBJS=main.o
 HOST=1
 CFLAGS += -O3 -g

@@ -9,11 +9,16 @@ import subprocess
 import matplotlib.pyplot as plt
 from pathlib import Path
 
+CPU = os.environ.get("QEMU_CPU")
+
+if CPU is None:
+    print("The `QEMU_CPU` environment variable must be set to `rv64` or `x-rv128`")
+    exit(1)
+
 DEFAULT_QEMU_ARGS = (
-    "-nographic -bios none -cpu x-rv128 -accel tcg,thread=single -machine virt -plugin /work/qemu-riscv128/build-elf128/contrib/plugins/libexeclog.so -d plugin -kernel"
+    f"-nographic -bios none -cpu {CPU} -accel tcg,thread=single -machine virt -plugin /work/qemu-riscv128/build/contrib/plugins/libexeclog.so -d plugin -kernel"
 )
 
-TIMEOUT = 10
 
 def _qemu_command(binary: Path) -> list[str]:
     qemu = os.environ.get("QEMU", "qemu-system-riscv64")
@@ -21,24 +26,28 @@ def _qemu_command(binary: Path) -> list[str]:
     return [qemu, *shlex.split(qemu_args), str(binary)]
 
 
-def _run(cmd: list[str], timeout: int) -> subprocess.CompletedProcess[bytes]:
+def _run(cmd: list[str]) -> subprocess.CompletedProcess[bytes]:
     return subprocess.run(
         cmd,
         capture_output=True,
-        timeout=timeout,
     )
 
 def _render_output(data: bytes) -> str:
     return data.decode("utf-8", errors="replace")
 
 def main():
-    if len(sys.argv) != 2:
-        print(f"Usage: {sys.argv[0]} [binary]")
+    if len(sys.argv) != 2 and len(sys.argv) != 3:
+        print(f"Usage: {sys.argv[0]} binary [output_file]")
         exit(1)
 
     program = sys.argv[1]
 
-    qemu_result = _run(_qemu_command(program), TIMEOUT)
+    if len(sys.argv) == 3:
+        output_file = sys.argv[2]
+    else:
+        output_file = "instructions_count.png"
+
+    qemu_result = _run(_qemu_command(program))
 
     output = io.StringIO(_render_output(qemu_result.stderr))
 
@@ -64,7 +73,8 @@ def main():
 
     total_count = sum(x[1] for x in counts)
 
-    print(f"Total instructions count: {total_count}")
+    with open(f"{output_file}.info", "w") as f:
+        f.write(f"Total instructions count: {total_count}")
     
     counts = counts[:30]
 
@@ -81,7 +91,7 @@ def main():
 
     plt.grid(True, axis="y")
 
-    plt.savefig("instructions_count.png", dpi=150)
+    plt.savefig(f"{output_file}.png", dpi=150)
     
 
 main()

@@ -7,11 +7,11 @@ BINARIES=$(patsubst %.c,$(O)/%.x,$(SOURCES)) $(patsubst %.c,$(O)/%-host.x,$(SOUR
 all: $(BINARIES)
 
 $(O)/stub.o: stub.c
-	$(MAKE) -f $(RV_ARIANE)/makefile.include TARGET=stub O=$(O) CFLAGS="-mcmodel=medany" \
+	$(MAKE) -f $(RV_ARIANE)/makefile.include TARGET=stub O=$(O) EXTRA_CFLAGS="-mcmodel=medany $(EXTRA_CFLAGS)" \
 		OBJS=stub.o stub.o
 
 $(O)/polybench.o: $(O)/stub.o
-	$(MAKE) -f $(RV_ARIANE)/makefile.include TARGET=polybench O=$(O) CFLAGS="-mcmodel=medany" \
+	$(MAKE) -f $(RV_ARIANE)/makefile.include TARGET=polybench O=$(O) EXTRA_CFLAGS="-mcmodel=medany $(EXTRA_CFLAGS)" \
 		OBJS=polybench-code/utilities/polybench.o polybench-code/utilities/polybench.o
 	cp polybench-code/utilities/polybench.o $(O)/polybench.o
 
@@ -20,12 +20,12 @@ $(O)/polybench-host.o:
 
 $(O)/%-host.x: $(O)/polybench-host.o
 	@echo "\n$(BLUE)Compiling polybench/$* for the host$(NC)\n"
-	$(CC) $(shell find . -name $*)/$*.c $^ -o $@ -DPOLYBENCH_DUMP_ARRAYS -DPOLYBENCH_DUMP_TARGET=stdout -DMINI_DATASET -lm -I$(shell pwd)/polybench-code/utilities
+	$(CC) $(shell find . -name $*)/$*.c $^ -o $@ -DPOLYBENCH_DUMP_ARRAYS -DMINI_DATASET -lm -I$(shell pwd)/polybench-code/utilities
 
 $(O)/%.x: $(O)/polybench.o
 	@echo "\n$(BLUE)Compiling polybench/$*$(NC)\n"
 	$(MAKE) -f $(RV_ARIANE)/makefile.include TARGET=$* O=$(O) \
-		CFLAGS="-DPOLYBENCH_DUMP_ARRAYS -DMINI_DATASET -I$(shell pwd)/polybench-code/utilities -mcmodel=medany" \
+		EXTRA_CFLAGS="-DPOLYBENCH_DUMP_ARRAYS -DMINI_DATASET -I$(shell pwd)/polybench-code/utilities -mcmodel=medany $(EXTRA_CFLAGS)" \
 		EXTRA_LDFLAGS="$(O)/polybench.o stub.o" EXTRA_LIBS="-lm" OBJS=$(shell find . -name $*)/$*.o
 
 .PHONY: clean

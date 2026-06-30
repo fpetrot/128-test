@@ -8,8 +8,14 @@ import pytest
 TESTS_ROOT = Path(__file__).resolve().parent
 BUILD_DIR = (TESTS_ROOT / "build").resolve()
 
+CPU = os.environ.get("QEMU_CPU")
+
+if CPU is None:
+    print("The `QEMU_CPU` environment variable must be set to `rv64` or `x-rv128`")
+    pytest.exit(1)
+
 DEFAULT_QEMU_ARGS = (
-    "-nographic -bios none -cpu x-rv128 -accel tcg,thread=single -machine virt -kernel"
+    f"-nographic -bios none -cpu {CPU} -accel tcg,thread=single -machine virt -kernel"
 )
 
 TIMEOUT = 3

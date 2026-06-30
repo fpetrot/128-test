@@ -18,6 +18,9 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#define WAYS 2
+#define HR 10
+
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
