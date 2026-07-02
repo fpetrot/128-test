@@ -12,8 +12,10 @@ SUBDIRS := $(dir $(shell find */ -name Makefile))
 
 ifeq ($(XLEN),128)
 	CPU = x-rv128
-else
+else ifeq ($(XLEN),64)
 	CPU = rv64
+else
+	CPU = rv32
 endif
 
 all: $(SUBDIRS)
@@ -31,5 +33,5 @@ check: $(SUBDIRS)
 .PHONY: $(SUBDIRS) 
 $(SUBDIRS): $(BUILD_DIR) 
 	@echo "\n$(BLUE)Compiling $@$(NC)\n"
-	$(MAKE) -C $@ O=$(BUILD_DIR) RV_ARIANE=$(RV_ARIANE)
+	$(MAKE) -C $@ O=$(BUILD_DIR) RV_ARIANE=$(RV_ARIANE) XLEN=$(XLEN)
 

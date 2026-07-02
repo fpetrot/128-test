@@ -11,7 +11,7 @@ BUILD_DIR = (TESTS_ROOT / "build").resolve()
 CPU = os.environ.get("QEMU_CPU")
 
 if CPU is None:
-    print("The `QEMU_CPU` environment variable must be set to `rv64` or `x-rv128`")
+    print("The `QEMU_CPU` environment variable must be set to `rv32`, `rv64` or `x-rv128`")
     pytest.exit(1)
 
 DEFAULT_QEMU_ARGS = (

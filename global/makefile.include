@@ -1,5 +1,12 @@
 .PHONY: all
 
+# If the test doesn't support 32bits targets, skip it
+ifeq ($(XLEN),32)
+ifeq ($(NO_32BITS_SUPPORT),1)
+skip:
+endif
+endif
+
 HOST_CC := $(CC)
 
 all: $(target) $(if $(HOST),$(O)/$(TARGET)-host.x,$(O)/$(TARGET).expected)

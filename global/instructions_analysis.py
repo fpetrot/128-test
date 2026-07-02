@@ -12,11 +12,11 @@ from pathlib import Path
 CPU = os.environ.get("QEMU_CPU")
 
 if CPU is None:
-    print("The `QEMU_CPU` environment variable must be set to `rv64` or `x-rv128`")
+    print("The `QEMU_CPU` environment variable must be set to `rv32`, `rv64` or `x-rv128`")
     exit(1)
 
 DEFAULT_QEMU_ARGS = (
-    f"-nographic -bios none -cpu {CPU} -accel tcg,thread=single -machine virt -plugin /work/qemu-riscv128/build/contrib/plugins/libexeclog.so -d plugin -kernel"
+    f"-nographic -bios none -cpu {CPU} -accel tcg,thread=single -machine virt -plugin /work/qemu-riscv/build/contrib/plugins/libexeclog.so -d plugin -kernel"
 )
 
 
