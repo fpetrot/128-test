@@ -42,29 +42,29 @@ _start:
 ''')
 
     for _ in  range(datacnt):
-        data.write(f"la t0, tab_start\n")
+        data.write(f"la s0, tab_start\n")
         # More or less randomly chosen interval
         for __ in range(datasize):
             shamt = __&(datasize - 1)
             v = (values[_]<<shamt)&0xffffffffffffffffffffffffffffffff
             offset = int(_ * datasize/8)
-            data.write(f"lq t1, {offset}(t0)\n")
-            data.write(f"slli t2, t1, {__} \n")
-            data.write(f"//prgchk reg t2 == 0x{v&0xffffffffffffffffffffffffffffffff:032x}\n")
+            data.write(f"lq s1, {offset}(s0)\n")
+            data.write(f"slli s2, s1, {__} \n")
+            data.write(f"//prgchk reg s2 == 0x{v&0xffffffffffffffffffffffffffffffff:032x}\n")
 
     for _ in  range(datacnt):
-        data.write(f"la t0, tab_start\n")
+        data.write(f"la s0, tab_start\n")
         for __ in range(datasize):
             shamt = __&(datasize - 1)
             # Looks as if the right shift is logical in python, ...
             v = (values[_]>>shamt)&0xffffffffffffffffffffffffffffffff
             offset = int(_ * datasize/8)
-            data.write(f"lq t1, {offset}(t0)\n")
-            data.write(f"srli t2, t1, {__}\n")
-            data.write(f"//prgchk reg t2 == 0x{v&0xffffffffffffffffffffffffffffffff:032x}\n")
+            data.write(f"lq s1, {offset}(s0)\n")
+            data.write(f"srli s2, s1, {__}\n")
+            data.write(f"//prgchk reg s2 == 0x{v&0xffffffffffffffffffffffffffffffff:032x}\n")
 
     for _ in  range(datacnt):
-        data.write(f"la t0, tab_start\n")
+        data.write(f"la s0, tab_start\n")
         for __ in range(datasize):
             shamt = __&(datasize - 1)
             sign = values[_]>>127
@@ -74,9 +74,9 @@ _start:
                 for ___ in range(1, shamt + 1):
                     v |= (1 << (128 - ___))
             offset = int(_ * datasize/8)
-            data.write(f"lq t1, {offset}(t0)\n")
-            data.write(f"srai t2, t1, {__} \n")
-            data.write(f"//prgchk reg t2 == 0x{v&0xffffffffffffffffffffffffffffffff:032x}\n")
+            data.write(f"lq s1, {offset}(s0)\n")
+            data.write(f"srai s2, s1, {__} \n")
+            data.write(f"//prgchk reg s2 == 0x{v&0xffffffffffffffffffffffffffffffff:032x}\n")
 
     data.write('j exit')
     data.close()

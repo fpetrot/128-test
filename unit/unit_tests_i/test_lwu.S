@@ -18,61 +18,61 @@
 .global _start
 _start:
     // Arbitrary value loading (checks sign ext to 128 bits)
-    la t0, tst0
-    lwu t0, 0(t0)
-    //prgchk reg t0 == 0x80386387
+    la s0, tst0
+    lwu s0, 0(s0)
+    //prgchk reg s0 == 0x80386387
 
-    la t0, tst1
-    lwu t0, 0(t0)
-    //prgchk reg t0 == 0x42434445
+    la s0, tst1
+    lwu s0, 0(s0)
+    //prgchk reg s0 == 0x42434445
 
-    la t0, tst2
-    lwu t0, 0(t0)
-    //prgchk reg t0 == 0
+    la s0, tst2
+    lwu s0, 0(s0)
+    //prgchk reg s0 == 0
 
-    la t0, tst3
-    lwu t0, 0(t0)
-    //prgchk reg t0 == 0xffffffff
+    la s0, tst3
+    lwu s0, 0(s0)
+    //prgchk reg s0 == 0xffffffff
 
     // Unaligned reads.
-    la t1, unaligned_1
-    lwu t1, 0(t1)
-    //prgchk reg t1 == 0xcafebabe
+    la s1, unaligned_1
+    lwu s1, 0(s1)
+    //prgchk reg s1 == 0xcafebabe
 
-    la t1, unaligned_2
-    lwu t1, 0(t1)
-    //prgchk reg t1 == 0x12345678
+    la s1, unaligned_2
+    lwu s1, 0(s1)
+    //prgchk reg s1 == 0x12345678
 
-    la t1, unaligned_3
-    lwu t1, 0(t1)
-    //prgchk reg t1 == 0x87654321
+    la s1, unaligned_3
+    lwu s1, 0(s1)
+    //prgchk reg s1 == 0x87654321
 
     // Check loads with offsets.
-    la t0, tab_tst
-    lwu t1, 0(t0)
-    //prgchk reg t1 == 1
+    la s0, tab_tst
+    lwu s1, 0(s0)
+    //prgchk reg s1 == 1
     
-    lwu t1, 4(t0)
-    //prgchk reg t1 == 2
+    lwu s1, 4(s0)
+    //prgchk reg s1 == 2
     
-    lwu t1, 8(t0)
-    //prgchk reg t1 == 3
+    lwu s1, 8(s0)
+    //prgchk reg s1 == 3
 
-    lwu t1, 12(t0)
-    //prgchk reg t1 == 5
+    lwu s1, 12(s0)
+    //prgchk reg s1 == 5
 
-    lwu t1, 16(t0)
-    //prgchk reg t1 == 7
+    lwu s1, 16(s0)
+    //prgchk reg s1 == 7
 
-    lwu t1, 20(t0)
-    //prgchk reg t1 == 11
+    lwu s1, 20(s0)
+    //prgchk reg s1 == 11
 
-    lwu t1, 24(t0)
-    //prgchk reg t1 == 13
+    lwu s1, 24(s0)
+    //prgchk reg s1 == 13
 
-    lwu t1, 28(t0)
-    //prgchk reg t1 == 17
+    lwu s1, 28(s0)
+    //prgchk reg s1 == 17
 
-    lwu t1, 32(t0)
-    //prgchk reg t1 == 0xffffffff
+    lwu s1, 32(s0)
+    //prgchk reg s1 == 0xffffffff
     j exit

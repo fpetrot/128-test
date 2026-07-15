@@ -12,64 +12,64 @@
 .global _start
 _start:
     // Small trivial multiplication.
-    li t0, 3
-    li t1, 7
-    mul t2, t0, t1
-    //prgchk reg t2 == 21
+    li s0, 3
+    li s1, 7
+    mul s2, s0, s1
+    //prgchk reg s2 == 21
 
     // Multiplication two large positive integers.
-    la t0, big1
-    lq t0, 0(t0)
+    la s0, big1
+    lq s0, 0(s0)
 
-    la t1, big2
-    lq t1, 0(t1)
+    la s1, big2
+    lq s1, 0(s1)
 
-    mul t2, t0, t1
-    //prgchk reg t2 == 0x9594d996781404338780bdfc7bd0b904
+    mul s2, s0, s1
+    //prgchk reg s2 == 0x9594d996781404338780bdfc7bd0b904
 
 
     // Check mul by zero
-    mov t1, zero
-    mul t2, t0, t1
-    //prgchk reg t2 == 0
+    mov s1, zero
+    mul s2, s0, s1
+    //prgchk reg s2 == 0
 
 
     // -1 squared
-    li t0, -1
-    li t1, -1
-    mul t2, t0, t1
-    //prgchk reg t2 == 1
+    li s0, -1
+    li s1, -1
+    mul s2, s0, s1
+    //prgchk reg s2 == 1
 
 
     // -1 times a number
-    li t0, -1
-    li t1, 42
-    mul t2, t0, t1
-    //prgchk reg t2 == 0xffffffffffffffffffffffffffffffd6
+    li s0, -1
+    li s1, 42
+    mul s2, s0, s1
+    //prgchk reg s2 == 0xffffffffffffffffffffffffffffffd6
 
     
-    la t0, big3
-    lq t0, 0(t0)
+    la s0, big3
+    lq s0, 0(s0)
     
-    li t1, -1
-    mul t2, t0, t1
-    //prgchk reg t2 == 0xffffffffff543210fedcba9876543211
+    li s1, -1
+    mul s2, s0, s1
+    //prgchk reg s2 == 0xffffffffff543210fedcba9876543211
 
 
-    la t0, big1
-    lq t0, 0(t0)
+    la s0, big1
+    lq s0, 0(s0)
 
-    la t1, big4
-    lq t1, 0(t1)
+    la s1, big4
+    lq s1, 0(s1)
 
-    mul t2, t0, t1
-    //prgchk reg t2 == 0x740c53144fa1da317a92392cadf9aba3
+    mul s2, s0, s1
+    //prgchk reg s2 == 0x740c53144fa1da317a92392cadf9aba3
 
 
     // Max value squared (or -1^2 if signed).
-    la t0, maxval
-    lq t0, 0(t0)
+    la s0, maxval
+    lq s0, 0(s0)
 
-    mul t1, t0, t0
-    //prgchk reg t1 == 0x00000000000000000000000000000001
+    mul s1, s0, s0
+    //prgchk reg s1 == 0x00000000000000000000000000000001
     j exit

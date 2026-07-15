@@ -17,51 +17,51 @@
 .globl _start
 _start:
     // Check that comparison is really unsigned.
-    li t0, -1
-    li t1, 42
-    bgeu t0, t1, after_tst1
+    li s0, -1
+    li s1, 42
+    bgeu s0, s1, after_tst1
     //prgchk err
     nop
 after_tst1:
 
     // Test all five orderings of the words.
-    la t0, tst1_1
-    lq t0, 0(t0)
-    la t1, tst1_2
-    lq t1, 0(t1)
+    la s0, tst1_1
+    lq s0, 0(s0)
+    la s1, tst1_2
+    lq s1, 0(s1)
     
-    bgeu t0, t1, after_tst2
+    bgeu s0, s1, after_tst2
     //prgchk err
     nop
 after_tst2:
 
-    la t0, tst2_1
-    lq t0, 0(t0)
-    la t1, tst2_2
-    lq t1, 0(t1)
+    la s0, tst2_1
+    lq s0, 0(s0)
+    la s1, tst2_2
+    lq s1, 0(s1)
     
-    bgeu t0, t1, all_err
+    bgeu s0, s1, all_err
 
-    la t0, tst3_1
-    lq t0, 0(t0)
-    la t1, tst3_2
-    lq t1, 0(t1)
+    la s0, tst3_1
+    lq s0, 0(s0)
+    la s1, tst3_2
+    lq s1, 0(s1)
     
-    bgeu t0, t1, all_err
+    bgeu s0, s1, all_err
 
-    la t0, tst4_1
-    lq t0, 0(t0)
-    la t1, tst4_2
-    lq t1, 0(t1)
+    la s0, tst4_1
+    lq s0, 0(s0)
+    la s1, tst4_2
+    lq s1, 0(s1)
     
-    bgeu t0, t1, all_err
+    bgeu s0, s1, all_err
 
-    la t0, tst5_1
-    lq t0, 0(t0)
-    la t1, tst5_2
-    lq t1, 0(t1)
+    la s0, tst5_1
+    lq s0, 0(s0)
+    la s1, tst5_2
+    lq s1, 0(s1)
     
-    bgeu t0, t1, after_tst3
+    bgeu s0, s1, after_tst3
     //prgchk err
     nop
 after_tst3:

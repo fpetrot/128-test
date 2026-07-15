@@ -14,54 +14,54 @@
 .globl _start
 _start:
     // Various basic divisions
-    ld t0, w1
-    ld t1, w2
-    divd t2, t0, t1
-    //prgchk reg t2 == 0
+    ld s0, w1
+    ld s1, w2
+    divd s2, s0, s1
+    //prgchk reg s2 == 0
 
 
-    divd t2, t1, t0
-    //prgchk reg t2 == 0xfffffffffffffffffffffffffffffff1
+    divd s2, s1, s0
+    //prgchk reg s2 == 0xfffffffffffffffffffffffffffffff1
 
 
-    ld t1, w3
-    divd t2, t0, t1
-    //prgchk reg t2 == 0xfffffffffffffffffffb963672894ab7
+    ld s1, w3
+    divd s2, s0, s1
+    //prgchk reg s2 == 0xfffffffffffffffffffb963672894ab7
 
     
     // Divide by self.
-    divd t2, t0, t0
-    //prgchk reg t2 == 1
+    divd s2, s0, s0
+    //prgchk reg s2 == 1
 
 
     // Divide by -1
-    ld t0, w1
-    ld t1, w5
-    divd t2, t0, t1
-    //prgchk reg t2 == 0x012345f6789abcdf
+    ld s0, w1
+    ld s1, w5
+    divd s2, s0, s1
+    //prgchk reg s2 == 0x012345f6789abcdf
 
 
-    ld t0, w4
-    divd t2, t0, t1
-    //prgchk reg t2 == 0xffffffffffffffff87698bae77ab8bef
+    ld s0, w4
+    divd s2, s0, s1
+    //prgchk reg s2 == 0xffffffffffffffff87698bae77ab8bef
 
 
-    ld t0, w6
-    divd t2, t0, t1
-    //prgchk reg t2 == 42
+    ld s0, w6
+    divd s2, s0, s1
+    //prgchk reg s2 == 42
 
 
     // Check overflow behavior.
-    ld t0, minsgn
-    ld t1, w5
-    divd t2, t0, t1
-    //prgchk reg t2 == 0xffffffffffffffff8000000000000000
+    ld s0, minsgn
+    ld s1, w5
+    divd s2, s0, s1
+    //prgchk reg s2 == 0xffffffffffffffff8000000000000000
 
 
     // Check div by zero behavior
-    ld t0, w1
-    liu(t1, 0)
-    divd t2, t0, t1
-    //prgchk reg t2 == 0xffffffffffffffffffffffffffffffff
+    ld s0, w1
+    liu(s1, 0)
+    divd s2, s0, s1
+    //prgchk reg s2 == 0xffffffffffffffffffffffffffffffff
 
     j exit

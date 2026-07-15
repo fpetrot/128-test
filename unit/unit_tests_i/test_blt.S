@@ -14,73 +14,73 @@
 .globl _start
 _start:
     // Check comparison is actually signed.
-    li t0, -42
-    li t1, 42
-    blt t0, t1, after_tst1
+    li s0, -42
+    li s1, 42
+    blt s0, s1, after_tst1
 
     //prgchk err
     nop
 after_tst1:
 
-    la t0, bigtest1
-    lq t0, 0(t0)
+    la s0, bigtest1
+    lq s0, 0(s0)
 
-    la t1, bigtest2
-    lq t1, 0(t1)
+    la s1, bigtest2
+    lq s1, 0(s1)
 
-    blt t0, t1, all_err
+    blt s0, s1, all_err
 
-    blt t1, t0, after_tst2
+    blt s1, s0, after_tst2
     //prgchk err
     nop
 after_tst2:
 
     // Compare with self
-    la t1, bigtest1
-    lq t1, 0(t1)
-    blt t0, t1, all_err
+    la s1, bigtest1
+    lq s1, 0(s1)
+    blt s0, s1, all_err
 
     // Check comparison is on 128 bits.
-    la t0, halftest1
-    lq t0, 0(t0)
+    la s0, halftest1
+    lq s0, 0(s0)
 
-    la t1, halftest2
-    lq t1, 0(t1)
+    la s1, halftest2
+    lq s1, 0(s1)
 
-    blt t0, t1, all_err
+    blt s0, s1, all_err
 
     // Test with subtraction overflow (negative - positive -> positive)
-    la t0, oftest1
-    lq t0, 0(t0)
+    la s0, oftest1
+    lq s0, 0(s0)
 
-    la t1, oftest2
-    lq t1, 0(t1)
+    la s1, oftest2
+    lq s1, 0(s1)
 
-    blt t0, t1, after_tst3
+    blt s0, s1, after_tst3
 
     //prgchk err
     nop
 after_tst3:
 
     // Test with subtraction overflow (positive - negative -> negative)
-    la t0, oftest3
-    lq t0, 0(t0)
+    la s0, oftest3
+    lq s0, 0(s0)
 
-    la t1, oftest4
-    lq t1, 0(t1)
+    la s1, oftest4
+    lq s1, 0(s1)
 
-    blt t0, t1, all_err
+    blt s0, s1, all_err
 
     // Comparison with zero, to check the optimized path in tcg generation
-    la t1, halftest2
-    lq t1, 0(t1)
+    la s1, halftest2
+    lq s1, 0(s1)
 
-    bltz t1, 1f
+    bltz s1, 1f
     //prgchk err
     nop
-1:  la t1, halftest1
-    lq t1, 0(t1)
-    bltz t1, all_err
+1:  la s1, halftest1
+    lq s1, 0(s1)
+    bltz s1, all_err
 
     j exit
 

@@ -15,84 +15,84 @@
 .global _start
 _start:
     // Check trucature towards 0
-    li t0, 3
-    li t1, -2
-    div t2, t0, t1
-    //prgchk reg t2 == 0xffffffffffffffffffffffffffffffff
+    li s0, 3
+    li s1, -2
+    div s2, s0, s1
+    //prgchk reg s2 == 0xffffffffffffffffffffffffffffffff
 
 
     // Check signedness of division.
-    li t0, -2048
-    li t1, -1
-    div t2, t0, t1
-    //prgchk reg t2 == 2048
+    li s0, -2048
+    li s1, -1
+    div s2, s0, s1
+    //prgchk reg s2 == 2048
 
     // Check division of lowest signed value (no overflow).
-    la t0, minsigned
-    lq t0, 0(t0)
+    la s0, minsigned
+    lq s0, 0(s0)
 
-    li t1, 2
+    li s1, 2
 
-    div t2, t0, t1
-    //prgchk reg t2 == 0xc0000000000000000000000000000000
+    div s2, s0, s1
+    //prgchk reg s2 == 0xc0000000000000000000000000000000
 
 
     // Check overflow behavior (min value / -1)
-    li t1, -1
+    li s1, -1
 
-    div t2, t0, t1
-    //prgchk reg t2 == 0x80000000000000000000000000000000
+    div s2, s0, s1
+    //prgchk reg s2 == 0x80000000000000000000000000000000
 
 
     // Check div by zero behavior
-    liu(t1, 0)
+    liu(s1, 0)
     
-    div t2, t0, t1
-    //prgchk reg t2 == 0xffffffffffffffff
+    div s2, s0, s1
+    //prgchk reg s2 == 0xffffffffffffffff
 
 
     // Check various big divisions.
-    la t0, bigneg
-    lq t0, 0(t0)
+    la s0, bigneg
+    lq s0, 0(s0)
 
-    la t1, bigpos
-    lq t1, 0(t1)
+    la s1, bigpos
+    lq s1, 0(s1)
 
-    div t2, t0, t1
-    //prgchk reg t2 == 0xffffffffffffffffffffffffffffffe9
+    div s2, s0, s1
+    //prgchk reg s2 == 0xffffffffffffffffffffffffffffffe9
 
 
     // Check various divisor sizes.
-    lqg(t0, big1)
-    lqg(t1, big2)
-    div t2, t0, t1
-    //prgchk reg t2 == 0x25bae629
+    lqg(s0, big1)
+    lqg(s1, big2)
+    div s2, s0, s1
+    //prgchk reg s2 == 0x25bae629
  
 
-    lqg(t1, big3)
-    div t2, t0, t1
+    lqg(s1, big3)
+    div s2, s0, s1
 
 
-    lqg(t1, big4)
-    div t2, t0, t1
-    //prgchk reg t2 == 0x2ff60f26e1ccda1e0ae1e9dc
+    lqg(s1, big4)
+    div s2, s0, s1
+    //prgchk reg s2 == 0x2ff60f26e1ccda1e0ae1e9dc
 
     // Check a few small divisions.
-    li t0, 37
-    li t1, 5
-    div t2, t0, t1
-    //prgchk reg t2 == 7
+    li s0, 37
+    li s1, 5
+    div s2, s0, s1
+    //prgchk reg s2 == 7
 
 
-    li t0, 2879
-    li t1, 42
-    div t2, t0, t1
-    //prgchk reg t2 == 68
+    li s0, 2879
+    li s1, 42
+    div s2, s0, s1
+    //prgchk reg s2 == 68
 
 
-    li t0, 1234567
-    li t1, 98
-    div t2, t0, t1
-    //prgchk reg t2 == 12597
+    li s0, 1234567
+    li s1, 98
+    div s2, s0, s1
+    //prgchk reg s2 == 12597
 
     j exit

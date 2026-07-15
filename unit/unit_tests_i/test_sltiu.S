@@ -9,76 +9,75 @@
 .globl _start
 _start:
     // Trivial base checks
-    li t0, 7
-    sltiu t1, t0, 5
-    //prgchk reg t1 == 0
+    li s0, 7
+    sltiu s1, s0, 5
+    //prgchk reg s1 == 0
 
 
-    li t0, 35
-    sltiu t1, t0, 2047
-    //prgchk reg t1 == 1
+    li s0, 35
+    sltiu s1, s0, 2047
+    //prgchk reg s1 == 1
 
 
     // Check that comparison is unsigned.
-    li t0, 62
-    sltiu t1, t0, -1
-    //prgchk reg t1 == 1
+    li s0, 62
+    sltiu s1, s0, -1
+    //prgchk reg s1 == 1
 
 
     // Check with equal values.
-    li t0, 2001
-    sltiu t1, t0, 2001
-    //prgchk reg t1 == 0
+    li s0, 2001
+    sltiu s1, s0, 2001
+    //prgchk reg s1 == 0
 
 
     // Check with max immediate
-    li t0, 2000
-    sltiu t1, t0, 2047
-    //prgchk reg t1 == 1
+    li s0, 2000
+    sltiu s1, s0, 2047
+    //prgchk reg s1 == 1
 
     
-    li t0, 8900
-    sltiu t1, t0, 2047
-    //prgchk reg t1 == 0
+    li s0, 8900
+    sltiu s1, s0, 2047
+    //prgchk reg s1 == 0
 
 
     // Check with min immediate
-    la t0, bigtest
-    lq t0, 0(t0)
-    sltiu t1, t0, -2048
-    //prgchk reg t1 == 1
+    li s0, 0xb3ac109c8a412d90ef2a3664165c497a
+    //prgchk reg s0 == 0xb3ac109c8a412d90ef2a3664165c497a
+    sltiu s1, s0, -2048
+    //prgchk reg s1 == 1
 
 
     // Check all cases
     // rs1_hi >= imm_hi && rs1_lo >= imm_lo
-    sltiu t1, t0, 568
-    //prgchk reg t1 == 0
+    sltiu s1, s0, 568
+    //prgchk reg s1 == 0
 
 
     // rs1_hi >= imm_h && rs1_lo < imm_lo && heq
-    la t0, tst
-    lq t0, 0(t0)
-    sltiu t1, t0, -2041
-    //prgchk reg t1 == 1
+    li s0, 0xfffffffffffffffffffffffffff89765
+    //prgchk reg s0 == 0xfffffffffffffffffffffffffff89765
+    sltiu s1, s0, -2041
+    //prgchk reg s1 == 1
 
 
     // rs1_hi >= imm_hi && rs1_lo < imm_lo && !heq
-    la t0, tst2
-    lq t0, 0(t0)
-    //prgchk reg t0 == 0x7ff00000000000000000000000000035
-    sltiu t1, t0, 54
-    //prgchk reg t1 == 0
+    li s0, 0x7ff00000000000000000000000000035
+    //prgchk reg s0 == 0x7ff00000000000000000000000000035
+    sltiu s1, s0, 54
+    //prgchk reg s1 == 0
 
 
     // rs1_hi < imm_hi && rs1_lo < imm_lo
-    li t0, 35
-    sltiu t1, t0, -2000 
-    //prgchk reg t1 == 1
+    li s0, 35
+    sltiu s1, s0, -2000 
+    //prgchk reg s1 == 1
 
 
     // rs1_hi < imm_hi && rs1_lo >= imm_lo
-    li t0, 0xffffffffffffffff
-    sltiu t1, t0, -2000
-    //prgchk reg t1 == 1
+    li s0, 0xffffffffffffffff
+    sltiu s1, s0, -2000
+    //prgchk reg s1 == 1
 
     j exit

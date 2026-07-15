@@ -5,8 +5,8 @@
 .globl _start
 _start:
     // Check RV128 is running
-    csrr t0, misa
-    //prgchk reg t1 == 3
+    csrr s0, misa
+    //prgchk reg s1 == 3
 
     // Minimal pmp settings
     // Just the opposite of Unix file permissions!
@@ -15,47 +15,47 @@ _start:
 #define PMP_W     0x02
 #define PMP_X     0x04
 
-    li t0, -1
-    csrw pmpaddr0, t0
-    li t0, PMP_NAPOT | PMP_R | PMP_W | PMP_X
-    csrw pmpcfg0, t0
+    li s0, -1
+    csrw pmpaddr0, s0
+    li s0, PMP_NAPOT | PMP_R | PMP_W | PMP_X
+    csrw pmpcfg0, s0
 
-    la t0, backm
-    csrw mtvec, t0
+    la s0, backm
+    csrw mtvec, s0
 
     // Set MPP to supervisor
-    csrr t0, mstatus
-    li t1, ~0x1800 // mask
-    and t1, t1, t0
-    li t0, 0x0800  // supervisor
-    or t1, t1, t0
-    csrw mstatus, t1
+    csrr s0, mstatus
+    li s1, ~0x1800 // mask
+    and s1, s1, s0
+    li s0, 0x0800  // supervisor
+    or s1, s1, s0
+    csrw mstatus, s1
     // Change to supervisor mode
-    la t0, 1f
-    csrw mepc, t0
+    la s0, 1f
+    csrw mepc, s0
     mret
 1:
     // Check UXL is set to RV128
-    csrr t0, sstatus
-    andi t1, t1, 0x3
+    csrr s0, sstatus
+    andi s1, s1, 0x3
     // Make sure SD is zero
-    //prgchk reg t1 == 0x00000000000000003000000000000000
+    //prgchk reg s1 == 0x00000000000000003000000000000000
 
     // Mark FPU dirty to check for SD
     .equiv   MSTATUS_FS, 0x00006000
-    li  t0,  MSTATUS_FS
-    csrs     sstatus, t0
+    li  s0,  MSTATUS_FS
+    csrs     sstatus, s0
     // Do some fun useless computation
     fmadd.s  f3, f2, f1, f0
     fmax.s   f0, f1, f2
     // Check SD has changed where expected
-    csrr t0, sstatus
-    //prgchk reg t1 == 1
+    csrr s0, sstatus
+    //prgchk reg s1 == 1
     // Mark FPU clean (2 in FS place)
-    li  t0, ~0x00004000
-    csrc     sstatus, t0
-    csrr t0, sstatus
-    //prgchk reg t1 == 0
+    li  s0, ~0x00004000
+    csrc     sstatus, s0
+    csrr s0, sstatus
+    //prgchk reg s1 == 0
 
     // Let's go back to machine mode to exit
     ecall

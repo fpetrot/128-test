@@ -14,35 +14,35 @@
 .globl _start
 _start:
     // Check comparison is actually signed.
-    li t0, -42
-    bgez t0, all_err
+    li s0, -42
+    bgez s0, all_err
 
-    la t0, bigtest1
-    lq t0, 0(t0)
+    la s0, bigtest1
+    lq s0, 0(s0)
 
-    bgez t0, 1f
+    bgez s0, 1f
     //prgchk err
     nop
 1:
-    la t0, halftest1
-    lq t0, 0(t0)
+    la s0, halftest1
+    lq s0, 0(s0)
 
-    bgez t0, 1f
+    bgez s0, 1f
     //prgchk err
     nop
 1:
-    la t0, halftest2
-    lq t0, 0(t0)
+    la s0, halftest2
+    lq s0, 0(s0)
 
-    bgez t0, all_err
+    bgez s0, all_err
 
-    la t0, oftest4
-    lq t0, 0(t0)
+    la s0, oftest4
+    lq s0, 0(s0)
 
-    bgez t0, all_err
+    bgez s0, all_err
 
-    li t0, 0
-    bgez t0, 1f
+    li s0, 0
+    bgez s0, 1f
     //prgchk err
     nop
 

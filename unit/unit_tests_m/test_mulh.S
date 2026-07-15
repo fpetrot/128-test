@@ -11,47 +11,47 @@
 .global _start
 _start:
     // Small, positive result 
-    li t0, 3
-    li t1, 7
-    mulh t2, t0, t1
-    //prgchk reg t2 == 0
-    srli(t2, t2, 64)
-    //prgchk reg t2 == 0
+    li s0, 3
+    li s1, 7
+    mulh s2, s0, s1
+    //prgchk reg s2 == 0
+    srli(s2, s2, 64)
+    //prgchk reg s2 == 0
 
     // Small, negative result
-    la t0, big1
-    lq t0, 0(t0)
+    la s0, big1
+    lq s0, 0(s0)
 
-    liu(t1, 358)
-    mulh t2, t0, t1
-    //prgchk reg t2 == 0xffffffffffffffffffffffffffffffff
+    liu(s1, 358)
+    mulh s2, s0, s1
+    //prgchk reg s2 == 0xffffffffffffffffffffffffffffffff
 
     // Big, negative result
-    la t1, big2
-    lq t1, 0(t1)
+    la s1, big2
+    lq s1, 0(s1)
 
-    mulh t2, t0, t1
-    //prgchk reg t2 == 0xffffffffffffc64bb98485445a4bdc56
+    mulh s2, s0, s1
+    //prgchk reg s2 == 0xffffffffffffc64bb98485445a4bdc56
 
     // Big, positive result (neg * neg)
-    la t1, big3
-    lq t1, 0(t1)
+    la s1, big3
+    lq s1, 0(s1)
 
-    mulh t2, t0, t1
-    //prgchk reg t2 == 0xc379aaab8
+    mulh s2, s0, s1
+    //prgchk reg s2 == 0xc379aaab8
 
     // -1 * 1
-    li t0, 1
-    li t1, -1
-    mulh t2, t0, t1
-    //prgchk reg t2 == 0xffffffffffffffffffffffffffffffff
+    li s0, 1
+    li s1, -1
+    mulh s2, s0, s1
+    //prgchk reg s2 == 0xffffffffffffffffffffffffffffffff
 
     // Max unsigned value squared : -1^2.
-    la t0, maxval
-    lq t0, 0(t0)
+    la s0, maxval
+    lq s0, 0(s0)
 
-    mulh t1, t0, t0
-    //prgchk reg t1 == 0
-    srli(t1, t1, 64)
-    //prgchk reg t1 == 0x
+    mulh s1, s0, s0
+    //prgchk reg s1 == 0
+    srli(s1, s1, 64)
+    //prgchk reg s1 == 0x
     j exit

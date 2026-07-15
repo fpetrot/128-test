@@ -7,25 +7,25 @@ _start:
     // mscratch/h does not produce any side effect, so
     // this set of test is only to check that the csr insns
     // have the behavior we expect
-    li   t0, 0xdeadbeef // The non animal right activist constant
-    li   t1, 0xcafebabe // The non politically correct constant
-    slli t0, t0, 96
-    or    t2, t1, t0
+    li   s0, 0xdeadbeef // The non animal right activist constant
+    li   s1, 0xcafebabe // The non politically correct constant
+    slli s0, s0, 96
+    or    s2, s1, s0
     // first check read and write
-    csrw mscratch, t2
-    csrr t3, mscratch
-    //prgchk reg t3 == 0xdeadbeef0000000000000000cafebabe
+    csrw mscratch, s2
+    csrr s3, mscratch
+    //prgchk reg s3 == 0xdeadbeef0000000000000000cafebabe
     // check swap
-    slli t5, t1, 32
-    or    t2, t5, t4
-    csrrw t4, mscratch, t2
-    //prgchk reg t4 == 0xdeadbeef0000000000000000cafebabe
-    csrr t3, mscratch
-    //prgchk reg t3 == 0x00000000deadbeefcafebabe00000000
+    slli s5, s1, 32
+    or    s2, s5, s4
+    csrrw s4, mscratch, s2
+    //prgchk reg s4 == 0xdeadbeef0000000000000000cafebabe
+    csrr s3, mscratch
+    //prgchk reg s3 == 0x00000000deadbeefcafebabe00000000
     csrrsi   zero, mscratch, 15
-    csrr t3, mscratch
-    //prgchk reg t3 == 0x00000000deadbeefcafebabe0000000f
+    csrr s3, mscratch
+    //prgchk reg s3 == 0x00000000deadbeefcafebabe0000000f
     csrrci   zero, mscratch, 10
-    csrr t3, mscratch
-    //prgchk reg t3 == 0x00000000deadbeefcafebabe00000005
+    csrr s3, mscratch
+    //prgchk reg s3 == 0x00000000deadbeefcafebabe00000005
     j exit

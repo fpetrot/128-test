@@ -25,74 +25,74 @@
 .global _start
 _start:
     // Test sign extension to 128 bits.
-    la t0, tst1
-    ld t0, 0(t0)
-    //prgchk reg t0 == 0xffffffffffffffffffffffffffffffff
+    la s0, tst1
+    ld s0, 0(s0)
+    //prgchk reg s0 == 0xffffffffffffffffffffffffffffffff
 
-    la t1, tst2
-    ld t1, 0(t1)
-    //prgchk reg t1 == 0xfffffffffffffffffedcba9876543210
+    la s1, tst2
+    ld s1, 0(s1)
+    //prgchk reg s1 == 0xfffffffffffffffffedcba9876543210
 
-    la t1, tst3
-    ld t1, 0(t1)
-    //prgchk reg t1 == 0x00000000000000001234567890abcdef
+    la s1, tst3
+    ld s1, 0(s1)
+    //prgchk reg s1 == 0x00000000000000001234567890abcdef
 
     // Loading with different offsets.
-    la t0, tab_tst
-    ld t1, 0(t0)
-    //prgchk reg t1 == 1
+    la s0, tab_tst
+    ld s1, 0(s0)
+    //prgchk reg s1 == 1
 
-    ld t1, 8(t0)
-    //prgchk reg t1 == 2
+    ld s1, 8(s0)
+    //prgchk reg s1 == 2
 
-    ld t1, 16(t0)
-    //prgchk reg t1 == 3
+    ld s1, 16(s0)
+    //prgchk reg s1 == 3
     
-    ld t1, 24(t0)
-    //prgchk reg t1 == 5
+    ld s1, 24(s0)
+    //prgchk reg s1 == 5
 
-    ld t1, 32(t0)
-    //prgchk reg t1 == 7
+    ld s1, 32(s0)
+    //prgchk reg s1 == 7
 
-    ld t1, 40(t0)
-    //prgchk reg t1 == 11
+    ld s1, 40(s0)
+    //prgchk reg s1 == 11
 
-    ld t1, 48(t0)
-    //prgchk reg t1 == 13
+    ld s1, 48(s0)
+    //prgchk reg s1 == 13
 
-    ld t1, 56(t0)
-    //prgchk reg t1 == 17
+    ld s1, 56(s0)
+    //prgchk reg s1 == 17
 
-    ld t1, 64(t0)
-    //prgchk reg t1 == 19
+    ld s1, 64(s0)
+    //prgchk reg s1 == 19
 
     // Testing unaligned reads.
-    la t0, unaligned1
-    ld t1, 0(t0)
-    //prgchk reg t1 == 0xffffffffffffffffabcdef0123456789
+    la s0, unaligned1
+    ld s1, 0(s0)
+    //prgchk reg s1 == 0xffffffffffffffffabcdef0123456789
 
-    la t0, unaligned2
-    ld t1, 0(t0)
-    //prgchk reg t1 == 0xfffffffffffffffffedcba9876543210
+    la s0, unaligned2
+    ld s1, 0(s0)
+    //prgchk reg s1 == 0xfffffffffffffffffedcba9876543210
 
-    la t0, unaligned3
-    ld t1, 0(t0)
-    //prgchk reg t1 == 0xffffffffffffffffdeadbeefbeefdead
+    la s0, unaligned3
+    ld s1, 0(s0)
+    //prgchk reg s1 == 0xffffffffffffffffdeadbeefbeefdead
 
-    la t0, unaligned4
-    ld t1, 0(t0)
-    //prgchk reg t1 == 0xffffffffffffffffcafebabebabecafe
+    la s0, unaligned4
+    ld s1, 0(s0)
+    //prgchk reg s1 == 0xffffffffffffffffcafebabebabecafe
 
-    la t0, unaligned5
-    ld t1, 0(t0)
-    //prgchk reg t1 == 0xffffffffffffffffabadadddabcdabed
+    la s0, unaligned5
+    ld s1, 0(s0)
+    //prgchk reg s1 == 0xffffffffffffffffabadadddabcdabed
 
-    la t0, unaligned6
-    ld t1, 0(t0)
-    //prgchk reg t1 == 0xffffffffffffffffeeffeeffeeffeeff
+    la s0, unaligned6
+    ld s1, 0(s0)
+    //prgchk reg s1 == 0xffffffffffffffffeeffeeffeeffeeff
 
-    la t0, unaligned7
-    ld t1, 0(t0)
-    //prgchk reg t1 == 0x00000000000000005879545963448eee
+    la s0, unaligned7
+    ld s1, 0(s0)
+    //prgchk reg s1 == 0x00000000000000005879545963448eee
 
     j exit
