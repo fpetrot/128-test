@@ -8,29 +8,29 @@
 .section .text.init,"ax",@progbits
 .globl _start
 _start:
-    la t0, test_quad
-    lq t0, 0(t0)
+    li s0, 0x75033785b9ca9eec0ec94d28201e1869
+    //prgchk reg s0 == 0x75033785b9ca9eec0ec94d28201e1869
 
     // or with -1 : set to -1
-    li t1, -1
-    or t1, t1, t0
-    //prgchk reg t1 == 0xffffffffffffffffffffffffffffffff
+    li s1, -1
+    or s1, s1, s0
+    //prgchk reg s1 == 0xffffffffffffffffffffffffffffffff
 
     // or with zero = no-op
-    li t1, 0
-    or t1, t0, t1
-    //prgchk reg t1 == 0x75033785b9ca9eec0ec94d28201e1869
+    li s1, 0
+    or s1, s0, s1
+    //prgchk reg s1 == 0x75033785b9ca9eec0ec94d28201e1869
     
     // try a few 128-bit patterns
-    la t1, test_mask1
-    lq t1, 0(t1)
+    li s1, 0x55555555555555555555555555555555
+    //prgchk reg s1 == 0x55555555555555555555555555555555
 
-    or t2, t1, t0
-    //prgchk reg t2 == 0x755777d5fddfdffd5fdd5d7d755f5d7d
+    or s2, s1, s0
+    //prgchk reg s2 == 0x755777d5fddfdffd5fdd5d7d755f5d7d
 
-    la t1, test_mask2
-    lq t1, 0(t1)
+    li s1, 0x12341234abcdabcd567856781234efef
+    //prgchk reg s1 == 0x12341234abcdabcd567856781234efef
 
-    or t2, t1, t0
-    //prgchk reg t2 == 0x773737b5bbcfbfed5ef95f78323effef
+    or s2, s1, s0
+    //prgchk reg s2 == 0x773737b5bbcfbfed5ef95f78323effef
     j exit

@@ -8,51 +8,51 @@
 
 .section .text.init,"ax",@progbits
 .globl _start
-main:
+_start:
     // Basic test of non equal values.
-    la t0, val1
-    lq t0, 0(t0)
+    la s0, val1
+    lq s0, 0(s0)
 
-    la t1, val2
-    lq t1, 0(t1)
+    la s1, val2
+    lq s1, 0(s1)
 
-    bne t0, t1, after_tst1
+    bne s0, s1, after_tst1
 
     //prgchk err
     nop
 after_tst1:
 
     // Basic test of equal values.
-    la t0, val2
-    lq t0, 0(t0)
+    la s0, val2
+    lq s0, 0(s0)
 
-    la t1, val2
-    lq t1, 0(t1)
+    la s1, val2
+    lq s1, 0(s1)
 
-    bne t0, t1, all_err
+    bne s0, s1, all_err
 
     // Check if upper 64 bits are compared
-    la t0, val3
-    lq t0, 0(t0)
+    la s0, val3
+    lq s0, 0(s0)
 
-    la t1, val3
-    lq t1, 0(t1)
+    la s1, val3
+    lq s1, 0(s1)
 
-    bne t0, t1, all_err
+    bne s0, s1, all_err
 
-    la t1, val4
-    lq t1, 0(t1)
+    la s1, val4
+    lq s1, 0(s1)
 
-    bne t0, t1, after_tst2
+    bne s0, s1, after_tst2
 
     //prgchk err
     nop
 after_tst2:
     
     // Check not equals with x0
-    li t0, 0
+    li s0, 0
     
-    bne t0, zero, all_err
+    bne s0, zero, all_err
     j exit
 
 all_err:

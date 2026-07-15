@@ -14,39 +14,39 @@
 .globl _start
 _start:
     // Various basic divisions
-    lw t0, w1
-    lw t1, w2
-    divuw t2, t0, t1
-    //prgchk reg t2 == 0x7
+    lw s0, w1
+    lw s1, w2
+    divuw s2, s0, s1
+    //prgchk reg s2 == 0x7
 
-    divuw t2, t1, t0
-    //prgchk reg t2 == 0
+    divuw s2, s1, s0
+    //prgchk reg s2 == 0
 
-    lw t1, w3
-    divuw t2, t0, t1
-    //prgchk reg t2 == 0x20d2baf
+    lw s1, w3
+    divuw s2, s0, s1
+    //prgchk reg s2 == 0x20d2baf
     
     // Divide by self.
-    divuw t2, t0, t0
-    //prgchk reg t2 == 1
+    divuw s2, s0, s0
+    //prgchk reg s2 == 1
 
     // Divide by -1
-    lw t0, w1
-    lw t1, w5
-    divuw t2, t0, t1
-    //prgchk reg t2 == 0
+    lw s0, w1
+    lw s1, w5
+    divuw s2, s0, s1
+    //prgchk reg s2 == 0
 
-    lw t0, w4
-    divuw t2, t0, t1
-    //prgchk reg t2 == 0
+    lw s0, w4
+    divuw s2, s0, s1
+    //prgchk reg s2 == 0
 
-    lw t0, w6
-    divuw t2, t0, t1
-    //prgchk reg t2 == 0
+    lw s0, w6
+    divuw s2, s0, s1
+    //prgchk reg s2 == 0
 
     // Check div by zero behavior
-    lw t0, w1
-    liu(t1, 0
-    divuw t2, t0, t1
-    //prgchk reg t2 == 0xffffffffffffffffffffffffffffffff
+    lw s0, w1
+    liu(s1, 0
+    divuw s2, s0, s1
+    //prgchk reg s2 == 0xffffffffffffffffffffffffffffffff
     j exit

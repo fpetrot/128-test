@@ -15,73 +15,73 @@
 .section .text.init,"ax",@progbits
 .global _start
 _start:
-    la t0, big1
-     lq t0, 0(t0)
+    la s0, big1
+     lq s0, 0(s0)
 
-    la t1, big2
-     lq t1, 0(t1)
+    la s1, big2
+     lq s1, 0(s1)
 
-    divu t2, t0, t1
-    //prgchk reg t2 == 0x6d390bbaa4ce
+    divu s2, s0, s1
+    //prgchk reg s2 == 0x6d390bbaa4ce
  
     // Div by one.
-    li t1, 1
-    divu t2, t0, t1
-    //prgchk reg t2 == 0x7c4574e203312d7c2eccfc6e195e28ec
+    li s1, 1
+    divu s2, s0, s1
+    //prgchk reg s2 == 0x7c4574e203312d7c2eccfc6e195e28ec
 
     // Div by self.
-    divu t2, t0, t0
-    //prgchk reg t2 == 1
+    divu s2, s0, s0
+    //prgchk reg s2 == 1
  
     // Divison > Dividend
-    la t0, big3
-     lq t0, 0(t0)
+    la s0, big3
+     lq s0, 0(s0)
 
-    la t1, big4
-     lq t1, 0(t1)
+    la s1, big4
+     lq s1, 0(s1)
 
-    divu t2, t0, t1
-    //prgchk reg t2 == 0
+    divu s2, s0, s1
+    //prgchk reg s2 == 0
  
     // Simple small division (no remainder)
-    liu(t0, 21)
-    liu(t1, 3)
-    divu t2, t0, t1
-    //prgchk reg t2 == 7
+    liu(s0, 21)
+    liu(s1, 3)
+    divu s2, s0, s1
+    //prgchk reg s2 == 7
  
-    liu(t0, 37)
-    liu(t1, 5)
-    divu t2, t0, t1
-    //prgchk reg t2 == 7
+    liu(s0, 37)
+    liu(s1, 5)
+    divu s2, s0, s1
+    //prgchk reg s2 == 7
  
     // Chek different divisor sizes
-    la t0, big4
-     lq t0, 0(t0)
+    la s0, big4
+     lq s0, 0(s0)
 
-    la t1, div1
-     lq t1, 0(t1)
-    divu t2, t0, t1
-    //prgchk reg t2 == 0x134ce77156495d65af81253e6
-    srli(t2, t2, 64)
-    //prgchk reg t2 == 0x
+    la s1, div1
+     lq s1, 0(s1)
+    divu s2, s0, s1
+    //prgchk reg s2 == 0x134ce77156495d65af81253e6
+    srli(s2, s2, 64)
+    //prgchk reg s2 == 0x
 
-    la t1, div2
-     lq t1, 0(t1)
-    divu t2, t0, t1
-    //prgchk reg t2 == 0xd02b2d3b9780c9d5
+    la s1, div2
+     lq s1, 0(s1)
+    divu s2, s0, s1
+    //prgchk reg s2 == 0xd02b2d3b9780c9d5
  
-    la t1, div3
-    lq t1, 0(t1)
-    divu t2, t0, t1
-    //prgchk reg t2 == 0xb625c7317
+    la s1, div3
+    lq s1, 0(s1)
+    divu s2, s0, s1
+    //prgchk reg s2 == 0xb625c7317
  
-    la t1, div4
-    lq t1, 0(t1)
-    divu t2, t0, t1
-    //prgchk reg t2 == 1
+    la s1, div4
+    lq s1, 0(s1)
+    divu s2, s0, s1
+    //prgchk reg s2 == 1
  
     // Check div by zero behavior
-    liu(t1, 0)
-    divu t2, t0, t1
-    //prgchk reg t2 == 0xffffffffffffffffffffffffffffffff
+    liu(s1, 0)
+    divu s2, s0, s1
+    //prgchk reg s2 == 0xffffffffffffffffffffffffffffffff
     j exit

@@ -18,61 +18,61 @@
 .global _start
 _start:
     // Arbitrary value loading (checks sign ext to 128 bits)
-    la t0, tst0
-    lw t0, 0(t0)
-    //prgchk reg t0 == 0xffffffffffffffffffffffff80386387
+    la s0, tst0
+    lw s0, 0(s0)
+    //prgchk reg s0 == 0xffffffffffffffffffffffff80386387
 
-    la t0, tst1
-    lw t0, 0(t0)
-    //prgchk reg t0 == 0x42434445
+    la s0, tst1
+    lw s0, 0(s0)
+    //prgchk reg s0 == 0x42434445
 
-    la t0, tst2
-    lw t0, 0(t0)
-    //prgchk reg t0 == 0
+    la s0, tst2
+    lw s0, 0(s0)
+    //prgchk reg s0 == 0
 
-    la t0, tst3
-    lw t0, 0(t0)
-    //prgchk reg t0 == 0xffffffffffffffffffffffffffffffff
+    la s0, tst3
+    lw s0, 0(s0)
+    //prgchk reg s0 == 0xffffffffffffffffffffffffffffffff
 
     // Unaligned reads.
-    la t1, unaligned_1
-    lw t1, 0(t1)
-    //prgchk reg t1 == 0xffffffffffffffffffffffffcafebabe
+    la s1, unaligned_1
+    lw s1, 0(s1)
+    //prgchk reg s1 == 0xffffffffffffffffffffffffcafebabe
 
-    la t1, unaligned_2
-    lw t1, 0(t1)
-    //prgchk reg t1 == 0x12345678
+    la s1, unaligned_2
+    lw s1, 0(s1)
+    //prgchk reg s1 == 0x12345678
 
-    la t1, unaligned_3
-    lw t1, 0(t1)
-    //prgchk reg t1 == 0xffffffffffffffffffffffff87654321
+    la s1, unaligned_3
+    lw s1, 0(s1)
+    //prgchk reg s1 == 0xffffffffffffffffffffffff87654321
 
     // Check loads with offsets.
-    la t0, tab_tst
-    lw t1, 0(t0)
-    //prgchk reg t1 == 1
+    la s0, tab_tst
+    lw s1, 0(s0)
+    //prgchk reg s1 == 1
     
-    lw t1, 4(t0)
-    //prgchk reg t1 == 2
+    lw s1, 4(s0)
+    //prgchk reg s1 == 2
     
-    lw t1, 8(t0)
-    //prgchk reg t1 == 3
+    lw s1, 8(s0)
+    //prgchk reg s1 == 3
 
-    lw t1, 12(t0)
-    //prgchk reg t1 == 5
+    lw s1, 12(s0)
+    //prgchk reg s1 == 5
 
-    lw t1, 16(t0)
-    //prgchk reg t1 == 7
+    lw s1, 16(s0)
+    //prgchk reg s1 == 7
 
-    lw t1, 20(t0)
-    //prgchk reg t1 == 11
+    lw s1, 20(s0)
+    //prgchk reg s1 == 11
 
-    lw t1, 24(t0)
-    //prgchk reg t1 == 13
+    lw s1, 24(s0)
+    //prgchk reg s1 == 13
 
-    lw t1, 28(t0)
-    //prgchk reg t1 == 17
+    lw s1, 28(s0)
+    //prgchk reg s1 == 17
 
-    lw t1, 32(t0)
-    //prgchk reg t1 == 0xffffffffffffffffffffffffffffffff
+    lw s1, 32(s0)
+    //prgchk reg s1 == 0xffffffffffffffffffffffffffffffff
     j exit

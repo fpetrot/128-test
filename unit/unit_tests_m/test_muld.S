@@ -11,32 +11,32 @@
 .section .text.init,"ax",@progbits
 .globl _start
 _start:
-    ld t0, d1
-    ld t1, d2
-    muld t2, t0, t1
-    //prgchk reg t2 == 0xc24a442fe55618cf
-    muld t2, t1, t0
-    //prgchk reg t2 == 0xffffffffffffffffc24a442fe55618cf
+    ld s0, d1
+    ld s1, d2
+    muld s2, s0, s1
+    //prgchk reg s2 == 0xc24a442fe55618cf
+    muld s2, s1, s0
+    //prgchk reg s2 == 0xffffffffffffffffc24a442fe55618cf
 
-    ld t0, d2
-    ld t1, minusone
-    muld t2, t0, t1
-    //prgchk reg t2 == 0x012345f6789abcdf
+    ld s0, d2
+    ld s1, minusone
+    muld s2, s0, s1
+    //prgchk reg s2 == 0x012345f6789abcdf
 
-    ld t0, minusone
-    ld t1, d3
-    muld t2, t0, t1
-    //prgchk reg t2 == 42
+    ld s0, minusone
+    ld s1, d3
+    muld s2, s0, s1
+    //prgchk reg s2 == 42
 
-    ld t0, minusone
-    muld t2, t0, t0
-    //prgchk reg t2 == 1
+    ld s0, minusone
+    muld s2, s0, s0
+    //prgchk reg s2 == 1
 
     // test sign extension
-    ld t0, d4
-    liu(t1, 2)
-    muld t2, t0, t1
-    //prgchk reg t2 == 0xe000000000000000
-    muld t2, t1, t0
-    //prgchk reg t2 == 0xffffffffffffffffe000000000000000
+    ld s0, d4
+    liu(s1, 2)
+    muld s2, s0, s1
+    //prgchk reg s2 == 0xe000000000000000
+    muld s2, s1, s0
+    //prgchk reg s2 == 0xffffffffffffffffe000000000000000
     j exit

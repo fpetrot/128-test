@@ -18,54 +18,54 @@
 .section .text.init,"ax",@progbits
 .global _start
 _start:
-    la t0, big1
-    lq t0, 0(t0)
+    la s0, big1
+    lq s0, 0(s0)
 
-    la t1, big2
-    lq t1, 0(t1)
+    la s1, big2
+    lq s1, 0(s1)
 
-    rem t2, t0, t1
-    //prgchk reg t2 == 0x40ff7b18ad49488b569a
+    rem s2, s0, s1
+    //prgchk reg s2 == 0x40ff7b18ad49488b569a
 
     // Check trucature towards 0
-    li t0, 3
-    li t1, -2
-    rem t2, t0, t1
-    //prgchk reg t2 == 1
+    li s0, 3
+    li s1, -2
+    rem s2, s0, s1
+    //prgchk reg s2 == 1
 
     // Check signedness of division.
-    li t0, -2048
-    li t1, -1
-    rem t2, t0, t1
-    //prgchk reg t2 == 0
+    li s0, -2048
+    li s1, -1
+    rem s2, s0, s1
+    //prgchk reg s2 == 0
 
     // Check different divisor sizes
-    lqg(t0, big4)
+    lqg(s0, big4)
 
-    lqg(t1, div1)
-    rem t2, t0, t1
-    //prgchk reg t2 == 0xffffffffffffffffffffffff9fb7bfc2
+    lqg(s1, div1)
+    rem s2, s0, s1
+    //prgchk reg s2 == 0xffffffffffffffffffffffff9fb7bfc2
 
-    lqg(t1, div2)
-    rem t2, t0, t1
-    //prgchk reg t2 == 0xffffffffffffffff0241c351efac54ae
+    lqg(s1, div2)
+    rem s2, s0, s1
+    //prgchk reg s2 == 0xffffffffffffffff0241c351efac54ae
 
-    lqg(t1, div3)
-    rem t2, t0, t1
-    //prgchk reg t2 == 0xfffffffffcb69b69bf6056b034ce3f72
+    lqg(s1, div3)
+    rem s2, s0, s1
+    //prgchk reg s2 == 0xfffffffffcb69b69bf6056b034ce3f72
 
-    lqg(t1, div4)
-    rem t2, t0, t1
-    //prgchk reg t2 == 0xcf3e53431e02fa946034e4b6c81ebfcc
+    lqg(s1, div4)
+    rem s2, s0, s1
+    //prgchk reg s2 == 0xcf3e53431e02fa946034e4b6c81ebfcc
 
     // Check div by zero behavior
-    liu(t1, 0)
-    rem t2, t0, t1
-    //prgchk reg t2 == 0xcf3e53431e02fa946034e4b6c81ebfcc
+    liu(s1, 0)
+    rem s2, s0, s1
+    //prgchk reg s2 == 0xcf3e53431e02fa946034e4b6c81ebfcc
 
     // Check overflow behavior.
-    lqg(t0, minsgn)
-    lqg(t1, minone)
-    rem t2, t0, t1
-    //prgchk reg t2 == 0
+    lqg(s0, minsgn)
+    lqg(s1, minone)
+    rem s2, s0, s1
+    //prgchk reg s2 == 0
     j exit

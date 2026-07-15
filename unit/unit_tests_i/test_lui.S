@@ -4,28 +4,28 @@
 .globl _start
 _start:    
     // Check sign extension to 128-bits.
-    lui t0, 0x80000
-    //prgchk reg t0 == 0xffffffffffffffffffffffff80000000
+    lui s0, 0x80000
+    //prgchk reg s0 == 0xffffffffffffffffffffffff80000000
 
-    lui t0, 0x70000
-    //prgchk reg t0 == 0x00000000000000000000000070000000
+    lui s0, 0x70000
+    //prgchk reg s0 == 0x00000000000000000000000070000000
 
     // Load max value 0xfffff
-    lui t3, 0xfffff
-    //prgchk reg t3 == 0xfffffffffffffffffffffffffffff000
+    lui s3, 0xfffff
+    //prgchk reg s3 == 0xfffffffffffffffffffffffffffff000
 
     // Load garbage and then lui 0, check if zeroed correctly.
-    li t0, 0xffffffffffffffffffffffffffffffff
+    li s0, 0xffffffffffffffffffffffffffffffff
 
-    lui t0, 0
-    //prgchk reg t0 == 0
+    lui s0, 0
+    //prgchk reg s0 == 0
 
     // Load a few random values
-    lui t1, 0x12345
-    //prgchk reg t1 == 0x00000000000000000000000012345000
+    lui s1, 0x12345
+    //prgchk reg s1 == 0x00000000000000000000000012345000
 
-    lui t2, 1
-    //prgchk reg t2 == 0x00000000000000000000000000001000
+    lui s2, 1
+    //prgchk reg s2 == 0x00000000000000000000000000001000
 
     // Check no-op on zero
     lui zero, 0xfffff

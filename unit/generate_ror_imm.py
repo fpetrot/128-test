@@ -40,7 +40,7 @@ _start:
 ''')
 
     for _ in  range(datacnt):
-        data.write(f"la t0, tab_start\n")
+        data.write(f"la s0, tab_start\n")
         # More or less randomly chosen interval
         for __ in range(-2, 129):
             shamt = __&0x7f
@@ -48,11 +48,11 @@ _start:
             v1 = (values[_]<<(128 - shamt))&0xffffffffffffffffffffffffffffffff
             v = v1 | v0
             offset = int(_ * datasize/8)
-            data.write(f"lq(t1, {offset}, t0)\n")
-            data.write(f"rori(t2, t1, {__})\n")
-            data.write(f"//prgchk reg t2 == 0x{v&0xffffffffffffffff:016x}\n")
-            data.write(f"srli(t3, t2, 64)\n")
-            data.write(f"//prgchk reg t3 == 0x{(v>>64)&0xffffffffffffffff:016x}\n")
+            data.write(f"lq(s1, {offset}, s0)\n")
+            data.write(f"rori(s2, s1, {__})\n")
+            data.write(f"//prgchk reg s2 == 0x{v&0xffffffffffffffff:016x}\n")
+            data.write(f"srli(s3, s2, 64)\n")
+            data.write(f"//prgchk reg s3 == 0x{(v>>64)&0xffffffffffffffff:016x}\n")
 
     data.write('j exit')
     data.close()

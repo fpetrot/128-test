@@ -57,9 +57,9 @@ _start:
 ''')
 
     for _ in  range(datacnt):
-        data.write(f"la t0, tab_start\n")
+        data.write(f"la s0, tab_start\n")
         offset = int(_ * datasize/8)
-        data.write(f"lq t1, {offset}(t0)\n")
+        data.write(f"lq s1, {offset}(s0)\n")
         for __ in range(-wordsize - 2, wordsize + 3):
         #for __ in range(0, wordsize):
             shamt = __&(wordsize - 1)
@@ -71,14 +71,14 @@ _start:
             else:
                 for ___ in range(1, datasize - wordsize + 1):
                     v &= ~(1 << (datasize - ___))
-            data.write(f"li t2, {__}\n")
-            data.write(f"sll{sz} t2, t1, t2\n")
-            data.write(f"//prgchk reg t2 == 0x{v&0xffffffffffffffffffffffffffffffff:032x}\n")
+            data.write(f"li s2, {__}\n")
+            data.write(f"sll{sz} s2, s1, t2\n")
+            data.write(f"//prgchk reg s2 == 0x{v&0xffffffffffffffffffffffffffffffff:032x}\n")
 
     for _ in  range(datacnt):
-        data.write(f"la t0, tab_start\n")
+        data.write(f"la s0, tab_start\n")
         offset = int(_ * datasize/8)
-        data.write(f"lq t1, {offset}(t0)\n")
+        data.write(f"lq s1, {offset}(s0)\n")
         for __ in range(-wordsize - 2, wordsize + 3):
         #for __ in range(0, wordsize):
             shamt = __ & (wordsize - 1)
@@ -92,14 +92,14 @@ _start:
             else:
                 for ___ in range(1, datasize - wordsize + 1):
                     v &= ~(1 << (datasize - ___))
-            data.write(f"li t2, {__}\n")
-            data.write(f"srl{sz} t2, t1, t2\n")
-            data.write(f"//prgchk reg t2 == 0x{v&0xffffffffffffffffffffffffffffffff:032x}\n")
+            data.write(f"li s2, {__}\n")
+            data.write(f"srl{sz} s2, s1, t2\n")
+            data.write(f"//prgchk reg s2 == 0x{v&0xffffffffffffffffffffffffffffffff:032x}\n")
 
     for _ in  range(datacnt):
-        data.write(f"la t0, tab_start\n")
+        data.write(f"la s0, tab_start\n")
         offset = int(_ * datasize/8)
-        data.write(f"lq t1, {offset}(t0)\n")
+        data.write(f"lq s1, {offset}(s0)\n")
         for __ in range(-wordsize - 2, wordsize + 3):
         #for __ in range(0, wordsize):
             shamt = __ & (wordsize - 1)
@@ -117,9 +117,9 @@ _start:
             else:
                 for ___ in range(1, datasize - wordsize + 1):
                     v &= ~(1 << (datasize - ___))
-            data.write(f"li t2, {__}\n")
-            data.write(f"sra{sz} t2, t1, t2\n")
-            data.write(f"//prgchk reg t2 == 0x{v&0xffffffffffffffffffffffffffffffff:032x}\n")
+            data.write(f"li s2, {__}\n")
+            data.write(f"sra{sz} s2, s1, t2\n")
+            data.write(f"//prgchk reg s2 == 0x{v&0xffffffffffffffffffffffffffffffff:032x}\n")
 
     data.write('j exit')
     data.close()

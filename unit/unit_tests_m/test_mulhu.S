@@ -13,56 +13,56 @@
 .global _start
 _start:
     // Test of multiplication of a few large constants.
-    lqg(t0, big1)
-    lqg(t1, big2)
+    lqg(s0, big1)
+    lqg(s1, big2)
 
-    mulhu t2, t0, t1
-    //prgchk reg t2 == 0x29bd3b3f18443fa32129d92ab00f39f7
+    mulhu s2, s0, s1
+    //prgchk reg s2 == 0x29bd3b3f18443fa32129d92ab00f39f7
 
-    lqg(t0, big4)
-    lqg(t1, big5)
-    mulhu t2, t0, t1
-    //prgchk reg t2 == 0x121fa000a3723a57
+    lqg(s0, big4)
+    lqg(s1, big5)
+    mulhu s2, s0, s1
+    //prgchk reg s2 == 0x121fa000a3723a57
 
-    mulhu t2, t0, t0
-    //prgchk reg t2 == 0x14b66dc328828bca6475f09a2f2a521
+    mulhu s2, s0, s0
+    //prgchk reg s2 == 0x14b66dc328828bca6475f09a2f2a521
 
-    mulhu t2, t1, t1
-    //prgchk reg t2 == 0
+    mulhu s2, s1, s1
+    //prgchk reg s2 == 0
 
     // Multiply large by small (with sign bit one : check unsigned mult).
-    lqg(t0, big3)
+    lqg(s0, big3)
 
-    li t1, 358
-    mulhu t2, t0, t1
-    //prgchk reg t2 == 0x165
+    li s1, 358
+    mulhu s2, s0, s1
+    //prgchk reg s2 == 0x165
 
     // Max value squared
-    la t0, maxval
-    lq t0, 0(t0)
+    la s0, maxval
+    lq s0, 0(s0)
 
-    mulhu t1, t0, t0
-    //prgchk reg t1 == 0xfffffffffffffffffffffffffffffffe
-    srli(t1, t1, 64)
-    //prgchk reg t1 == 0x
+    mulhu s1, s0, s0
+    //prgchk reg s1 == 0xfffffffffffffffffffffffffffffffe
+    srli(s1, s1, 64)
+    //prgchk reg s1 == 0x
 
     // Mul by zero absorption
-    lqg(t0, big1)
-    liu(t1, 0)
+    lqg(s0, big1)
+    liu(s1, 0)
 
-    mulhu t2, t0, t1
-    //prgchk reg t2 == 0
+    mulhu s2, s0, s1
+    //prgchk reg s2 == 0
 
     // Big value by max value.
-    lqg(t0, big1)
-    lqg(t1, maxval)
+    lqg(s0, big1)
+    lqg(s1, maxval)
 
-    mulhu t2, t0, t1
-    //prgchk reg t2 == 0x55fbabad285eb8bfde577df24a0c25b2
+    mulhu s2, s0, s1
+    //prgchk reg s2 == 0x55fbabad285eb8bfde577df24a0c25b2
 
     // Negative * -1, but unsigned upper bits.
-    lqg(t0, big3)
-    lqg(t1, maxval)
-    mulhu t2, t0, t1
-    //prgchk reg t2 == 0xffffffffffff543210fedcba98765432
+    lqg(s0, big3)
+    lqg(s1, maxval)
+    mulhu s2, s0, s1
+    //prgchk reg s2 == 0xffffffffffff543210fedcba98765432
     j exit

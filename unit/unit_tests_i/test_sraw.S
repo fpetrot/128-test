@@ -4,146 +4,146 @@
 .globl _start
 _start:
     // Carry of zero sign bit
-    li t0, 0x7fffffff
-    li t1, 16
-    sraw t2, t0, t1
-    //prgchk reg t2 == 0x00007fff
+    li s0, 0x7fffffff
+    li s1, 16
+    sraw s2, s0, s1
+    //prgchk reg s2 == 0x00007fff
 
     // Check usage of only low 5 bits.
-    li t0, 0xcafebabe
-    li t1, 48 // should give a shift of 16
-    sraw t2, t0, t1
-    //prgchk reg t2 == 0xffffffffffffffffffffffffffffcafe
+    li s0, 0xcafebabe
+    li s1, 48 // should give a shift of 16
+    sraw s2, s0, s1
+    //prgchk reg s2 == 0xffffffffffffffffffffffffffffcafe
 
 
     // Incremental shifts from 0 to 31 of known value.
-    li t0, 0xdeadbeef
-    li t1, 0
-    sraw t2, t0, t1
-    //prgchk reg t2 == 0xffffffffffffffffffffffffdeadbeef
+    li s0, 0xdeadbeef
+    li s1, 0
+    sraw s2, s0, s1
+    //prgchk reg s2 == 0xffffffffffffffffffffffffdeadbeef
 
-    li t1, 1
-    sraw t2, t0, t1
-    //prgchk reg t2 == 0xffffffffffffffffffffffffef56df77
+    li s1, 1
+    sraw s2, s0, s1
+    //prgchk reg s2 == 0xffffffffffffffffffffffffef56df77
 
-    li t1, 2
-    sraw t2, t0, t1
-    //prgchk reg t2 == 0xfffffffffffffffffffffffff7ab6fbb
+    li s1, 2
+    sraw s2, s0, s1
+    //prgchk reg s2 == 0xfffffffffffffffffffffffff7ab6fbb
 
-    li t1, 3
-    sraw t2, t0, t1
-    //prgchk reg t2 == 0xfffffffffffffffffffffffffbd5b7dd
+    li s1, 3
+    sraw s2, s0, s1
+    //prgchk reg s2 == 0xfffffffffffffffffffffffffbd5b7dd
 
-    li t1, 4
-    sraw t2, t0, t1
-    //prgchk reg t2 == 0xfffffffffffffffffffffffffdeadbee
+    li s1, 4
+    sraw s2, s0, s1
+    //prgchk reg s2 == 0xfffffffffffffffffffffffffdeadbee
 
-    li t1, 5
-    sraw t2, t0, t1
-    //prgchk reg t2 == 0xfffffffffffffffffffffffffef56df7
+    li s1, 5
+    sraw s2, s0, s1
+    //prgchk reg s2 == 0xfffffffffffffffffffffffffef56df7
 
-    li t1, 6
-    sraw t2, t0, t1
-    //prgchk reg t2 == 0xffffffffffffffffffffffffff7ab6fb
+    li s1, 6
+    sraw s2, s0, s1
+    //prgchk reg s2 == 0xffffffffffffffffffffffffff7ab6fb
 
-    li t1, 7
-    sraw t2, t0, t1
-    //prgchk reg t2 == 0xffffffffffffffffffffffffffbd5b7d
+    li s1, 7
+    sraw s2, s0, s1
+    //prgchk reg s2 == 0xffffffffffffffffffffffffffbd5b7d
 
-    li t1, 8
-    sraw t2, t0, t1
-    //prgchk reg t2 == 0xffffffffffffffffffffffffffdeadbe
+    li s1, 8
+    sraw s2, s0, s1
+    //prgchk reg s2 == 0xffffffffffffffffffffffffffdeadbe
 
-    li t1, 9
-    sraw t2, t0, t1
-    //prgchk reg t2 == 0xffffffffffffffffffffffffffef56df
+    li s1, 9
+    sraw s2, s0, s1
+    //prgchk reg s2 == 0xffffffffffffffffffffffffffef56df
 
-    li t1, 10
-    sraw t2, t0, t1
-    //prgchk reg t2 == 0xfffffffffffffffffffffffffff7ab6f
+    li s1, 10
+    sraw s2, s0, s1
+    //prgchk reg s2 == 0xfffffffffffffffffffffffffff7ab6f
 
-    li t1, 11
-    sraw t2, t0, t1
-    //prgchk reg t2 == 0xfffffffffffffffffffffffffffbd5b7
+    li s1, 11
+    sraw s2, s0, s1
+    //prgchk reg s2 == 0xfffffffffffffffffffffffffffbd5b7
 
-    li t1, 12
-    sraw t2, t0, t1
-    //prgchk reg t2 == 0xfffffffffffffffffffffffffffdeadb
+    li s1, 12
+    sraw s2, s0, s1
+    //prgchk reg s2 == 0xfffffffffffffffffffffffffffdeadb
 
-    li t1, 13
-    sraw t2, t0, t1
-    //prgchk reg t2 == 0xfffffffffffffffffffffffffffef56d
+    li s1, 13
+    sraw s2, s0, s1
+    //prgchk reg s2 == 0xfffffffffffffffffffffffffffef56d
 
-    li t1, 14
-    sraw t2, t0, t1
-    //prgchk reg t2 == 0xffffffffffffffffffffffffffff7ab6
+    li s1, 14
+    sraw s2, s0, s1
+    //prgchk reg s2 == 0xffffffffffffffffffffffffffff7ab6
 
-    li t1, 15
-    sraw t2, t0, t1
-    //prgchk reg t2 == 0xffffffffffffffffffffffffffffbd5b
+    li s1, 15
+    sraw s2, s0, s1
+    //prgchk reg s2 == 0xffffffffffffffffffffffffffffbd5b
 
-    li t1, 16
-    sraw t2, t0, t1
-    //prgchk reg t2 == 0xffffffffffffffffffffffffffffdead
+    li s1, 16
+    sraw s2, s0, s1
+    //prgchk reg s2 == 0xffffffffffffffffffffffffffffdead
 
-    li t1, 17
-    sraw t2, t0, t1
-    //prgchk reg t2 == 0xffffffffffffffffffffffffffffef56
+    li s1, 17
+    sraw s2, s0, s1
+    //prgchk reg s2 == 0xffffffffffffffffffffffffffffef56
 
-    li t1, 18
-    sraw t2, t0, t1
-    //prgchk reg t2 == 0xfffffffffffffffffffffffffffff7ab
+    li s1, 18
+    sraw s2, s0, s1
+    //prgchk reg s2 == 0xfffffffffffffffffffffffffffff7ab
 
-    li t1, 19
-    sraw t2, t0, t1
-    //prgchk reg t2 == 0xfffffffffffffffffffffffffffffbd5
+    li s1, 19
+    sraw s2, s0, s1
+    //prgchk reg s2 == 0xfffffffffffffffffffffffffffffbd5
 
-    li t1, 20
-    sraw t2, t0, t1
-    //prgchk reg t2 == 0xfffffffffffffffffffffffffffffdea
+    li s1, 20
+    sraw s2, s0, s1
+    //prgchk reg s2 == 0xfffffffffffffffffffffffffffffdea
 
-    li t1, 21
-    sraw t2, t0, t1
-    //prgchk reg t2 == 0xfffffffffffffffffffffffffffffef5
+    li s1, 21
+    sraw s2, s0, s1
+    //prgchk reg s2 == 0xfffffffffffffffffffffffffffffef5
 
-    li t1, 22
-    sraw t2, t0, t1
-    //prgchk reg t2 == 0xffffffffffffffffffffffffffffff7a
+    li s1, 22
+    sraw s2, s0, s1
+    //prgchk reg s2 == 0xffffffffffffffffffffffffffffff7a
 
-    li t1, 23
-    sraw t2, t0, t1
-    //prgchk reg t2 == 0xffffffffffffffffffffffffffffffbd
+    li s1, 23
+    sraw s2, s0, s1
+    //prgchk reg s2 == 0xffffffffffffffffffffffffffffffbd
 
-    li t1, 24
-    sraw t2, t0, t1
-    //prgchk reg t2 == 0xffffffffffffffffffffffffffffffde
+    li s1, 24
+    sraw s2, s0, s1
+    //prgchk reg s2 == 0xffffffffffffffffffffffffffffffde
 
-    li t1, 25
-    sraw t2, t0, t1
-    //prgchk reg t2 == 0xffffffffffffffffffffffffffffffef
+    li s1, 25
+    sraw s2, s0, s1
+    //prgchk reg s2 == 0xffffffffffffffffffffffffffffffef
 
-    li t1, 26
-    sraw t2, t0, t1
-    //prgchk reg t2 == 0xfffffffffffffffffffffffffffffff7
+    li s1, 26
+    sraw s2, s0, s1
+    //prgchk reg s2 == 0xfffffffffffffffffffffffffffffff7
 
-    li t1, 27
-    sraw t2, t0, t1
-    //prgchk reg t2 == 0xfffffffffffffffffffffffffffffffb
+    li s1, 27
+    sraw s2, s0, s1
+    //prgchk reg s2 == 0xfffffffffffffffffffffffffffffffb
 
-    li t1, 28
-    sraw t2, t0, t1
-    //prgchk reg t2 == 0xfffffffffffffffffffffffffffffffd
+    li s1, 28
+    sraw s2, s0, s1
+    //prgchk reg s2 == 0xfffffffffffffffffffffffffffffffd
 
-    li t1, 29
-    sraw t2, t0, t1
-    //prgchk reg t2 == 0xfffffffffffffffffffffffffffffffe
+    li s1, 29
+    sraw s2, s0, s1
+    //prgchk reg s2 == 0xfffffffffffffffffffffffffffffffe
 
-    li t1, 30
-    sraw t2, t0, t1
-    //prgchk reg t2 == 0xffffffffffffffffffffffffffffffff
+    li s1, 30
+    sraw s2, s0, s1
+    //prgchk reg s2 == 0xffffffffffffffffffffffffffffffff
 
-    li t1, 31
-    sraw t2, t0, t1
-    //prgchk reg t2 == 0xffffffffffffffffffffffffffffffff
+    li s1, 31
+    sraw s2, s0, s1
+    //prgchk reg s2 == 0xffffffffffffffffffffffffffffffff
 
     j exit

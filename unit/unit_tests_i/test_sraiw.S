@@ -4,115 +4,115 @@
 .globl _start
 _start:
     // Check sign extensions.
-    li t0, 0x8badf00d
-    sraiw t1, t0, 0
-    //prgchk reg t1 == 0xffffffffffffffffffffffff8badf00d
+    li s0, 0x8badf00d
+    sraiw s1, s0, 0
+    //prgchk reg s1 == 0xffffffffffffffffffffffff8badf00d
 
-    li t0, 0x2badbabe
-    sraiw t1, t0, 0
-    //prgchk reg t1 == 0x2badbabe
+    li s0, 0x2badbabe
+    sraiw s1, s0, 0
+    //prgchk reg s1 == 0x2badbabe
 
 
-    li t0, 0xf0000000d
-    sraiw t1, t0, 12
-    //prgchk reg t1 == 0
+    li s0, 0xf0000000d
+    sraiw s1, s0, 12
+    //prgchk reg s1 == 0
 
     // Incremental shifts from 0 to 31.
-    li t0, 0xdeadbeef
-    sraiw t2, t0, 0
-    //prgchk reg t2 == 0xffffffffffffffffffffffffdeadbeef
+    li s0, 0xdeadbeef
+    sraiw s2, s0, 0
+    //prgchk reg s2 == 0xffffffffffffffffffffffffdeadbeef
 
-    sraiw t2, t0, 1
-    //prgchk reg t2 == 0xffffffffffffffffffffffffef56df77
+    sraiw s2, s0, 1
+    //prgchk reg s2 == 0xffffffffffffffffffffffffef56df77
 
-    sraiw t2, t0, 2
-    //prgchk reg t2 == 0xfffffffffffffffffffffffff7ab6fbb
+    sraiw s2, s0, 2
+    //prgchk reg s2 == 0xfffffffffffffffffffffffff7ab6fbb
 
-    sraiw t2, t0, 3
-    //prgchk reg t2 == 0xfffffffffffffffffffffffffbd5b7dd
+    sraiw s2, s0, 3
+    //prgchk reg s2 == 0xfffffffffffffffffffffffffbd5b7dd
 
-    sraiw t2, t0, 4
-    //prgchk reg t2 == 0xfffffffffffffffffffffffffdeadbee
+    sraiw s2, s0, 4
+    //prgchk reg s2 == 0xfffffffffffffffffffffffffdeadbee
 
-    sraiw t2, t0, 5
-    //prgchk reg t2 == 0xfffffffffffffffffffffffffef56df7
+    sraiw s2, s0, 5
+    //prgchk reg s2 == 0xfffffffffffffffffffffffffef56df7
 
-    sraiw t2, t0, 6
-    //prgchk reg t2 == 0xffffffffffffffffffffffffff7ab6fb
+    sraiw s2, s0, 6
+    //prgchk reg s2 == 0xffffffffffffffffffffffffff7ab6fb
 
-    sraiw t2, t0, 7
-    //prgchk reg t2 == 0xffffffffffffffffffffffffffbd5b7d
+    sraiw s2, s0, 7
+    //prgchk reg s2 == 0xffffffffffffffffffffffffffbd5b7d
 
-    sraiw t2, t0, 8
-    //prgchk reg t2 == 0xffffffffffffffffffffffffffdeadbe
+    sraiw s2, s0, 8
+    //prgchk reg s2 == 0xffffffffffffffffffffffffffdeadbe
 
-    sraiw t2, t0, 9
-    //prgchk reg t2 == 0xffffffffffffffffffffffffffef56df
+    sraiw s2, s0, 9
+    //prgchk reg s2 == 0xffffffffffffffffffffffffffef56df
 
-    sraiw t2, t0, 10
-    //prgchk reg t2 == 0xfffffffffffffffffffffffffff7ab6f
+    sraiw s2, s0, 10
+    //prgchk reg s2 == 0xfffffffffffffffffffffffffff7ab6f
 
-    sraiw t2, t0, 11
-    //prgchk reg t2 == 0xfffffffffffffffffffffffffffbd5b7
+    sraiw s2, s0, 11
+    //prgchk reg s2 == 0xfffffffffffffffffffffffffffbd5b7
 
-    sraiw t2, t0, 12
-    //prgchk reg t2 == 0xfffffffffffffffffffffffffffdeadb
+    sraiw s2, s0, 12
+    //prgchk reg s2 == 0xfffffffffffffffffffffffffffdeadb
 
-    sraiw t2, t0, 13
-    //prgchk reg t2 == 0xfffffffffffffffffffffffffffef56d
+    sraiw s2, s0, 13
+    //prgchk reg s2 == 0xfffffffffffffffffffffffffffef56d
 
-    sraiw t2, t0, 14
-    //prgchk reg t2 == 0xffffffffffffffffffffffffffff7ab6
+    sraiw s2, s0, 14
+    //prgchk reg s2 == 0xffffffffffffffffffffffffffff7ab6
 
-    sraiw t2, t0, 15
-    //prgchk reg t2 == 0xffffffffffffffffffffffffffffbd5b
+    sraiw s2, s0, 15
+    //prgchk reg s2 == 0xffffffffffffffffffffffffffffbd5b
 
-    sraiw t2, t0, 16
-    //prgchk reg t2 == 0xffffffffffffffffffffffffffffdead
+    sraiw s2, s0, 16
+    //prgchk reg s2 == 0xffffffffffffffffffffffffffffdead
 
-    sraiw t2, t0, 17
-    //prgchk reg t2 == 0xffffffffffffffffffffffffffffef56
+    sraiw s2, s0, 17
+    //prgchk reg s2 == 0xffffffffffffffffffffffffffffef56
 
-    sraiw t2, t0, 18
-    //prgchk reg t2 == 0xfffffffffffffffffffffffffffff7ab
+    sraiw s2, s0, 18
+    //prgchk reg s2 == 0xfffffffffffffffffffffffffffff7ab
 
-    sraiw t2, t0, 19
-    //prgchk reg t2 == 0xfffffffffffffffffffffffffffffbd5
+    sraiw s2, s0, 19
+    //prgchk reg s2 == 0xfffffffffffffffffffffffffffffbd5
 
-    sraiw t2, t0, 20
-    //prgchk reg t2 == 0xfffffffffffffffffffffffffffffdea
+    sraiw s2, s0, 20
+    //prgchk reg s2 == 0xfffffffffffffffffffffffffffffdea
 
-    sraiw t2, t0, 21
-    //prgchk reg t2 == 0xfffffffffffffffffffffffffffffef5
+    sraiw s2, s0, 21
+    //prgchk reg s2 == 0xfffffffffffffffffffffffffffffef5
 
-    sraiw t2, t0, 22
-    //prgchk reg t2 == 0xffffffffffffffffffffffffffffff7a
+    sraiw s2, s0, 22
+    //prgchk reg s2 == 0xffffffffffffffffffffffffffffff7a
 
-    sraiw t2, t0, 23
-    //prgchk reg t2 == 0xffffffffffffffffffffffffffffffbd
+    sraiw s2, s0, 23
+    //prgchk reg s2 == 0xffffffffffffffffffffffffffffffbd
 
-    sraiw t2, t0, 24
-    //prgchk reg t2 == 0xffffffffffffffffffffffffffffffde
+    sraiw s2, s0, 24
+    //prgchk reg s2 == 0xffffffffffffffffffffffffffffffde
 
-    sraiw t2, t0, 25
-    //prgchk reg t2 == 0xffffffffffffffffffffffffffffffef
+    sraiw s2, s0, 25
+    //prgchk reg s2 == 0xffffffffffffffffffffffffffffffef
 
-    sraiw t2, t0, 26
-    //prgchk reg t2 == 0xfffffffffffffffffffffffffffffff7
+    sraiw s2, s0, 26
+    //prgchk reg s2 == 0xfffffffffffffffffffffffffffffff7
 
-    sraiw t2, t0, 27
-    //prgchk reg t2 == 0xfffffffffffffffffffffffffffffffb
+    sraiw s2, s0, 27
+    //prgchk reg s2 == 0xfffffffffffffffffffffffffffffffb
 
-    sraiw t2, t0, 28
-    //prgchk reg t2 == 0xfffffffffffffffffffffffffffffffd
+    sraiw s2, s0, 28
+    //prgchk reg s2 == 0xfffffffffffffffffffffffffffffffd
 
-    sraiw t2, t0, 29
-    //prgchk reg t2 == 0xfffffffffffffffffffffffffffffffe
+    sraiw s2, s0, 29
+    //prgchk reg s2 == 0xfffffffffffffffffffffffffffffffe
 
-    sraiw t2, t0, 30
-    //prgchk reg t2 == 0xffffffffffffffffffffffffffffffff
+    sraiw s2, s0, 30
+    //prgchk reg s2 == 0xffffffffffffffffffffffffffffffff
 
-    sraiw t2, t0, 31
-    //prgchk reg t2 == 0xffffffffffffffffffffffffffffffff
+    sraiw s2, s0, 31
+    //prgchk reg s2 == 0xffffffffffffffffffffffffffffffff
 
     j exit

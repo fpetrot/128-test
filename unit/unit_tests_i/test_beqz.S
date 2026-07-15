@@ -12,28 +12,28 @@
 .globl _start
 _start:
     // Is value non-zero
-    la t0, val1
-    lq t0, 0(t0)
+    la s0, val1
+    lq s0, 0(s0)
 
-    beqz t0, all_err
-
-    // Is value non-zero
-    la t0, val3
-    lq t0, 0(t0)
-
-    beqz t0, all_err
+    beqz s0, all_err
 
     // Is value non-zero
-    la t0, val5
-    lq t0, 0(t0)
+    la s0, val3
+    lq s0, 0(s0)
 
-    beqz t0, all_err
+    beqz s0, all_err
+
+    // Is value non-zero
+    la s0, val5
+    lq s0, 0(s0)
+
+    beqz s0, all_err
 
     // Is value zero, finally ?
-    la t0, val6
-    lq t0, 0(t0)
+    la s0, val6
+    lq s0, 0(s0)
     
-    beqz t0, 1f
+    beqz s0, 1f
 
     //prgchk err
     nop

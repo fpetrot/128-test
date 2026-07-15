@@ -63,7 +63,7 @@ _start:
 ''')
 
     for _ in  range(datacnt):
-        data.write(f"la t0, tab_start\n")
+        data.write(f"la s0, tab_start\n")
         for __ in range(wordsize if signed else datasize):
             if signed:
                 shamt = __ & (wordsize - 1)
@@ -80,17 +80,17 @@ _start:
                 v = ((values[_] & (2**wordsize - 1)) << shamt) & (2**datasize - 1)
 
             offset = int(_ * datasize/8)
-            data.write(f"lq t1, {offset}(t0)\n")
+            data.write(f"lq s1, {offset}(s0)\n")
             if signed:
-                data.write(f"slli{sz} t2, t1, {__}\n")
-                data.write(f"//prgchk reg t2 == 0x{v&0xffffffffffffffffffffffffffffffff:032x}\n")
+                data.write(f"slli{sz} s2, s1, {__}\n")
+                data.write(f"//prgchk reg s2 == 0x{v&0xffffffffffffffffffffffffffffffff:032x}\n")
             else:
-                data.write(f"slli.{sz} t2, t1, {__}\n")
-                data.write(f"//prgchk reg t2 == 0x{v&0xffffffffffffffffffffffffffffffff:032x}\n")
+                data.write(f"slli.{sz} s2, s1, {__}\n")
+                data.write(f"//prgchk reg s2 == 0x{v&0xffffffffffffffffffffffffffffffff:032x}\n")
 
     if signed:
         for _ in  range(datacnt):
-            data.write(f"la t0, tab_start\n")
+            data.write(f"la s0, tab_start\n")
             for __ in range(wordsize):
                 shamt = __&(wordsize - 1)
                 # Looks as if the right shift is logical in python, ...
@@ -104,12 +104,12 @@ _start:
                     for ___ in range(1, datasize - wordsize + 1):
                         v &= ~(1 << (datasize - ___))
                 offset = int(_ * datasize/8)
-                data.write(f"lq t1, {offset}(t0)\n")
-                data.write(f"srli{sz} t2, t1, {__}\n")
-                data.write(f"//prgchk reg t2 == 0x{v&0xffffffffffffffffffffffffffffffff:032x}\n")
+                data.write(f"lq s1, {offset}(s0)\n")
+                data.write(f"srli{sz} s2, s1, {__}\n")
+                data.write(f"//prgchk reg s2 == 0x{v&0xffffffffffffffffffffffffffffffff:032x}\n")
 
         for _ in  range(datacnt):
-            data.write(f"la t0, tab_start\n")
+            data.write(f"la s0, tab_start\n")
             for __ in range(wordsize):
                 shamt = __&(wordsize - 1)
                 # Arithmetic part of the shift
@@ -127,9 +127,9 @@ _start:
                     for ___ in range(1, datasize - wordsize + 1):
                         v &= ~(1 << (datasize - ___))
                 offset = int(_ * datasize/8)
-                data.write(f"lq t1, {offset}(t0)\n")
-                data.write(f"srai{sz} t2, t1, {__}\n")
-                data.write(f"//prgchk reg t2 == 0x{v&0xffffffffffffffffffffffffffffffff:032x}\n")
+                data.write(f"lq s1, {offset}(s0)\n")
+                data.write(f"srai{sz} s2, s1, {__}\n")
+                data.write(f"//prgchk reg s2 == 0x{v&0xffffffffffffffffffffffffffffffff:032x}\n")
 
     data.write('j exit')
     data.close()

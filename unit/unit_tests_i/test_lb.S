@@ -11,49 +11,49 @@
 .global _start
 _start:
     // Arbitrary value loading (checks sign ext to 128 bits)
-    la t0, tst0
-    lb t0, 0(t0)
-    //prgchk reg t0 == 0xffffffffffffffffffffffffffffff80
+    la s0, tst0
+    lb s0, 0(s0)
+    //prgchk reg s0 == 0xffffffffffffffffffffffffffffff80
 
-    la t0, tst1
-    lb t0, 0(t0)
-    //prgchk reg t0 == 0x42
+    la s0, tst1
+    lb s0, 0(s0)
+    //prgchk reg s0 == 0x42
 
-    la t0, tst2
-    lb t0, 0(t0)
-    //prgchk reg t0 == 0
+    la s0, tst2
+    lb s0, 0(s0)
+    //prgchk reg s0 == 0
 
-    la t0, tst3
-    lb t0, 0(t0)
-    //prgchk reg t0 == 0xffffffffffffffffffffffffffffffff
+    la s0, tst3
+    lb s0, 0(s0)
+    //prgchk reg s0 == 0xffffffffffffffffffffffffffffffff
 
     // Check loads with offsets
-    la t0, tab_tst
-    lb t1, 0(t0)
-    //prgchk reg t1 == 1
+    la s0, tab_tst
+    lb s1, 0(s0)
+    //prgchk reg s1 == 1
     
-    lb t1, 1(t0)
-    //prgchk reg t1 == 2
+    lb s1, 1(s0)
+    //prgchk reg s1 == 2
 
     
-    lb t1, 2(t0)
-    //prgchk reg t1 == 3
+    lb s1, 2(s0)
+    //prgchk reg s1 == 3
 
-    lb t1, 3(t0)
-    //prgchk reg t1 == 5
+    lb s1, 3(s0)
+    //prgchk reg s1 == 5
 
-    lb t1, 4(t0)
-    //prgchk reg t1 == 7
+    lb s1, 4(s0)
+    //prgchk reg s1 == 7
 
-    lb t1, 5(t0)
-    //prgchk reg t1 == 11
+    lb s1, 5(s0)
+    //prgchk reg s1 == 11
 
-    lb t1, 6(t0)
-    //prgchk reg t1 == 13
+    lb s1, 6(s0)
+    //prgchk reg s1 == 13
 
-    lb t1, 7(t0)
-    //prgchk reg t1 == 17
+    lb s1, 7(s0)
+    //prgchk reg s1 == 17
 
-    lb t1, 8(t0)
-    //prgchk reg t1 == 0xffffffffffffffffffffffffffffffff
+    lb s1, 8(s0)
+    //prgchk reg s1 == 0xffffffffffffffffffffffffffffffff
     j exit
