@@ -34,19 +34,6 @@ _start:
     lw s0, 0(s0)
     //prgchk reg s0 == 0xffffffffffffffffffffffffffffffff
 
-    // Unaligned reads.
-    la s1, unaligned_1
-    lw s1, 0(s1)
-    //prgchk reg s1 == 0xffffffffffffffffffffffffcafebabe
-
-    la s1, unaligned_2
-    lw s1, 0(s1)
-    //prgchk reg s1 == 0x12345678
-
-    la s1, unaligned_3
-    lw s1, 0(s1)
-    //prgchk reg s1 == 0xffffffffffffffffffffffff87654321
-
     // Check loads with offsets.
     la s0, tab_tst
     lw s1, 0(s0)

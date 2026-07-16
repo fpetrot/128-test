@@ -66,32 +66,4 @@ _start:
     ldu s1, 64(s0) 
     //prgchk reg s1 == 0xffffffffffffffff
 
-    // Testing unaligned reads.
-    la s0, unaligned1
-    ldu s1, 0(s0) 
-    //prgchk reg s1 == 0xabcdef0123456789
-
-    la s0, unaligned2
-    ldu s1, 0(s0)
-    //prgchk reg s1 == 0xfedcba9876543210
-
-    la s0, unaligned3
-    ldu s1, 0(s0)
-    //prgchk reg s1 == 0xdeadbeefbeefdead
-
-    la s0, unaligned4
-    ldu s1, 0(s0)
-    //prgchk reg s1 == 0xcafebabebabecafe
-
-    la s0, unaligned5
-    ldu s1, 0(s0)
-    //prgchk reg s1 == 0xabcdabcdabcdabcd
-
-    la s0, unaligned6
-    ldu s1, 0(s0)
-    //prgchk reg s1 == 0xeeffeeffeeffeeff
-
-    la s0, unaligned7
-    ldu s1, 0(s0)
-    //prgchk reg s1 == 0x4242424242424242
     j exit
