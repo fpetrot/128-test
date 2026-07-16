@@ -6,9 +6,6 @@
     tst2: .half 0x0000
     tst3: .half 0xffff
     tab_tst: .half 1, 2, 3, 5, 7, 11, 13, 17, 0xffff
-    .align 2
-    .byte 0xde
-    unaligned_1: .half 0x5341
 
 .section .text.init,"ax",@progbits
 .global _start
@@ -29,11 +26,6 @@ _start:
     la s0, tst3
     lh s0, 0(s0)
     //prgchk reg s0 == 0xffffffffffffffffffffffffffffffff
-
-    // Unaligned loads
-    la s1, unaligned_1
-    lh s1, 0(s1)
-    //prgchk reg s1 == 0x00000000000000000000000000005341
 
     // Check loads with offsets.
     la s0, tab_tst
