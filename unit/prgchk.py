@@ -187,7 +187,7 @@ def run_test(test_filename: str, silent: bool = True) -> TestStatus:
     if not gdbgen_status:
         return gdbgen_status
 
-    qemu = subprocess.Popen([QEMU_EXEC, '-machine', 'virt', '-cpu', 'x-rv128,zicsr=on,zicbom=on,zicboz=on', '-accel', 'tcg,thread=single', '-bios', 'none', '-machine', 'virt', '-nographic',
+    qemu = subprocess.Popen([QEMU_EXEC, '-machine', 'virt', '-cpu', 'x-rv128,zicsr=on,zicbom=on,zicboz=on,zba=on', '-accel', 'tcg,thread=single', '-bios', 'none', '-machine', 'virt', '-nographic',
         '-kernel', f'out/{test_name}', '-S', '-gdb', 'tcp::1144'], stdout=(open("/dev/null") if silent else sys.stdout))
     gdb = subprocess.run(f"{CROSS_GDB} -q out/{test_name} < out/{os.path.basename(test_filename)}.gdb", shell=True, stdout=(open("/dev/null") if silent else sys.stdout), stderr=(open("/dev/null") if silent else sys.stderr))
     test_retval = gdb.returncode
