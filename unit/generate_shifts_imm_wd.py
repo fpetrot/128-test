@@ -16,12 +16,12 @@ _typedir = {
 
 if __name__ == "__main__":
     if len(sys. argv) != 3:
-        print(f'Usage: {sys.argv[0]} w|d n\n')
+        print(f'Usage: {sys.argv[0]} w|d|uw|ud n\n')
         sys.exit(1)
 
-    if sys.argv[1] == 'w':
+    if sys.argv[1] == 'w' || sys.argv[1] == 'uw':
         wordsize = 32
-    elif sys.argv[1] == 'd':
+    elif sys.argv[1] == 'd' || sys.argv[1] == 'ud':
         wordsize = 64
     else:
         print(f'Usage: {sys.argv[0]} w|d n\n')
@@ -31,14 +31,19 @@ if __name__ == "__main__":
 
     datacnt = int(sys.argv[2])
     if datacnt == 0:
-        print(f'Usage: {sys.argv[0]} w|d n\n')
+        print(f'Usage: {sys.argv[0]} w|d|uw|ud n\n')
         sys.exit(1)
 
     datasize = 128
 
-    data = open(f"unit_tests_i/test_shifts_imm_{sz}.S", "w")
+    if sys.argv[1] == 'uw' || sys.argv[1] == 'ud':
+        signed = 0
+        data = open(f"unit_tests_b/test_shifts_imm_{sz}.S", "w")
+    else
+        signed = 1
+        data = open(f"unit_tests_i/test_shifts_imm_{sz}.S", "w")
+
     data.write('''
-#include "insns.S" 
 #include "utils.S"
 ''')
     data.write(".section .data\n")
@@ -57,80 +62,69 @@ if __name__ == "__main__":
 _start:
 ''')
 
-
     for _ in  range(datacnt):
         data.write(f"la t0, tab_start\n")
         for __ in range(0, wordsize):
             shamt = __&(wordsize - 1)
             v = ((values[_]&(2**wordsize - 1))<<shamt)&(2**wordsize - 1)
             sign = v>>(wordsize - 1)
-            if sign == 1:
+            if signed && sign == 1:
                 for ___ in range(1, datasize - wordsize + 1):
                     v |= (1 << (datasize - ___))
             else:
                 for ___ in range(1, datasize - wordsize + 1):
                     v &= ~(1 << (datasize - ___))
             offset = int(_ * datasize/8)
-            data.write(f"lq(t1, {offset}, t0)\n")
-            if sz == 'w':
+            data.write(f"lq t1, {offset}, t0\n")
+            if sz == 'w' || sz == 'd':
                 data.write(f"slli{sz} t2, t1, {__}\n")
+                data.write(f"//prgchk reg t2 == 0x{v&0xffffffffffffffffffffffffffffffff:032x}\n")
             else:
-                data.write(f"slli{sz}(t2, t1, {__})\n")
-            data.write(f"//prgchk reg t2 == 0x{v&0xffffffffffffffff:016x}\n")
-            data.write(f"srli(t3, t2, 64)\n")
-            data.write(f"//prgchk reg t3 == 0x{(v>>64)&0xffffffffffffffff:016x}\n")
+                data.write(f"slli.{sz} t2, t1, {__}\n")
+                data.write(f"//prgchk reg t2 == 0x{v&0xffffffffffffffffffffffffffffffff:032x}\n")
 
-    for _ in  range(datacnt):
-        data.write(f"la t0, tab_start\n")
-        for __ in range(0, wordsize):
-            shamt = __&(wordsize - 1)
-            # Looks as if the right shift is logical in python, ...
-            v = ((values[_]&(2**wordsize - 1))>>shamt)&(2**wordsize - 1)
-            # Useful only for zero shift, otherwise it is always 0
-            sign = v>>(wordsize - 1)
-            if sign == 1:
-                for ___ in range(1, datasize - wordsize + 1):
-                    v |= (1 << (datasize - ___))
-            else:
-                for ___ in range(1, datasize - wordsize + 1):
-                    v &= ~(1 << (datasize - ___))
-            offset = int(_ * datasize/8)
-            data.write(f"lq(t1, {offset}, t0)\n")
-            if sz == 'w':
+    if signed:
+        for _ in  range(datacnt):
+            data.write(f"la t0, tab_start\n")
+            for __ in range(0, wordsize):
+                shamt = __&(wordsize - 1)
+                # Looks as if the right shift is logical in python, ...
+                v = ((values[_]&(2**wordsize - 1))>>shamt)&(2**wordsize - 1)
+                # Useful only for zero shift, otherwise it is always 0
+                sign = v>>(wordsize - 1)
+                if sign == 1:
+                    for ___ in range(1, datasize - wordsize + 1):
+                        v |= (1 << (datasize - ___))
+                else:
+                    for ___ in range(1, datasize - wordsize + 1):
+                        v &= ~(1 << (datasize - ___))
+                offset = int(_ * datasize/8)
+                data.write(f"lq t1, {offset}, t0\n")
                 data.write(f"srli{sz} t2, t1, {__}\n")
-            else:
-                data.write(f"srli{sz}(t2, t1, {__})\n")
-            data.write(f"//prgchk reg t2 == 0x{v&0xffffffffffffffff:016x}\n")
-            data.write(f"srli(t3, t2, 64)\n")
-            data.write(f"//prgchk reg t3 == 0x{(v>>64)&0xffffffffffffffff:016x}\n")
+                data.write(f"//prgchk reg t2 == 0x{v&0xffffffffffffffffffffffffffffffff:032x}\n")
 
-    for _ in  range(datacnt):
-        data.write(f"la t0, tab_start\n")
-        for __ in range(0, wordsize):
-            shamt = __&(wordsize - 1)
-            # Arithmetic part of the shift
-            sign = (values[_]>>(wordsize - 1))&1
-            v = ((values[_]&(2**wordsize - 1))>>shamt)&(2**wordsize - 1)
-            # Ok, we extend the sign by ourselves, then
-            if sign == 1:
-                for ___ in range(1, shamt + 1):
-                    v |= (1 << (wordsize - ___))
-            sign = v>>(wordsize - 1)
-            if sign == 1:
-                for ___ in range(1, datasize - wordsize + 1):
-                    v |= (1 << (datasize - ___))
-            else:
-                for ___ in range(1, datasize - wordsize + 1):
-                    v &= ~(1 << (datasize - ___))
-            offset = int(_ * datasize/8)
-            data.write(f"lq(t1, {offset}, t0)\n")
-            if sz == 'w':
+        for _ in  range(datacnt):
+            data.write(f"la t0, tab_start\n")
+            for __ in range(0, wordsize):
+                shamt = __&(wordsize - 1)
+                # Arithmetic part of the shift
+                sign = (values[_]>>(wordsize - 1))&1
+                v = ((values[_]&(2**wordsize - 1))>>shamt)&(2**wordsize - 1)
+                # Ok, we extend the sign by ourselves, then
+                if sign == 1:
+                    for ___ in range(1, shamt + 1):
+                        v |= (1 << (wordsize - ___))
+                sign = v>>(wordsize - 1)
+                if sign == 1:
+                    for ___ in range(1, datasize - wordsize + 1):
+                        v |= (1 << (datasize - ___))
+                else:
+                    for ___ in range(1, datasize - wordsize + 1):
+                        v &= ~(1 << (datasize - ___))
+                offset = int(_ * datasize/8)
+                data.write(f"lq t1, {offset}, t0\n")
                 data.write(f"srai{sz} t2, t1, {__}\n")
-            else:
-                data.write(f"srai{sz}(t2, t1, {__})\n")
-            data.write(f"//prgchk reg t2 == 0x{v&0xffffffffffffffff:016x}\n")
-            data.write(f"srli(t3, t2, 64)\n")
-            data.write(f"//prgchk reg t3 == 0x{(v>>64)&0xffffffffffffffff:016x}\n")
+                data.write(f"//prgchk reg t2 == 0x{v&0xffffffffffffffffffffffffffffffff:032x}\n")
 
     data.write('j exit')
     data.close()
