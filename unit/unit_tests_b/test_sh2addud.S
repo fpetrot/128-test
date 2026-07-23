@@ -6,25 +6,25 @@
 _start:
     li t0, 0xdeadbeefdeadbeef0000000000000000
     //prgchk reg t0 == 0xdeadbeefdeadbeef0000000000000000
-    la a0, halfarray
+    la a0, wordarray
     add t0, t0, 1
-    sh1add.ud s0, a0, t0
+    sh2add.ud s0, t0, a0
     lh t1, (s0)
     //prgchk reg t1 == 2
     add t0, t0, 1
-    sh1add.ud s0, a0, t0
+    sh2add.ud s0, t0, a0
     lh t1, (s0)
     //prgchk reg t1 == 3
     add t0, t0, 1
-    sh1add.ud s0, a0, t0
+    sh2add.ud s0, t0, a0
     lh t1, (s0)
     //prgchk reg t1 == 5
     add t0, t0, 1
-    sh1add.ud s0, a0, t0
+    sh2add.ud s0, t0, a0
     lh t1, (s0)
     //prgchk reg t1 == 7
     add t0, t0, 2
-    sh1add.ud s0, a0, t0
+    sh2add.ud s0, t0, a0
     lh t1, (s0)
     //prgchk reg t1 == 13
     j exit
