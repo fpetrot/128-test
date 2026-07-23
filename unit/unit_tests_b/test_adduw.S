@@ -19,5 +19,5 @@ _start:
     add.uw s2, t4, t5
     //prgchk reg s2 == 0xf5f7db207647c4329415954efb09e2c9
     add.uw s3, s2, t6
-    //prgchk reg s2 == 0xb378a417ad18889a8b92809326f81ba6
+    //prgchk reg s3 == 0xb378a417ad18889a8b92809326f81ba6
     j exit

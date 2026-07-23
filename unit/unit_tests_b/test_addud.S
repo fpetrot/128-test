@@ -12,12 +12,12 @@ _start:
     li t5, 0xf5f7db207647c4329415954eeabaade4
     li t6, 0xb378a417ad18889a8b9280922bee38dd
 
-    add.uw s0, t0, t1
+    add.ud s0, t0, t1
     //prgchk reg s0 == 0xa79b71e63793aaa40874ef1c360fd35f
-    add.uw s1, t2, t3
+    add.ud s1, t2, t3
     //prgchk reg s1 == 0xb75e5d09084915af2006f8f38f386591
-    add.uw s2, t4, t5
+    add.ud s2, t4, t5
     //prgchk reg s2 == 0xf5f7db207647c432fb941094fb09e2c9
-    add.uw s3, s2, t6
-    //prgchk reg s2 == 0xb378a417ad18889b8726912726f81ba6
+    add.ud s3, s2, t6
+    //prgchk reg s3 == 0xb378a417ad18889b8726912726f81ba6
     j exit
