@@ -1,7 +1,7 @@
 #!/bin/env python3
 
 # Full range testing of the register to register 128-bit shifts
-# First argument is the number of random numbers to draw, above
+# Second argument is the number of random numbers to draw, above
 # 2 you have a good chance to have positive and negative numbers
 # for testing the right arithmetic shift
 
@@ -19,9 +19,9 @@ if __name__ == "__main__":
         print(f'Usage: {sys.argv[0]} w|d|uw|ud n\n')
         sys.exit(1)
 
-    if sys.argv[1] == 'w' || sys.argv[1] == 'uw':
+    if sys.argv[1] == 'w' or sys.argv[1] == 'uw':
         wordsize = 32
-    elif sys.argv[1] == 'd' || sys.argv[1] == 'ud':
+    elif sys.argv[1] == 'd' or sys.argv[1] == 'ud':
         wordsize = 64
     else:
         print(f'Usage: {sys.argv[0]} w|d n\n')
@@ -36,10 +36,10 @@ if __name__ == "__main__":
 
     datasize = 128
 
-    if sys.argv[1] == 'uw' || sys.argv[1] == 'ud':
+    if sys.argv[1] == 'uw' or sys.argv[1] == 'ud':
         signed = 0
         data = open(f"unit_tests_b/test_shifts_imm_{sz}.S", "w")
-    else
+    else:
         signed = 1
         data = open(f"unit_tests_i/test_shifts_imm_{sz}.S", "w")
 
@@ -64,19 +64,24 @@ _start:
 
     for _ in  range(datacnt):
         data.write(f"la t0, tab_start\n")
-        for __ in range(0, wordsize):
-            shamt = __&(wordsize - 1)
-            v = ((values[_]&(2**wordsize - 1))<<shamt)&(2**wordsize - 1)
-            sign = v>>(wordsize - 1)
-            if signed && sign == 1:
-                for ___ in range(1, datasize - wordsize + 1):
-                    v |= (1 << (datasize - ___))
+        for __ in range(0, wordsize if signed else datasize):
+            if signed:
+                shamt = __&(wordsize - 1)
+                v = ((values[_] & (2**wordsize - 1)) << shamt) & (2**wordsize - 1)
+                sign = v>>(wordsize - 1)
+                if sign == 1:
+                    for ___ in range(1, datasize - wordsize + 1):
+                        v |= (1 << (datasize - ___))
+                else:
+                    for ___ in range(1, datasize - wordsize + 1):
+                        v &= ~(1 << (datasize - ___))
             else:
-                for ___ in range(1, datasize - wordsize + 1):
-                    v &= ~(1 << (datasize - ___))
+                shamt = __&(datasize - 1)
+                v = ((values[_] & (2**wordsize - 1)) << shamt) & (2**datasize - 1)
+
             offset = int(_ * datasize/8)
             data.write(f"lq t1, {offset}, t0\n")
-            if sz == 'w' || sz == 'd':
+            if signed:
                 data.write(f"slli{sz} t2, t1, {__}\n")
                 data.write(f"//prgchk reg t2 == 0x{v&0xffffffffffffffffffffffffffffffff:032x}\n")
             else:

@@ -20,7 +20,6 @@ if __name__ == "__main__":
 
     data = open("unit_tests_i/test_shifts_imm.S", "w")
     data.write('''
-#include "insns.S" 
 #include "utils.S"
 ''')
     data.write(".section .data\n")
@@ -39,7 +38,6 @@ if __name__ == "__main__":
 _start:
 ''')
 
-
     for _ in  range(datacnt):
         data.write(f"la t0, tab_start\n")
         # More or less randomly chosen interval
@@ -47,11 +45,9 @@ _start:
             shamt = __&0x7f
             v = (values[_]<<shamt)&0xffffffffffffffffffffffffffffffff
             offset = int(_ * datasize/8)
-            data.write(f"lq(t1, {offset}, t0)\n")
-            data.write(f"slli(t2, t1, {__})\n")
-            data.write(f"//prgchk reg t2 == 0x{v&0xffffffffffffffff:016x}\n")
-            data.write(f"srli(t3, t2, 64)\n")
-            data.write(f"//prgchk reg t3 == 0x{(v>>64)&0xffffffffffffffff:016x}\n")
+            data.write(f"lq t1, {offset}, t0 \n")
+            data.write(f"slli t2, t1, {__} \n")
+            data.write(f"//prgchk reg t2 == 0x{v&0xffffffffffffffffffffffffffffffff:032x}\n")
 
     for _ in  range(datacnt):
         data.write(f"la t0, tab_start\n")
@@ -60,11 +56,9 @@ _start:
             # Looks as if the right shift is logical in python, ...
             v = (values[_]>>shamt)&0xffffffffffffffffffffffffffffffff
             offset = int(_ * datasize/8)
-            data.write(f"lq(t1, {offset}, t0)\n")
-            data.write(f"srli(t2, t1, {__})\n")
-            data.write(f"//prgchk reg t2 == 0x{v&0xffffffffffffffff:016x}\n")
-            data.write(f"srli(t3, t2, 64)\n")
-            data.write(f"//prgchk reg t3 == 0x{(v>>64)&0xffffffffffffffff:016x}\n")
+            data.write(f"lq t1, {offset}, t0)\n")
+            data.write(f"srli t2, t1, {__}\n")
+            data.write(f"//prgchk reg t2 == 0x{v&0xffffffffffffffffffffffffffffffff:032x}\n")
 
     for _ in  range(datacnt):
         data.write(f"la t0, tab_start\n")
@@ -77,11 +71,9 @@ _start:
                 for ___ in range(1, shamt + 1):
                     v |= (1 << (128 - ___))
             offset = int(_ * datasize/8)
-            data.write(f"lq(t1, {offset}, t0)\n")
-            data.write(f"srai(t2, t1, {__})\n")
-            data.write(f"//prgchk reg t2 == 0x{v&0xffffffffffffffff:016x}\n")
-            data.write(f"srli(t3, t2, 64)\n")
-            data.write(f"//prgchk reg t3 == 0x{(v>>64)&0xffffffffffffffff:016x}\n")
+            data.write(f"lq t1, {offset}, t0 \n")
+            data.write(f"srai t2, t1, {__} \n")
+            data.write(f"//prgchk reg t2 == 0x{v&0xffffffffffffffffffffffffffffffff:032x}\n")
 
     data.write('j exit')
     data.close()
