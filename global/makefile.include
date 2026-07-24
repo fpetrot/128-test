@@ -1,8 +1,13 @@
 .PHONY: all
 
-# If the test doesn't support 32bits targets, skip it
+# If the test doesn't support 32bits or 64bits targets, skip it
 ifeq ($(XLEN),32)
 ifeq ($(NO_32BITS_SUPPORT),1)
+skip:
+endif
+endif
+ifeq ($(XLEN),64)
+ifeq ($(NO_64BITS_SUPPORT),1)
 skip:
 endif
 endif
