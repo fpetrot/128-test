@@ -62,8 +62,8 @@ def parse_regchk(a: CheckParseArgs) -> str:
 break {a.srcfile}:{a.lineno} if ${reg} {op_opposite[op]} {val}
 commands
 silent
-    output "Register check failed line {a.lineno}, expected {reg} {op} {val} (= {hex(val)}), got :"
-    output/x ${reg}
+    output "Register check failed line {a.lineno}, expected {reg} {op} {val} (= {hex(val)}), got: "
+    output /x ${reg}
     kill
     quit 1
 end
@@ -79,7 +79,7 @@ def parse_varchk(a: CheckParseArgs) -> str:
 break {a.srcfile}:{a.lineno} if ((unsigned long){varname}) {op_opposite[op]} {val}
 commands
 silent
-    output "Variable value check condition broken line {a.lineno}, expected {varname} {op} {val}, got :"
+    output "Variable value check condition broken line {a.lineno}, expected {varname} {op} {val}, got: "
     print /x (unsigned long){varname}
     kill
     quit 1
