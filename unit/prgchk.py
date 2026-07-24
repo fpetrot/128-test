@@ -62,8 +62,8 @@ def parse_regchk(a: CheckParseArgs) -> str:
 break {a.srcfile}:{a.lineno} if ${reg} {op_opposite[op]} {val}
 commands
 silent
-    output "Register check failed line {a.lineno}, expected {reg} {op} {val} (= {hex(val)}), got :"
-    output/x ${reg}
+    output "Register check failed line {a.lineno}, expected {reg} {op} {val} (= {hex(val)}), got: "
+    output /x ${reg}
     kill
     quit 1
 end
@@ -79,7 +79,7 @@ def parse_varchk(a: CheckParseArgs) -> str:
 break {a.srcfile}:{a.lineno} if ((unsigned long){varname}) {op_opposite[op]} {val}
 commands
 silent
-    output "Variable value check condition broken line {a.lineno}, expected {varname} {op} {val}, got :"
+    output "Variable value check condition broken line {a.lineno}, expected {varname} {op} {val}, got: "
     print /x (unsigned long){varname}
     kill
     quit 1
@@ -187,7 +187,7 @@ def run_test(test_filename: str, silent: bool = True) -> TestStatus:
     if not gdbgen_status:
         return gdbgen_status
 
-    qemu = subprocess.Popen([QEMU_EXEC, '-machine', 'virt', '-cpu', 'x-rv128,zicsr=on,zicbom=on,zicboz=on,zba=on', '-accel', 'tcg,thread=single', '-bios', 'none', '-machine', 'virt', '-nographic',
+    qemu = subprocess.Popen([QEMU_EXEC, '-machine', 'virt', '-cpu', 'x-rv128,zicsr=on,zicbom=on,zicboz=on,zba=on,zbb=on', '-accel', 'tcg,thread=single', '-bios', 'none', '-nographic',
         '-kernel', f'out/{test_name}', '-S', '-gdb', 'tcp::1144'], stdout=(open("/dev/null") if silent else sys.stdout))
     gdb = subprocess.run(f"{CROSS_GDB} -q out/{test_name} < out/{os.path.basename(test_filename)}.gdb", shell=True, stdout=(open("/dev/null") if silent else sys.stdout), stderr=(open("/dev/null") if silent else sys.stderr))
     test_retval = gdb.returncode

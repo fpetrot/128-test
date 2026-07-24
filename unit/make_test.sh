@@ -30,8 +30,14 @@ fi
 mkdir -p ./out
 # For some weird reason in some cases python subprocess;run closes stdout before
 # we got a chance to write something, so check that before echoing
+if [ common/lib.c -nt out/lib.o ]; then
+    ${CROSS_GCC} -march=rv128imfd_zicsr_zicboz_zicbom_zba_zbb -g -I./common/include -c common/lib.c 1 -o out/lib.o
+    if [ $? -ne 0 ]; then
+        exit 1
+    fi
+fi
 if [ $1 -nt out/$baseName.o ]; then
-    ${CROSS_GCC} -march=rv64imfd_zicsr_zicboz_zicbom_zba -g -I./common/include -x assembler-with-cpp -c $1 -o out/$baseName.o
+    ${CROSS_GCC} -march=rv128imfd_zicsr_zicboz_zicbom_zba_zbb -g -I./common/include -x assembler-with-cpp -c $1 -o out/$baseName.o
     if [ $? -ne 0 ]; then
         exit 1
     fi
