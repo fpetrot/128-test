@@ -2,7 +2,7 @@
  * Q&D hacks to compile for riscv
  */
 
-typedef unsigned int size_t;
+typedef unsigned long long size_t;
 
 static inline void *memset(void *dest, int c, size_t n)
 {
