@@ -43,42 +43,46 @@ _start:
 
     for _ in  range(datacnt):
         data.write(f"la t0, tab_start\n")
-        for __ in range(datasize):
-            shamt = __
+        for __ in range(-datasize - 2, datasize + 3):
+            shamt = __&0x7f
             v = values[_] | ((1 << shamt) & 0xffffffffffffffffffffffffffffffff)
             offset = int(_ * datasize/8)
             data.write(f"lq t1, {offset}(t0)\n")
-            data.write(f"bseti t2, t1, {__} \n")
+            data.write(f"li t2, {__}\n")
+            data.write(f"bset t2, t1, t2 \n")
             data.write(f"//prgchk reg t2 == 0x{v&0xffffffffffffffffffffffffffffffff:032x}\n")
 
     for _ in  range(datacnt):
         data.write(f"la t0, tab_start\n")
-        for __ in range(datasize):
-            shamt = __
+        for __ in range(-datasize - 2, datasize + 3):
+            shamt = __&0x7f
             v = values[_] & ~((1 << shamt) & 0xffffffffffffffffffffffffffffffff)
             offset = int(_ * datasize/8)
             data.write(f"lq t1, {offset}(t0)\n")
-            data.write(f"bclri t2, t1, {__} \n")
+            data.write(f"li t2, {__}\n")
+            data.write(f"bclr t2, t1, t2 \n")
             data.write(f"//prgchk reg t2 == 0x{v&0xffffffffffffffffffffffffffffffff:032x}\n")
 
     for _ in  range(datacnt):
         data.write(f"la t0, tab_start\n")
-        for __ in range(datasize):
-            shamt = __
+        for __ in range(-datasize - 2, datasize + 3):
+            shamt = __&0x7f
             v = values[_] ^ ((1 << shamt) & 0xffffffffffffffffffffffffffffffff)
             offset = int(_ * datasize/8)
             data.write(f"lq t1, {offset}(t0)\n")
-            data.write(f"binvi t2, t1, {__} \n")
+            data.write(f"li t2, {__}\n")
+            data.write(f"binv t2, t1, t2 \n")
             data.write(f"//prgchk reg t2 == 0x{v&0xffffffffffffffffffffffffffffffff:032x}\n")
 
     for _ in  range(datacnt):
         data.write(f"la t0, tab_start\n")
-        for __ in range(datasize):
-            shamt = __
+        for __ in range(-datasize - 2, datasize + 3):
+            shamt = __&0x7f
             v = (values[_] >> shamt) & 1
             offset = int(_ * datasize/8)
             data.write(f"lq t1, {offset}(t0)\n")
-            data.write(f"bexti t2, t1, {__} \n")
+            data.write(f"li t2, {__}\n")
+            data.write(f"bext t2, t1, t2 \n")
             data.write(f"//prgchk reg t2 == 0x{v&0xffffffffffffffffffffffffffffffff:032x}\n")
 
     data.write('j exit')
