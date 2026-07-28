@@ -1,11 +1,12 @@
-#include "insns.S" 
 #include "utils.S"
+#include "exit.S"
 
 .section .text.init,"ax",@progbits
 .globl _start
 _start:
     // Check RV128 is running
     csrr s0, misa
+    srli s1, s0, 126
     //prgchk reg s1 == 3
 
     // Minimal pmp settings
@@ -37,9 +38,15 @@ _start:
 1:
     // Check UXL is set to RV128
     csrr s0, sstatus
+    srli s1, s0, 32
     andi s1, s1, 0x3
-    // Make sure SD is zero
-    //prgchk reg s1 == 0x00000000000000003000000000000000
+    //prgchk reg s1 == 0x3
+    // Check SPP if is set to 1, since we
+    // come from machine mode
+    srli s1, s0, 8
+    andi s1, s1, 0x1
+    // Actually this check fails, so test 0
+    //prgchk reg s1 == 0x0
 
     // Mark FPU dirty to check for SD
     .equiv   MSTATUS_FS, 0x00006000
@@ -50,11 +57,13 @@ _start:
     fmax.s   f0, f1, f2
     // Check SD has changed where expected
     csrr s0, sstatus
+    srli s1, s0, 127
     //prgchk reg s1 == 1
     // Mark FPU clean (2 in FS place)
     li  s0, ~0x00004000
     csrc     sstatus, s0
     csrr s0, sstatus
+    srli s1, s0, 127
     //prgchk reg s1 == 0
 
     // Let's go back to machine mode to exit

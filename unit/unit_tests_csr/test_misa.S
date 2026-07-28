@@ -1,12 +1,12 @@
-#include "insns.S" 
 #include "utils.S"
+#include "exit.S"
 
 .section .text.init,"ax",@progbits
 .globl _start
 _start:
     // Check RV128 is running
     csrr s0, misa
-    srli s1, s0, 12
+    srli s1, s0, 126
     //prgchk reg s1 == 3
 
     csrrs s0, misa, zero
