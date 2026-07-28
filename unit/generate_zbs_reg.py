@@ -21,7 +21,7 @@ if __name__ == "__main__":
     datacnt = int(sys.argv[1])
     datasize = 128
 
-    data = open("unit_tests_b/test_zbs_imm.S", "w")
+    data = open("unit_tests_b/test_zbs_reg.S", "w")
     data.write('''
 #include "exit.S"
 ''')
@@ -44,7 +44,7 @@ _start:
     for _ in  range(datacnt):
         data.write(f"la t0, tab_start\n")
         for __ in range(-datasize - 2, datasize + 3):
-            shamt = __&0x7f
+            shamt = __ & 0x7f
             v = values[_] | ((1 << shamt) & 0xffffffffffffffffffffffffffffffff)
             offset = int(_ * datasize/8)
             data.write(f"lq t1, {offset}(t0)\n")
@@ -55,7 +55,7 @@ _start:
     for _ in  range(datacnt):
         data.write(f"la t0, tab_start\n")
         for __ in range(-datasize - 2, datasize + 3):
-            shamt = __&0x7f
+            shamt = __ & 0x7f
             v = values[_] & ~((1 << shamt) & 0xffffffffffffffffffffffffffffffff)
             offset = int(_ * datasize/8)
             data.write(f"lq t1, {offset}(t0)\n")
@@ -66,7 +66,7 @@ _start:
     for _ in  range(datacnt):
         data.write(f"la t0, tab_start\n")
         for __ in range(-datasize - 2, datasize + 3):
-            shamt = __&0x7f
+            shamt = __ & 0x7f
             v = values[_] ^ ((1 << shamt) & 0xffffffffffffffffffffffffffffffff)
             offset = int(_ * datasize/8)
             data.write(f"lq t1, {offset}(t0)\n")
@@ -77,7 +77,7 @@ _start:
     for _ in  range(datacnt):
         data.write(f"la t0, tab_start\n")
         for __ in range(-datasize - 2, datasize + 3):
-            shamt = __&0x7f
+            shamt = __ & 0x7f
             v = (values[_] >> shamt) & 1
             offset = int(_ * datasize/8)
             data.write(f"lq t1, {offset}(t0)\n")

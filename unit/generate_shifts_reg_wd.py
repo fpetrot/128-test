@@ -38,8 +38,7 @@ if __name__ == "__main__":
 
     data = open(f"unit_tests_i/test_shifts_reg_{sz}.S", "w")
     data.write('''
-#include "insns.S" 
-#include "utils.S"
+#include "exit.S"
 ''')
     data.write(".section .data\n")
     data.write(f"tab_size: {_typedir[datasize]} {datacnt}\n")
@@ -60,12 +59,12 @@ _start:
     for _ in  range(datacnt):
         data.write(f"la t0, tab_start\n")
         offset = int(_ * datasize/8)
-        data.write(f"lq(t1, {offset}, t0)\n")
+        data.write(f"lq t1, {offset}(t0)\n")
         for __ in range(-wordsize - 2, wordsize + 3):
         #for __ in range(0, wordsize):
             shamt = __&(wordsize - 1)
-            v = ((values[_]&(2**wordsize - 1))<<shamt)&(2**wordsize - 1)
-            sign = v>>(wordsize - 1)
+            v = ((values[_] & (2**wordsize - 1)) << shamt) & (2**wordsize - 1)
+            sign = v >> (wordsize - 1)
             if sign == 1:
                 for ___ in range(1, datasize - wordsize + 1):
                     v |= (1 << (datasize - ___))
@@ -79,14 +78,14 @@ _start:
     for _ in  range(datacnt):
         data.write(f"la t0, tab_start\n")
         offset = int(_ * datasize/8)
-        data.write(f"lq t1, {offset}, t0\n")
+        data.write(f"lq t1, {offset}(t0)\n")
         for __ in range(-wordsize - 2, wordsize + 3):
         #for __ in range(0, wordsize):
-            shamt = __&(wordsize - 1)
+            shamt = __ & (wordsize - 1)
             # Looks as if the right shift is logical in python, ...
-            v = ((values[_]&(2**wordsize - 1))>>shamt)&(2**wordsize - 1)
+            v = ((values[_] & (2**wordsize - 1)) >> shamt) & (2**wordsize - 1)
             # Useful only for zero shift, otherwise it is always 0
-            sign = v>>(wordsize - 1)
+            sign = v >> (wordsize - 1)
             if sign == 1:
                 for ___ in range(1, datasize - wordsize + 1):
                     v |= (1 << (datasize - ___))
@@ -100,13 +99,13 @@ _start:
     for _ in  range(datacnt):
         data.write(f"la t0, tab_start\n")
         offset = int(_ * datasize/8)
-        data.write(f"lq t1, {offset}, t0\n")
+        data.write(f"lq t1, {offset}(t0)\n")
         for __ in range(-wordsize - 2, wordsize + 3):
         #for __ in range(0, wordsize):
-            shamt = __&(wordsize - 1)
+            shamt = __ & (wordsize - 1)
             # Arithmetic part of the shift
-            sign = (values[_]>>(wordsize - 1))&1
-            v = ((values[_]&(2**wordsize - 1))>>shamt)&(2**wordsize - 1)
+            sign = (values[_] >> (wordsize - 1)) & 1
+            v = ((values[_] & (2**wordsize - 1)) >> shamt) & (2**wordsize - 1)
             # Ok, we extend the sign by ourselves, then
             if sign == 1:
                 for ___ in range(1, shamt + 1):

@@ -15,12 +15,15 @@ _typedir = {
 }
 
 if __name__ == "__main__":
+    if len(sys. argv) != 2:
+        print(f'Usage: {sys.argv[0]} n\n')
+        sys.exit(1)
     datacnt = int(sys.argv[1])
     datasize = 128
 
     data = open("unit_tests_i/test_shifts_reg.S", "w")
     data.write('''
-#include "utils.S"
+#include "exit.S"
 ''')
     data.write(".section .data\n")
     data.write(f"tab_size: {_typedir[datasize]} {datacnt}\n")
@@ -46,7 +49,7 @@ _start:
             v = (values[_]<<shamt)&0xffffffffffffffffffffffffffffffff
             data.write(f"li t2, {__}\n")
             offset = int(_ * datasize/8)
-            data.write(f"lq t1, {offset}, t0\n")
+            data.write(f"lq t1, {offset}(t0)\n")
             data.write(f"sll t2, t1, t2\n")
             data.write(f"//prgchk reg t2 == 0x{v&0xffffffffffffffffffffffffffffffff:032x}\n")
 
@@ -58,7 +61,7 @@ _start:
             v = (values[_]>>shamt)&0xffffffffffffffffffffffffffffffff
             data.write(f"li t2, {__}\n")
             offset = int(_ * datasize/8)
-            data.write(f"lq t1, {offset}, t0\n")
+            data.write(f"lq t1, {offset}(t0)\n")
             data.write(f"srl t2, t1, t2\n")
             data.write(f"//prgchk reg t2 == 0x{v&0xffffffffffffffffffffffffffffffff:032x}\n")
 
@@ -74,7 +77,7 @@ _start:
                     v |= (1 << (128 - ___))
             data.write(f"li t2, {__}\n")
             offset = int(_ * datasize/8)
-            data.write(f"lq t1, {offset}, t0\n")
+            data.write(f"lq t1, {offset}(t0)\n")
             data.write(f"sra t2, t1, t2\n")
             data.write(f"//prgchk reg t2 == 0x{v&0xffffffffffffffffffffffffffffffff:032x}\n")
 

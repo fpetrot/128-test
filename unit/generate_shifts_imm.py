@@ -15,12 +15,15 @@ _typedir = {
 }
 
 if __name__ == "__main__":
+    if len(sys. argv) != 2:
+        print(f'Usage: {sys.argv[0]} n\n')
+        sys.exit(1)
     datacnt = int(sys.argv[1])
     datasize = 128
 
     data = open("unit_tests_i/test_shifts_imm.S", "w")
     data.write('''
-#include "utils.S"
+#include "exit.S"
 ''')
     data.write(".section .data\n")
     data.write(f"tab_size: {_typedir[datasize]} {datacnt}\n")
@@ -41,29 +44,29 @@ _start:
     for _ in  range(datacnt):
         data.write(f"la t0, tab_start\n")
         # More or less randomly chosen interval
-        for __ in range(-datasize - 2, datasize + 3):
-            shamt = __&0x7f
+        for __ in range(datasize):
+            shamt = __&(datasize - 1)
             v = (values[_]<<shamt)&0xffffffffffffffffffffffffffffffff
             offset = int(_ * datasize/8)
-            data.write(f"lq t1, {offset}, t0 \n")
+            data.write(f"lq t1, {offset}(t0)\n")
             data.write(f"slli t2, t1, {__} \n")
             data.write(f"//prgchk reg t2 == 0x{v&0xffffffffffffffffffffffffffffffff:032x}\n")
 
     for _ in  range(datacnt):
         data.write(f"la t0, tab_start\n")
-        for __ in range(-datasize - 2, datasize + 3):
-            shamt = __&0x7f
+        for __ in range(datasize):
+            shamt = __&(datasize - 1)
             # Looks as if the right shift is logical in python, ...
             v = (values[_]>>shamt)&0xffffffffffffffffffffffffffffffff
             offset = int(_ * datasize/8)
-            data.write(f"lq t1, {offset}, t0)\n")
+            data.write(f"lq t1, {offset}(t0)\n")
             data.write(f"srli t2, t1, {__}\n")
             data.write(f"//prgchk reg t2 == 0x{v&0xffffffffffffffffffffffffffffffff:032x}\n")
 
     for _ in  range(datacnt):
         data.write(f"la t0, tab_start\n")
-        for __ in range(-datasize - 2, datasize + 3):
-            shamt = __&0x7f
+        for __ in range(datasize):
+            shamt = __&(datasize - 1)
             sign = values[_]>>127
             v = (int(values[_]>>shamt))&0xffffffffffffffffffffffffffffffff
             # Ok, we extend the sign by ourselves, then
@@ -71,7 +74,7 @@ _start:
                 for ___ in range(1, shamt + 1):
                     v |= (1 << (128 - ___))
             offset = int(_ * datasize/8)
-            data.write(f"lq t1, {offset}, t0 \n")
+            data.write(f"lq t1, {offset}(t0)\n")
             data.write(f"srai t2, t1, {__} \n")
             data.write(f"//prgchk reg t2 == 0x{v&0xffffffffffffffffffffffffffffffff:032x}\n")
 
