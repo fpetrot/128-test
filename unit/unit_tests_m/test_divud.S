@@ -1,5 +1,5 @@
-#include "insns.S" 
 #include "utils.S"
+#include "exit.S"
 
 .section .rodata
     w1:     .dword 0xfedcba0987654321

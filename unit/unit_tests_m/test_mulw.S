@@ -1,5 +1,5 @@
-#include "insns.S" 
 #include "utils.S"
+#include "exit.S"
 
 .section .rodata
     w1:        .word 0x12345678
@@ -36,7 +36,7 @@ _start:
     lw s0, w4
     liu(s1, 2)
     mulw s2, s0, s1
-    //prgchk reg s2 == 0xffffffffe0000000
+    //prgchk reg s2 == 0xffffffffffffffffffffffffe0000000
     mulw s2, s1, s0
     //prgchk reg s2 == 0xffffffffffffffffffffffffe0000000
     j exit

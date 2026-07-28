@@ -1,5 +1,5 @@
-#include "insns.S" 
 #include "utils.S"
+#include "exit.S"
 
 .section .data
     big1:   .octa 0x55fbabad285eb8bfde577df24a0c25b3
@@ -43,8 +43,6 @@ _start:
 
     mulhu s1, s0, s0
     //prgchk reg s1 == 0xfffffffffffffffffffffffffffffffe
-    srli(s1, s1, 64)
-    //prgchk reg s1 == 0x
 
     // Mul by zero absorption
     lqg(s0, big1)

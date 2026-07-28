@@ -1,5 +1,5 @@
-#include "insns.S" 
 #include "utils.S"
+#include "exit.S"
 
 .section .data
     big1:   .octa 0x55fbabad285eb8bfde577df24a0c25b3
@@ -29,7 +29,7 @@ _start:
 
 
     // Check mul by zero
-    mov s1, zero
+    move s1, zero
     mul s2, s0, s1
     //prgchk reg s2 == 0
 

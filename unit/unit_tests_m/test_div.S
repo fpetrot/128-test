@@ -1,5 +1,5 @@
-#include "insns.S" 
 #include "utils.S"
+#include "exit.S"
 
 .section .data
     minsigned: .octa 0x80000000000000000000000000000000
@@ -48,7 +48,7 @@ _start:
     liu(s1, 0)
     
     div s2, s0, s1
-    //prgchk reg s2 == 0xffffffffffffffff
+    //prgchk reg s2 == 0xffffffffffffffffffffffffffffffff
 
 
     // Check various big divisions.

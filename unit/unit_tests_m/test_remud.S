@@ -1,5 +1,5 @@
-#include "insns.S" 
 #include "utils.S"
+#include "exit.S"
 
 .section .rodata
     w1:     .dword 0xfedcba0987654321
@@ -25,7 +25,7 @@ _start:
     ld s1, w3
     remud s2, s0, s1
     //prgchk reg s2 == 3
-    
+
     // Divide by self.
     remud s2, s0, s0
     //prgchk reg s2 == 0

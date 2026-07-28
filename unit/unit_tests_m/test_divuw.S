@@ -1,5 +1,5 @@
-#include "insns.S" 
 #include "utils.S"
+#include "exit.S"
 
 .section .rodata
     w1:     .word 0x87654321
@@ -25,7 +25,7 @@ _start:
     lw s1, w3
     divuw s2, s0, s1
     //prgchk reg s2 == 0x20d2baf
-    
+
     // Divide by self.
     divuw s2, s0, s0
     //prgchk reg s2 == 1
@@ -46,7 +46,7 @@ _start:
 
     // Check div by zero behavior
     lw s0, w1
-    liu(s1, 0
+    liu(s1, 0)
     divuw s2, s0, s1
     //prgchk reg s2 == 0xffffffffffffffffffffffffffffffff
     j exit

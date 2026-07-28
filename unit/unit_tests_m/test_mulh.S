@@ -1,5 +1,5 @@
-#include "insns.S" 
 #include "utils.S"
+#include "exit.S"
 
 .section .data
     big1:   .octa 0xffffffffffff543210fedcba98765433
@@ -14,8 +14,6 @@ _start:
     li s0, 3
     li s1, 7
     mulh s2, s0, s1
-    //prgchk reg s2 == 0
-    srli(s2, s2, 64)
     //prgchk reg s2 == 0
 
     // Small, negative result
@@ -52,6 +50,4 @@ _start:
 
     mulh s1, s0, s0
     //prgchk reg s1 == 0
-    srli(s1, s1, 64)
-    //prgchk reg s1 == 0x
     j exit

@@ -1,5 +1,5 @@
-#include "insns.S" 
 #include "utils.S"
+#include "exit.S"
 
 .section .rodata
     d1:        .dword 0x1234567890abcdef
@@ -14,7 +14,7 @@ _start:
     ld s0, d1
     ld s1, d2
     muld s2, s0, s1
-    //prgchk reg s2 == 0xc24a442fe55618cf
+    //prgchk reg s2 == 0xffffffffffffffffc24a442fe55618cf
     muld s2, s1, s0
     //prgchk reg s2 == 0xffffffffffffffffc24a442fe55618cf
 
@@ -36,7 +36,7 @@ _start:
     ld s0, d4
     liu(s1, 2)
     muld s2, s0, s1
-    //prgchk reg s2 == 0xe000000000000000
+    //prgchk reg s2 == 0xffffffffffffffffe000000000000000
     muld s2, s1, s0
     //prgchk reg s2 == 0xffffffffffffffffe000000000000000
     j exit
