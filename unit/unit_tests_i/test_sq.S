@@ -1,205 +1,65 @@
 #include "exit.S"
 
 .section .data
-    store_1: .dword 0x1234567890abcdef
-             .dword 0xfedcba0987654321
-
-    varl:     .dword 0x8081828384858687
-    varh:     .dword 0x8889909192939495
-    .align 16
-    .byte 0x42
-    unal1l:   .dword 0x1234567890abcdef
-    unal1h:   .dword 0xfedcba0987654321
-    .byte 0x42
-    unal2l:   .dword 0xb87b4ef805445bd8
-    unal2h:   .dword 0x85893964acd3187b
-    .byte 0x42
-    unal3l:   .dword 0xfb681a7a7991ed4b
-    unal3h:   .dword 0xed1449095e68802b
-    .byte 0x42
-    unal4l:   .dword 0xbf3b753b9bc1b087
-    unal4h:   .dword 0x82c7102ce59064a0
-    .byte 0x42
-    unal5l:   .dword 0xa403b381b128c2b3
-    unal5h:   .dword 0x8c65cd39a2fadb80
-    .byte 0x42
-    unal6l:   .dword 0x9eed51f380209332
-    unal6h:   .dword 0xed4ef41ee9676459
-    .byte 0x42
-    unal7l:   .dword 0xcd99a395627b2a5c
-    unal7h:   .dword 0xd9ba3064090bd49a
-    .byte 0x42
-    unal8l:   .dword 0x943713ddbde447a9
-    unal8h:   .dword 0xa9d02dd8567af991
-    .byte 0x42
-    unal9l:   .dword 0xec092b948ec961b8
-    unal9h:   .dword 0xff9606b2fed8d515
-    .byte 0x42
-    unal10l:   .dword 0xd740573fb7e1e78e
-    unal10h:   .dword 0x9e23a50e544cf3a3
-    .byte 0x42
-    unal11l:   .dword 0x8e2beca94fc38bf4
-    unal11h:   .dword 0xcee8d6a79d2d550c
-    .byte 0x42
-    unal12l:   .dword 0xbd6da1af1cc8e0f2
-    unal12h:   .dword 0xcf30edf1363051e8
-    .byte 0x42
-    unal13l:   .dword 0xd114550db626af84
-    unal13h:   .dword 0x9c127e07dd9738f0
-    .byte 0x42
-    unal14l:   .dword 0xbb6c0f1c3c13290c
-    unal14h:   .dword 0xac6c8ab0ec00fcb2
-    .byte 0x42
-    unal15l:   .dword 0x8a9781c17cd71a25
-    unal15h:   .dword 0xe54aa5f95d5a6109
-    .align 16
-    tab_tst:   .octa  0xd6d1a16d4edfb494bc85ea8b82ebc510, 0xa4b42a831f580406f8a855da1252ae72, 0xd1fc03576392796f8a3f6cc1ff34af51, 0xf7ddab0825ee983ef386f797302b1329, 0x862f0605e5e10bea145249745beb7b9c, 0x97c97d2f55170d7238d3d5013c60d66c, 0x960eca8c43b42c292b2c8cb6022e8db2, 0x9277b9663276a56cf052f9992b9abe1b
+    store: .octa 0x1234567890abcdef
+    tab_tst: .octa  0xd6d1a16d4edfb494bc85ea8b82ebc510, 0xa4b42a831f580406f8a855da1252ae72, 0xd1fc03576392796f8a3f6cc1ff34af51, 0xf7ddab0825ee983ef386f797302b1329, 0x862f0605e5e10bea145249745beb7b9c, 0x97c97d2f55170d7238d3d5013c60d66c, 0x960eca8c43b42c292b2c8cb6022e8db2, 0x9277b9663276a56cf052f9992b9abe1b
     bigtab_start: .octa 0xdb00f9f4dd90c17a6739087c1eeba4cd
                   .fill 2032, 1, 0x42
     bigtab_mid:   .octa 0x89f4edddd3c94ccfa37aa040e7c4aacc
-                  .fill 2031, 1, 0x88
+                  .fill 2016, 1, 0x88
     bigtab_end:   .octa 0xa471884c8f32f364fcfa75ba8a71928b
 
               
 .section .text.init,"ax",@progbits
 .global _start
 _start:
-    // Test store and load in succession.
-    la s0, store_1
+    // Test store and load in succession
+    la s0, store
     li s1, 0xdeadbeefcafebabefeedbeefbeeffeed
     sq s1, 0(s0)
     lq s2, 0(s0)
     //prgchk reg s2 == 0xdeadbeefcafebabefeedbeefbeeffeed
 
-
-    // Check standalone store.
-    la s0, varl
+    // Check standalone stores
+    la s0, store
     li s1, 0xabcd12346321dcba7412589633698521    
     sq s1, 0(s0)
-    //prgchk var varl == 0x7412589633698521
-    //prgchk var varh == 0xabcd12346321dcba
-
-    // Check unaligned stores
-    la s0, unal1l
-    sq s1, 0(s0)
-    //prgchk var unal1l == 0x7412589633698521
-    //prgchk var unal1h == 0xabcd12346321dcba
-    
-    la s0, unal2l
-    sq s1, 0(s0)
-    //prgchk var unal2l == 0x7412589633698521
-    //prgchk var unal2h == 0xabcd12346321dcba
-
-    la s0, unal3l
-    sq s1, 0(s0)
-    //prgchk var unal3l == 0x7412589633698521
-    //prgchk var unal3h == 0xabcd12346321dcba
-
-    la s0, unal4l
-    sq s1, 0(s0)
-    //prgchk var unal4l == 0x7412589633698521
-    //prgchk var unal4h == 0xabcd12346321dcba
-
-    la s0, unal5l
-    sq s1, 0(s0)
-    //prgchk var unal5l == 0x7412589633698521
-    //prgchk var unal5h == 0xabcd12346321dcba
-
-    la s0, unal6l
-    sq s1, 0(s0)
-    //prgchk var unal6l == 0x7412589633698521
-    //prgchk var unal6h == 0xabcd12346321dcba
-
-    la s0, unal7l
-    sq s1, 0(s0)
-    //prgchk var unal7l == 0x7412589633698521
-    //prgchk var unal7h == 0xabcd12346321dcba
-
-    la s0, unal8l
-    sq s1, 0(s0)
-    //prgchk var unal8l == 0x7412589633698521
-    //prgchk var unal8h == 0xabcd12346321dcba
-
-    la s0, unal9l
-    sq s1, 0(s0)
-    //prgchk var unal9l == 0x7412589633698521
-    //prgchk var unal9h == 0xabcd12346321dcba
-
-    la s0, unal10l
-    sq s1, 0(s0)
-    //prgchk var unal10l == 0x7412589633698521
-    //prgchk var unal10h == 0xabcd12346321dcba
-
-    la s0, unal11l
-    sq s1, 0(s0)
-    //prgchk var unal11l == 0x7412589633698521
-    //prgchk var unal11h == 0xabcd12346321dcba
-
-    la s0, unal12l
-    sq s1, 0(s0)
-    //prgchk var unal12l == 0x7412589633698521
-    //prgchk var unal12h == 0xabcd12346321dcba
-
-    la s0, unal13l
-    sq s1, 0(s0)
-    //prgchk var unal13l == 0x7412589633698521
-    //prgchk var unal13h == 0xabcd12346321dcba
-
-    la s0, unal14l
-    sq s1, 0(s0)
-    //prgchk var unal14l == 0x7412589633698521
-    //prgchk var unal14h == 0xabcd12346321dcba
-
-    la s0, unal15l
-    sq s1, 0(s0)
-    //prgchk var unal15l == 0x7412589633698521
-    //prgchk var unal15h == 0xabcd12346321dcba
+    //prgchk gdb (unsigned long long *)store == 0xabcd12346321dcba7412589633698521
 
     // Check array storage (immediate offsets)
     la s0, tab_tst
-    li s1, 0xdeadbeefcafebabe1234567890abcdef
-
-    sq s1, 0(s0)
-    //prgchk gdb ((unsigned long*) &tab_tst)[0] == 0x1234567890abcdef
-    //prgchk gdb ((unsigned long*) &tab_tst)[1] == 0xdeadbeefcafebabe
-
-    sq s1, 16(s0)
-    //prgchk gdb ((unsigned long*) &tab_tst)[2] == 0x1234567890abcdef
-    //prgchk gdb ((unsigned long*) &tab_tst)[3] == 0xdeadbeefcafebabe
-
-    sq s1, 32(s0)
-    //prgchk gdb ((unsigned long*) &tab_tst)[4] == 0x1234567890abcdef
-    //prgchk gdb ((unsigned long*) &tab_tst)[5] == 0xdeadbeefcafebabe
-
-    sq s1, 48(s0)
-    //prgchk gdb ((unsigned long*) &tab_tst)[6] == 0x1234567890abcdef
-    //prgchk gdb ((unsigned long*) &tab_tst)[7] == 0xdeadbeefcafebabe
-
-    sq s1, 64(s0)
-    //prgchk gdb ((unsigned long*) &tab_tst)[8] == 0x1234567890abcdef
-    //prgchk gdb ((unsigned long*) &tab_tst)[9] == 0xdeadbeefcafebabe
-
-    sq s1, 80(s0)
-    //prgchk gdb ((unsigned long*) &tab_tst)[10] == 0x1234567890abcdef
-    //prgchk gdb ((unsigned long*) &tab_tst)[11] == 0xdeadbeefcafebabe
-
-    sq s1, 96(s0)
-    //prgchk gdb ((unsigned long*) &tab_tst)[12] == 0x1234567890abcdef
-    //prgchk gdb ((unsigned long*) &tab_tst)[13] == 0xdeadbeefcafebabe
-
-    sq s1, 112(s0)
-    //prgchk gdb ((unsigned long*) &tab_tst)[14] == 0x1234567890abcdef
-    //prgchk gdb ((unsigned long*) &tab_tst)[15] == 0xdeadbeefcafebabe
+    li s1, 0x11111111111111111111111111111111
+    sq s1, 0 * 16(s0)
+    //prgchk gdb ((unsigned long long*) &tab_tst)[0] == 0x11111111111111111111111111111111
+    li s1, 0x22222222222222222222222222222222
+    sq s1, 1 * 16(s0)
+    //prgchk gdb ((unsigned long long*) &tab_tst)[1] == 0x22222222222222222222222222222222
+    li s1, 0x33333333333333333333333333333333
+    sq s1, 2 * 16(s0)
+    //prgchk gdb ((unsigned long long*) &tab_tst)[2] == 0x33333333333333333333333333333333
+    li s1, 0x44444444444444444444444444444444
+    sq s1, 3 * 16(s0)
+    //prgchk gdb ((unsigned long long*) &tab_tst)[3] == 0x44444444444444444444444444444444
+    li s1, 0x55555555555555555555555555555555
+    sq s1, 4 * 16(s0)
+    //prgchk gdb ((unsigned long long*) &tab_tst)[4] == 0x55555555555555555555555555555555
+    li s1, 0x66666666666666666666666666666666
+    sq s1, 5 * 16(s0)
+    //prgchk gdb ((unsigned long long*) &tab_tst)[5] == 0x66666666666666666666666666666666
+    li s1, 0x77777777777777777777777777777777
+    sq s1, 6 * 16(s0)
+    //prgchk gdb ((unsigned long long*) &tab_tst)[6] == 0x77777777777777777777777777777777
+    li s1, 0x88888888888888888888888888888888
+    sq s1, 7 * 16(s0)
+    //prgchk gdb ((unsigned long long*) &tab_tst)[7] == 0x88888888888888888888888888888888
 
     // Load with minimum and maximal immediate offsets.
     la s0, bigtab_mid
-    //prgchk gdb ((unsigned long*) &bigtab_start)[0] != 0x1234567890abcdef
-    //prgchk gdb ((unsigned long*) &bigtab_start)[1] != 0xdeadbeefcafebabe
+    //prgchk gdb ((unsigned long long *) &bigtab_start)[0] != 0xdeadbeefcafebabe1234567890abcdef
+    li s1,  0xdeadbeefcafebabe1234567890abcdef
     sq s1, -2048(s0)
-    //prgchk gdb ((unsigned long*) &bigtab_start)[0] == 0x1234567890abcdef
-    //prgchk gdb ((unsigned long*) &bigtab_start)[1] == 0xdeadbeefcafebabe
+    //prgchk gdb ((unsigned long long *) &bigtab_start)[0] == 0xdeadbeefcafebabe1234567890abcdef
 
-    sq s1, 2047(s0)
-    //prgchk gdb ((unsigned long*) &bigtab_end)[0] == 0x1234567890abcdef
-    //prgchk gdb ((unsigned long*) &bigtab_end)[1] == 0xdeadbeefcafebabe
+    sq s1, 2032(s0)
+    //prgchk gdb ((unsigned long long *) &bigtab_end)[0] == 0xdeadbeefcafebabe1234567890abcdef
     j exit
