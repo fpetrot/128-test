@@ -10,7 +10,7 @@
     bigtab_start: .octa 0xdb00f9f4dd90c17a6739087c1eeba4cd
                   .fill 2032, 1, 0x42
     bigtab_mid:   .octa 0x89f4edddd3c94ccfa37aa040e7c4aacc
-                  .fill 2031, 1, 0x88
+                  .fill 2016, 1, 0x88
     bigtab_end:   .octa 0xa471884c8f32f364fcfa75ba8a71928b
 
 .section .text.init,"ax",@progbits
@@ -68,7 +68,7 @@ _start:
     lq s1, -2048(s0)
     //prgchk reg s1 == 0xdb00f9f4dd90c17a6739087c1eeba4cd
 
-    lq s1, 2047(s0)
+    lq s1, 2032(s0)
     //prgchk reg s1 == 0xa471884c8f32f364fcfa75ba8a71928b
 
     j exit
