@@ -10,11 +10,8 @@
 .globl _start
 _start:
     // Basic test of non equal values.
-    la s0, val1
-    lq s0, 0(s0)
-
-    la s1, val2
-    lq s1, 0(s1)
+    li s0, 0x26bf5f56d85c76ce7141e1c7d71b77d0
+    li s1, 0xafb8c0b4f3e85dc236d4f35bb6e1f175
 
     bne s0, s1, after_tst1
 
@@ -23,26 +20,18 @@ _start:
 after_tst1:
 
     // Basic test of equal values.
-    la s0, val2
-    lq s0, 0(s0)
-
-    la s1, val2
-    lq s1, 0(s1)
+    li s0, 0xafb8c0b4f3e85dc236d4f35bb6e1f175
+    li s1, 0xafb8c0b4f3e85dc236d4f35bb6e1f175
 
     bne s0, s1, all_err
 
     // Check if upper 64 bits are compared
-    la s0, val3
-    lq s0, 0(s0)
-
-    la s1, val3
-    lq s1, 0(s1)
+    li s0, 0xdf9a9c04623568cd0000000000000000
+    li s1, 0xdf9a9c04623568cd0000000000000000
 
     bne s0, s1, all_err
 
-    la s1, val4
-    lq s1, 0(s1)
-
+    li s1, 0x72679b604129a5b80000000000000000
     bne s0, s1, after_tst2
 
     //prgchk err

@@ -1,15 +1,5 @@
 #include "exit.S"
 
-.section .data
-    bigtest1:  .octa 0x53dadaf536d33cd841e0ce648ce00cfe
-    bigtest2:  .octa 0x3c955c52adc10a460dc8a13fa3a7b2c7
-    halftest1: .octa 0x7719ac66eba267730000000000000355
-    halftest2: .octa 0x9da1a0ce2cbdc61e0000000000000058
-    oftest1:   .octa 0x80000000000000000000000000000000
-    oftest2:   .octa 1
-    oftest3:   .octa 0x7fffffffffffffffffffffffffffffff
-    oftest4:   .octa -1
-
 .section .text.init,"ax",@progbits
 .globl _start
 _start:
@@ -22,11 +12,8 @@ _start:
     nop
 after_tst1:
 
-    la s0, bigtest1
-    lq s0, 0(s0)
-
-    la s1, bigtest2
-    lq s1, 0(s1)
+    li s0, 0x53dadaf536d33cd841e0ce648ce00cfe
+    li s1, 0x3c955c52adc10a460dc8a13fa3a7b2c7
 
     blt s0, s1, all_err
 
@@ -36,25 +23,19 @@ after_tst1:
 after_tst2:
 
     // Compare with self
-    la s1, bigtest1
-    lq s1, 0(s1)
+    li s0, 0x53dadaf536d33cd841e0ce648ce00cfe
+    li s1, 0x53dadaf536d33cd841e0ce648ce00cfe
     blt s0, s1, all_err
 
     // Check comparison is on 128 bits.
-    la s0, halftest1
-    lq s0, 0(s0)
-
-    la s1, halftest2
-    lq s1, 0(s1)
+    li s0, 0x7719ac66eba267730000000000000355
+    li s1, 0x9da1a0ce2cbdc61e0000000000000058
 
     blt s0, s1, all_err
 
     // Test with subtraction overflow (negative - positive -> positive)
-    la s0, oftest1
-    lq s0, 0(s0)
-
-    la s1, oftest2
-    lq s1, 0(s1)
+    li s0, 0x80000000000000000000000000000000
+    li s1, 1
 
     blt s0, s1, after_tst3
 
@@ -63,23 +44,19 @@ after_tst2:
 after_tst3:
 
     // Test with subtraction overflow (positive - negative -> negative)
-    la s0, oftest3
-    lq s0, 0(s0)
-
-    la s1, oftest4
-    lq s1, 0(s1)
+    li s0, 0x7fffffffffffffffffffffffffffffff
+    li s1, -1
 
     blt s0, s1, all_err
 
     // Comparison with zero, to check the optimized path in tcg generation
-    la s1, halftest2
-    lq s1, 0(s1)
+    li s1, 0x9da1a0ce2cbdc61e0000000000000058
 
     bltz s1, 1f
     //prgchk err
     nop
-1:  la s1, halftest1
-    lq s1, 0(s1)
+1:  
+    li s1, 0x7719ac66eba267730000000000000355
     bltz s1, all_err
 
     j exit

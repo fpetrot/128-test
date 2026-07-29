@@ -22,47 +22,37 @@ _start:
     bltu s0, s1, all_err
 
     // Test all five orderings of the words.
-    la s0, tst1_1
-    lq s0, 0(s0)
-    la s1, tst1_2
-    lq s1, 0(s1)
+    li s0, 0xfedcba0987654321fedcba0987654321
+    li s1, 0x1234567890abcdef1234567890abcdef
     
     bltu s0, s1, all_err
 
-    la s0, tst2_1
-    lq s0, 0(s0)
-    la s1, tst2_2
-    lq s1, 0(s1)
+    li s0, 0x1234567890abcdeffedcba0987654321
+    li s1, 0xfedcba09876543211234567890abcdef
     
     bltu s0, s1, after_tst1
     //prgchk err
     nop
 after_tst1:
 
-    la s0, tst3_1
-    lq s0, 0(s0)
-    la s1, tst3_2
-    lq s1, 0(s1)
+    li s0, 0x1234567890abcdef1234567890abcdef
+    li s1, 0xfedcba0987654321fedcba0987654321
     
     bltu s0, s1, after_tst2
     //prgchk err
     nop
 after_tst2:
 
-    la s0, tst4_1
-    lq s0, 0(s0)
-    la s1, tst4_2
-    lq s1, 0(s1)
+    li s0, 0xfedcba09876543211234567890abcdef
+    li s1, 0xfedcba0987654321fedcba0987654321
     
     bltu s0, s1, after_tst3
     //prgchk err
     nop
 after_tst3:
 
-    la s0, tst5_1
-    lq s0, 0(s0)
-    la s1, tst5_2
-    lq s1, 0(s1)
+    li s0, 0xfedcba09876543211234567890abcdef
+    li s1, 0x1234567890abcdeffedcba0987654321
     
     bltu s0, s1, all_err
     j exit
