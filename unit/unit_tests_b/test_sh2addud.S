@@ -4,27 +4,54 @@
 .section .text.init,"ax",@progbits
 .globl _start
 _start:
-    li t0, 0xdeadbeefdeadbeef0000000000000000
-    //prgchk reg t0 == 0xdeadbeefdeadbeef0000000000000000
-    la a0, wordarray
-    add t0, t0, 1
-    sh2add.ud s0, t0, a0
-    lh t1, (s0)
-    //prgchk reg t1 == 2
-    add t0, t0, 1
-    sh2add.ud s0, t0, a0
-    lh t1, (s0)
-    //prgchk reg t1 == 3
-    add t0, t0, 1
-    sh2add.ud s0, t0, a0
-    lh t1, (s0)
-    //prgchk reg t1 == 5
-    add t0, t0, 1
-    sh2add.ud s0, t0, a0
-    lh t1, (s0)
-    //prgchk reg t1 == 7
-    add t0, t0, 2
-    sh2add.ud s0, t0, a0
-    lh t1, (s0)
-    //prgchk reg t1 == 13
+    // Quick value checks
+    // Check that a shift of 3 is carried out on the first operand
+    li s0, 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+    li s1, 0
+    sh2add.ud s0, s0, s1
+    //prgchk reg s0 == 0x0000000000000003FFFFFFFFFFFFFFFC
+
+    // Check that the second operand is added to the first
+    li s0, 0
+    li s1, 0xcafebabedeadbeefcafebeefdeadbabe
+    sh2add.ud s0, s0, s1
+    //prgchk reg s0 == 0xcafebabedeadbeefcafebeefdeadbabe
+
+    // Check that the second operand is added to the first (overflow)
+    li s0, 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+    li s1, 0b100
+    sh2add.ud s0, s0, s1
+    //prgchk reg s0 == 0x40000000000000000
+
+    # Load array address
+    la s0, wordarray
+
+    li s1, 0xdeadbeefdeadbeef0000000000000000
+    //prgchk reg s1 == 0xdeadbeefdeadbeef0000000000000000
+
+    addi s1, s1, 1
+    sh2add.ud s2, s1, s0
+    lwu s2, 0(s2)
+    //prgchk reg s2 == 2
+
+    add s1, s1, 1
+    sh2add.ud s2, s1, s0
+    lwu s2, 0(s2)
+    //prgchk reg s2 == 3
+
+    add s1, s1, 1
+    sh2add.ud s2, s1, s0
+    lwu s2, 0(s2)
+    //prgchk reg s2 == 5
+
+    add s1, s1, 1
+    sh2add.ud s2, s1, s0
+    lwu s2, 0(s2)
+    //prgchk reg s2 == 7
+
+    add s1, s1, 2
+    sh2add.ud s2, s1, s0
+    lwu s2, 0(s2)
+    //prgchk reg s2 == 13
+
     j exit
